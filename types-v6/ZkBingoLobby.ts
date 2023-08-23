@@ -153,6 +153,7 @@ export interface ZkBingoLobbyInterface extends Interface {
       | "NumberSelected"
       | "OwnershipTransferred"
       | "RewardChanged"
+      | "UpdateInputPer"
       | "Upgraded"
   ): EventFragment;
 
@@ -433,20 +434,11 @@ export namespace BeaconUpgradedEvent {
 }
 
 export namespace BingoEvent {
-  export type InputTuple = [
-    gameId: BigNumberish,
-    player: AddressLike,
-    playerCardNumbers: BigNumberish[][]
-  ];
-  export type OutputTuple = [
-    gameId: bigint,
-    player: string,
-    playerCardNumbers: bigint[][]
-  ];
+  export type InputTuple = [gameId: BigNumberish, player: AddressLike];
+  export type OutputTuple = [gameId: bigint, player: string];
   export interface OutputObject {
     gameId: bigint;
     player: string;
-    playerCardNumbers: bigint[][];
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -606,6 +598,22 @@ export namespace RewardChangedEvent {
   export interface OutputObject {
     newReward: string;
     oldReward: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace UpdateInputPerEvent {
+  export type InputTuple = [
+    oldInputPer: BigNumberish,
+    newInputPer: BigNumberish
+  ];
+  export type OutputTuple = [oldInputPer: bigint, newInputPer: bigint];
+  export interface OutputObject {
+    oldInputPer: bigint;
+    newInputPer: bigint;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -1241,6 +1249,13 @@ export interface ZkBingoLobby extends BaseContract {
     RewardChangedEvent.OutputObject
   >;
   getEvent(
+    key: "UpdateInputPer"
+  ): TypedContractEvent<
+    UpdateInputPerEvent.InputTuple,
+    UpdateInputPerEvent.OutputTuple,
+    UpdateInputPerEvent.OutputObject
+  >;
+  getEvent(
     key: "Upgraded"
   ): TypedContractEvent<
     UpgradedEvent.InputTuple,
@@ -1271,7 +1286,7 @@ export interface ZkBingoLobby extends BaseContract {
       BeaconUpgradedEvent.OutputObject
     >;
 
-    "Bingo(uint256,address,uint8[][])": TypedContractEvent<
+    "Bingo(uint256,address)": TypedContractEvent<
       BingoEvent.InputTuple,
       BingoEvent.OutputTuple,
       BingoEvent.OutputObject
@@ -1379,6 +1394,17 @@ export interface ZkBingoLobby extends BaseContract {
       RewardChangedEvent.InputTuple,
       RewardChangedEvent.OutputTuple,
       RewardChangedEvent.OutputObject
+    >;
+
+    "UpdateInputPer(uint256,uint256)": TypedContractEvent<
+      UpdateInputPerEvent.InputTuple,
+      UpdateInputPerEvent.OutputTuple,
+      UpdateInputPerEvent.OutputObject
+    >;
+    UpdateInputPer: TypedContractEvent<
+      UpdateInputPerEvent.InputTuple,
+      UpdateInputPerEvent.OutputTuple,
+      UpdateInputPerEvent.OutputObject
     >;
 
     "Upgraded(address)": TypedContractEvent<

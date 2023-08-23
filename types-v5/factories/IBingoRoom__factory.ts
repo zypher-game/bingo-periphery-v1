@@ -22,12 +22,6 @@ const _abi = [
         name: "player",
         type: "address",
       },
-      {
-        indexed: false,
-        internalType: "uint8[][]",
-        name: "playerCardNumbers",
-        type: "uint8[][]",
-      },
     ],
     name: "Bingo",
     type: "event",
@@ -167,6 +161,25 @@ const _abi = [
       },
     ],
     name: "RewardChanged",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "oldInputPer",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "newInputPer",
+        type: "uint256",
+      },
+    ],
+    name: "UpdateInputPer",
     type: "event",
   },
   {

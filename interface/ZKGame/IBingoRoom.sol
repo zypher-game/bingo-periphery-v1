@@ -23,6 +23,8 @@ interface IBingoRoom {
         FINISHED
     }
 
+    event UpdateInputPer(uint256 oldInputPer, uint256 newInputPer);
+
     event GameStarted(uint256 indexed gameId, address cardContract, address[] players);
 
     event GameParticipated(
@@ -39,7 +41,7 @@ interface IBingoRoom {
         uint8 number
     );
 
-    event Bingo(uint256 indexed gameId, address indexed player, uint8[][] playerCardNumbers);
+    event Bingo(uint256 indexed gameId, address indexed player);
 
     event RewardChanged(address indexed newReward, address indexed oldReward);
 

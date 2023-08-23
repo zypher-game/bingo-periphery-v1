@@ -458,7 +458,7 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
   events: {
     "AdminChanged(address,address)": EventFragment;
     "BeaconUpgraded(address)": EventFragment;
-    "Bingo(uint256,address,uint8[][])": EventFragment;
+    "Bingo(uint256,address)": EventFragment;
     "GameHalted(uint256,address,bool,uint256)": EventFragment;
     "GameParticipated(uint256,address,uint256,uint8)": EventFragment;
     "GameStarted(uint256,address,address[])": EventFragment;
@@ -468,6 +468,7 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
     "NumberSelected(uint256,uint32,address,uint8)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "RewardChanged(address,address)": EventFragment;
+    "UpdateInputPer(uint256,uint256)": EventFragment;
     "Upgraded(address)": EventFragment;
   };
 
@@ -483,6 +484,7 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "NumberSelected"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RewardChanged"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "UpdateInputPer"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Upgraded"): EventFragment;
 }
 
@@ -510,12 +512,8 @@ export type BeaconUpgradedEventFilter = TypedEventFilter<BeaconUpgradedEvent>;
 export interface BingoEventObject {
   gameId: BigNumber;
   player: string;
-  playerCardNumbers: number[][];
 }
-export type BingoEvent = TypedEvent<
-  [BigNumber, string, number[][]],
-  BingoEventObject
->;
+export type BingoEvent = TypedEvent<[BigNumber, string], BingoEventObject>;
 
 export type BingoEventFilter = TypedEventFilter<BingoEvent>;
 
@@ -614,6 +612,17 @@ export type RewardChangedEvent = TypedEvent<
 >;
 
 export type RewardChangedEventFilter = TypedEventFilter<RewardChangedEvent>;
+
+export interface UpdateInputPerEventObject {
+  oldInputPer: BigNumber;
+  newInputPer: BigNumber;
+}
+export type UpdateInputPerEvent = TypedEvent<
+  [BigNumber, BigNumber],
+  UpdateInputPerEventObject
+>;
+
+export type UpdateInputPerEventFilter = TypedEventFilter<UpdateInputPerEvent>;
 
 export interface UpgradedEventObject {
   implementation: string;
@@ -1304,15 +1313,13 @@ export interface ZkBingoLobby extends BaseContract {
       beacon?: PromiseOrValue<string> | null
     ): BeaconUpgradedEventFilter;
 
-    "Bingo(uint256,address,uint8[][])"(
+    "Bingo(uint256,address)"(
       gameId?: PromiseOrValue<BigNumberish> | null,
-      player?: PromiseOrValue<string> | null,
-      playerCardNumbers?: null
+      player?: PromiseOrValue<string> | null
     ): BingoEventFilter;
     Bingo(
       gameId?: PromiseOrValue<BigNumberish> | null,
-      player?: PromiseOrValue<string> | null,
-      playerCardNumbers?: null
+      player?: PromiseOrValue<string> | null
     ): BingoEventFilter;
 
     "GameHalted(uint256,address,bool,uint256)"(
@@ -1397,6 +1404,15 @@ export interface ZkBingoLobby extends BaseContract {
       newReward?: PromiseOrValue<string> | null,
       oldReward?: PromiseOrValue<string> | null
     ): RewardChangedEventFilter;
+
+    "UpdateInputPer(uint256,uint256)"(
+      oldInputPer?: null,
+      newInputPer?: null
+    ): UpdateInputPerEventFilter;
+    UpdateInputPer(
+      oldInputPer?: null,
+      newInputPer?: null
+    ): UpdateInputPerEventFilter;
 
     "Upgraded(address)"(
       implementation?: PromiseOrValue<string> | null
