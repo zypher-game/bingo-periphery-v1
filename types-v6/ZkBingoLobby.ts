@@ -101,9 +101,11 @@ export interface ZkBingoLobbyInterface extends Interface {
       | "GAME_FEE_RATIO"
       | "NAME"
       | "RECENT_GAME_COUNTS"
+      | "abandon"
       | "bingo"
       | "expectedLines"
       | "feeInfo"
+      | "gameAbandons"
       | "gameCard"
       | "gameInputPer"
       | "getCurrentRound"
@@ -128,7 +130,6 @@ export interface ZkBingoLobbyInterface extends Interface {
       | "selectNumber"
       | "setGameInputPer"
       | "setGameTimers"
-      | "setReward"
       | "start"
       | "summary"
       | "timer"
@@ -167,6 +168,10 @@ export interface ZkBingoLobbyInterface extends Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "abandon",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "bingo",
     values: [BigNumberish, BigNumberish[][], BytesLike]
   ): string;
@@ -175,6 +180,10 @@ export interface ZkBingoLobbyInterface extends Interface {
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "feeInfo", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "gameAbandons",
+    values: [BigNumberish]
+  ): string;
   encodeFunctionData(functionFragment: "gameCard", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "gameInputPer",
@@ -273,10 +282,6 @@ export interface ZkBingoLobbyInterface extends Interface {
       BigNumberish
     ]
   ): string;
-  encodeFunctionData(
-    functionFragment: "setReward",
-    values: [AddressLike, BigNumberish]
-  ): string;
   encodeFunctionData(functionFragment: "start", values?: undefined): string;
   encodeFunctionData(functionFragment: "summary", values?: undefined): string;
   encodeFunctionData(functionFragment: "timer", values?: undefined): string;
@@ -307,12 +312,17 @@ export interface ZkBingoLobbyInterface extends Interface {
     functionFragment: "RECENT_GAME_COUNTS",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "abandon", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "bingo", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "expectedLines",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "feeInfo", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "gameAbandons",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "gameCard", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "gameInputPer",
@@ -388,7 +398,6 @@ export interface ZkBingoLobbyInterface extends Interface {
     functionFragment: "setGameTimers",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "setReward", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "start", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "summary", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "timer", data: BytesLike): Result;
@@ -682,6 +691,8 @@ export interface ZkBingoLobby extends BaseContract {
 
   RECENT_GAME_COUNTS: TypedContractMethod<[], [bigint], "view">;
 
+  abandon: TypedContractMethod<[gameId: BigNumberish], [void], "nonpayable">;
+
   bingo: TypedContractMethod<
     [
       gameId: BigNumberish,
@@ -705,6 +716,8 @@ export interface ZkBingoLobby extends BaseContract {
     ],
     "view"
   >;
+
+  gameAbandons: TypedContractMethod<[arg0: BigNumberish], [bigint], "view">;
 
   gameCard: TypedContractMethod<[], [string], "view">;
 
@@ -854,12 +867,6 @@ export interface ZkBingoLobby extends BaseContract {
     "nonpayable"
   >;
 
-  setReward: TypedContractMethod<
-    [newReward: AddressLike, amount: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
-
   start: TypedContractMethod<[], [void], "nonpayable">;
 
   summary: TypedContractMethod<
@@ -920,6 +927,9 @@ export interface ZkBingoLobby extends BaseContract {
     nameOrSignature: "RECENT_GAME_COUNTS"
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
+    nameOrSignature: "abandon"
+  ): TypedContractMethod<[gameId: BigNumberish], [void], "nonpayable">;
+  getFunction(
     nameOrSignature: "bingo"
   ): TypedContractMethod<
     [
@@ -946,6 +956,9 @@ export interface ZkBingoLobby extends BaseContract {
     ],
     "view"
   >;
+  getFunction(
+    nameOrSignature: "gameAbandons"
+  ): TypedContractMethod<[arg0: BigNumberish], [bigint], "view">;
   getFunction(
     nameOrSignature: "gameCard"
   ): TypedContractMethod<[], [string], "view">;
@@ -1107,13 +1120,6 @@ export interface ZkBingoLobby extends BaseContract {
       roundTimeout: BigNumberish,
       maxDuration: BigNumberish
     ],
-    [void],
-    "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "setReward"
-  ): TypedContractMethod<
-    [newReward: AddressLike, amount: BigNumberish],
     [void],
     "nonpayable"
   >;

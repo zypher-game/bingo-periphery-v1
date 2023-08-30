@@ -80,6 +80,7 @@ export declare namespace IBingoRoom {
 
 export interface IBingoRoomInterface extends utils.Interface {
   functions: {
+    "abandon(uint256)": FunctionFragment;
     "bingo(uint256,uint8[][],bytes)": FunctionFragment;
     "expectedLines()": FunctionFragment;
     "gameCard()": FunctionFragment;
@@ -96,6 +97,7 @@ export interface IBingoRoomInterface extends utils.Interface {
 
   getFunction(
     nameOrSignatureOrTopic:
+      | "abandon"
       | "bingo"
       | "expectedLines"
       | "gameCard"
@@ -110,6 +112,10 @@ export interface IBingoRoomInterface extends utils.Interface {
       | "summary"
   ): FunctionFragment;
 
+  encodeFunctionData(
+    functionFragment: "abandon",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
   encodeFunctionData(
     functionFragment: "bingo",
     values: [
@@ -166,6 +172,7 @@ export interface IBingoRoomInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "summary", values?: undefined): string;
 
+  decodeFunctionResult(functionFragment: "abandon", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "bingo", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "expectedLines",
@@ -334,6 +341,11 @@ export interface IBingoRoom extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    abandon(
+      gameId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     bingo(
       gameId: PromiseOrValue<BigNumberish>,
       cardNumbers: PromiseOrValue<BigNumberish>[][],
@@ -434,6 +446,11 @@ export interface IBingoRoom extends BaseContract {
     >;
   };
 
+  abandon(
+    gameId: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   bingo(
     gameId: PromiseOrValue<BigNumberish>,
     cardNumbers: PromiseOrValue<BigNumberish>[][],
@@ -526,6 +543,11 @@ export interface IBingoRoom extends BaseContract {
   >;
 
   callStatic: {
+    abandon(
+      gameId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     bingo(
       gameId: PromiseOrValue<BigNumberish>,
       cardNumbers: PromiseOrValue<BigNumberish>[][],
@@ -704,6 +726,11 @@ export interface IBingoRoom extends BaseContract {
   };
 
   estimateGas: {
+    abandon(
+      gameId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     bingo(
       gameId: PromiseOrValue<BigNumberish>,
       cardNumbers: PromiseOrValue<BigNumberish>[][],
@@ -766,6 +793,11 @@ export interface IBingoRoom extends BaseContract {
   };
 
   populateTransaction: {
+    abandon(
+      gameId: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     bingo(
       gameId: PromiseOrValue<BigNumberish>,
       cardNumbers: PromiseOrValue<BigNumberish>[][],

@@ -74,6 +74,7 @@ export interface ZkBingoPointsInterface extends Interface {
       | "swapInfos"
       | "swapRatios"
       | "swaps"
+      | "totalSwaps"
   ): FunctionFragment;
 
   getEvent(
@@ -200,6 +201,10 @@ export interface ZkBingoPointsInterface extends Interface {
     functionFragment: "swaps",
     values: [AddressLike, AddressLike, AddressLike]
   ): string;
+  encodeFunctionData(
+    functionFragment: "totalSwaps",
+    values: [AddressLike, AddressLike]
+  ): string;
 
   decodeFunctionResult(
     functionFragment: "CONSECUTIVE_TIMES",
@@ -287,6 +292,7 @@ export interface ZkBingoPointsInterface extends Interface {
   decodeFunctionResult(functionFragment: "swapInfos", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "swapRatios", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "swaps", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "totalSwaps", data: BytesLike): Result;
 }
 
 export namespace ClaimEvent {
@@ -605,6 +611,12 @@ export interface ZkBingoPoints extends BaseContract {
     "view"
   >;
 
+  totalSwaps: TypedContractMethod<
+    [arg0: AddressLike, arg1: AddressLike],
+    [bigint],
+    "view"
+  >;
+
   getFunction<T extends ContractMethod = ContractMethod>(
     key: string | FunctionFragment
   ): T;
@@ -749,6 +761,13 @@ export interface ZkBingoPoints extends BaseContract {
     nameOrSignature: "swaps"
   ): TypedContractMethod<
     [arg0: AddressLike, arg1: AddressLike, arg2: AddressLike],
+    [bigint],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "totalSwaps"
+  ): TypedContractMethod<
+    [arg0: AddressLike, arg1: AddressLike],
     [bigint],
     "view"
   >;

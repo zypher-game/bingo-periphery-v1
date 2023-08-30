@@ -35,7 +35,6 @@ export { Multicall__factory } from "./Multicall__factory";
 export { Multicall2__factory } from "./Multicall2__factory";
 export { Pausable__factory } from "./Pausable__factory";
 export { Reward__factory } from "./Reward__factory";
-export { Rewardable__factory } from "./Rewardable__factory";
 export { UserCenter__factory } from "./UserCenter__factory";
 export { YieldFarm__factory } from "./YieldFarm__factory";
 export { ZkBingoCard__factory } from "./ZkBingoCard__factory";

@@ -74,6 +74,7 @@ export declare namespace IBingoRoom {
 export interface IBingoRoomInterface extends Interface {
   getFunction(
     nameOrSignature:
+      | "abandon"
       | "bingo"
       | "expectedLines"
       | "gameCard"
@@ -99,6 +100,10 @@ export interface IBingoRoomInterface extends Interface {
       | "UpdateInputPer"
   ): EventFragment;
 
+  encodeFunctionData(
+    functionFragment: "abandon",
+    values: [BigNumberish]
+  ): string;
   encodeFunctionData(
     functionFragment: "bingo",
     values: [BigNumberish, BigNumberish[][], BytesLike]
@@ -142,6 +147,7 @@ export interface IBingoRoomInterface extends Interface {
   ): string;
   encodeFunctionData(functionFragment: "summary", values?: undefined): string;
 
+  decodeFunctionResult(functionFragment: "abandon", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "bingo", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "expectedLines",
@@ -365,6 +371,8 @@ export interface IBingoRoom extends BaseContract {
     event?: TCEvent
   ): Promise<this>;
 
+  abandon: TypedContractMethod<[gameId: BigNumberish], [void], "nonpayable">;
+
   bingo: TypedContractMethod<
     [
       gameId: BigNumberish,
@@ -481,6 +489,9 @@ export interface IBingoRoom extends BaseContract {
     key: string | FunctionFragment
   ): T;
 
+  getFunction(
+    nameOrSignature: "abandon"
+  ): TypedContractMethod<[gameId: BigNumberish], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "bingo"
   ): TypedContractMethod<

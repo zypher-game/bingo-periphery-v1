@@ -7,6 +7,11 @@ interface IBingoRoom {
         uint256 cardId;
     }
 
+    struct Abandon {
+        uint32 diffRound;
+        address[] players;
+    }
+
     struct GameRound {
         uint32 round;
         uint8 number;
@@ -46,6 +51,8 @@ interface IBingoRoom {
     event RewardChanged(address indexed newReward, address indexed oldReward);
 
     event GameHalted(uint256 indexed gameId, address indexed user, bool isOvertime, uint256 confiscate);
+
+    function abandon(uint256 gameId) external;
 
     function gameCard() external view returns (address);
 

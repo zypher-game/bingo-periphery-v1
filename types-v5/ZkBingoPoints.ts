@@ -81,6 +81,7 @@ export interface ZkBingoPointsInterface extends utils.Interface {
     "swapInfos(uint256)": FunctionFragment;
     "swapRatios(address)": FunctionFragment;
     "swaps(address,address,address)": FunctionFragment;
+    "totalSwaps(address,address)": FunctionFragment;
   };
 
   getFunction(
@@ -114,6 +115,7 @@ export interface ZkBingoPointsInterface extends utils.Interface {
       | "swapInfos"
       | "swapRatios"
       | "swaps"
+      | "totalSwaps"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -237,6 +239,10 @@ export interface ZkBingoPointsInterface extends utils.Interface {
       PromiseOrValue<string>
     ]
   ): string;
+  encodeFunctionData(
+    functionFragment: "totalSwaps",
+    values: [PromiseOrValue<string>, PromiseOrValue<string>]
+  ): string;
 
   decodeFunctionResult(
     functionFragment: "CONSECUTIVE_TIMES",
@@ -324,6 +330,7 @@ export interface ZkBingoPointsInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "swapInfos", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "swapRatios", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "swaps", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "totalSwaps", data: BytesLike): Result;
 
   events: {
     "Claim(address,uint8,uint256)": EventFragment;
@@ -590,6 +597,12 @@ export interface ZkBingoPoints extends BaseContract {
       arg2: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
+
+    totalSwaps(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
   };
 
   CONSECUTIVE_TIMES(overrides?: CallOverrides): Promise<BigNumber>;
@@ -731,6 +744,12 @@ export interface ZkBingoPoints extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
+  totalSwaps(
+    arg0: PromiseOrValue<string>,
+    arg1: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
   callStatic: {
     CONSECUTIVE_TIMES(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -866,6 +885,12 @@ export interface ZkBingoPoints extends BaseContract {
       arg0: PromiseOrValue<string>,
       arg1: PromiseOrValue<string>,
       arg2: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    totalSwaps(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
   };
@@ -1080,6 +1105,12 @@ export interface ZkBingoPoints extends BaseContract {
       arg2: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    totalSwaps(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -1219,6 +1250,12 @@ export interface ZkBingoPoints extends BaseContract {
       arg0: PromiseOrValue<string>,
       arg1: PromiseOrValue<string>,
       arg2: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    totalSwaps(
+      arg0: PromiseOrValue<string>,
+      arg1: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
   };
