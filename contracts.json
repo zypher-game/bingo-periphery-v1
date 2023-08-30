@@ -100,13 +100,13 @@
     },
     "develop": {
       "Reward": "0xb019a7Cfca9ec41b59170eBda342790FF6FD60D7",
-      "date": "2023-08-30T09:55:29.192Z",
+      "date": "2023-08-30T12:52:10.637Z",
       "chainId": 421613,
       "deployer": "0x35f6951F23D090Fe498044610Ac5587F9486Cf11",
-      "ZkBingoToken": "0x1C5d8dF18E67eA6F4CCa58958b751d33f6aD6889",
-      "ZkBingoCard": "0xfa6F50ef9A0014A1636574578436d5C7D1306916",
-      "ZkBingoLobby": "0xcae0015220B1404FA35568C8A79BECF47c0d4dEF",
-      "ZkBingoPoints": "0x6A44e8D601D2cD537309A0F8f08C528C8D1f2955"
+      "ZkBingoToken": "0x02A8f7EA7dC98c67A47ab4625d704A7E52756b38",
+      "ZkBingoCard": "0xAc7913148F4BCee42AcD249Ae129390668E977E9",
+      "ZkBingoLobby": "0x2720a4CFdb101234D26aD528697ffcF30c812873",
+      "ZkBingoPoints": "0xa99C585eB8B827D34a9Cd74Be959413629d1dDeF"
     }
   },
   "534351": {
