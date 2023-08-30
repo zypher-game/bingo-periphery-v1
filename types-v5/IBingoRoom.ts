@@ -31,11 +31,13 @@ export declare namespace IBingoRoom {
   export type ParticipantStruct = {
     user: PromiseOrValue<string>;
     cardId: PromiseOrValue<BigNumberish>;
+    isAbandoned: PromiseOrValue<boolean>;
   };
 
-  export type ParticipantStructOutput = [string, BigNumber] & {
+  export type ParticipantStructOutput = [string, BigNumber, boolean] & {
     user: string;
     cardId: BigNumber;
+    isAbandoned: boolean;
   };
 
   export type GameRoundStruct = {

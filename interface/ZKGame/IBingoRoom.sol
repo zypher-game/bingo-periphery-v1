@@ -5,11 +5,12 @@ interface IBingoRoom {
     struct Participant {
         address user;
         uint256 cardId;
+        bool isAbandoned;
     }
 
     struct Abandon {
         uint32 diffRound;
-        address[] players;
+        uint32 abandonCounts;
     }
 
     struct GameRound {

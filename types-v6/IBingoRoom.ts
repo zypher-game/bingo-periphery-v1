@@ -24,12 +24,17 @@ import type {
 } from "./common";
 
 export declare namespace IBingoRoom {
-  export type ParticipantStruct = { user: AddressLike; cardId: BigNumberish };
-
-  export type ParticipantStructOutput = [user: string, cardId: bigint] & {
-    user: string;
-    cardId: bigint;
+  export type ParticipantStruct = {
+    user: AddressLike;
+    cardId: BigNumberish;
+    isAbandoned: boolean;
   };
+
+  export type ParticipantStructOutput = [
+    user: string,
+    cardId: bigint,
+    isAbandoned: boolean
+  ] & { user: string; cardId: bigint; isAbandoned: boolean };
 
   export type GameRoundStruct = {
     round: BigNumberish;

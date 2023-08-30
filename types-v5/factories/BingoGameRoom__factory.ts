@@ -281,25 +281,6 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    name: "gameAbandons",
-    outputs: [
-      {
-        internalType: "uint32",
-        name: "diffRound",
-        type: "uint32",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [],
     name: "gameCard",
     outputs: [
@@ -395,6 +376,11 @@ const _abi = [
             internalType: "uint256",
             name: "cardId",
             type: "uint256",
+          },
+          {
+            internalType: "bool",
+            name: "isAbandoned",
+            type: "bool",
           },
         ],
         internalType: "struct IBingoRoom.Participant[]",
@@ -564,6 +550,11 @@ const _abi = [
                 name: "cardId",
                 type: "uint256",
               },
+              {
+                internalType: "bool",
+                name: "isAbandoned",
+                type: "bool",
+              },
             ],
             internalType: "struct IBingoRoom.Participant[]",
             name: "players",
@@ -626,6 +617,11 @@ const _abi = [
                 internalType: "uint256",
                 name: "cardId",
                 type: "uint256",
+              },
+              {
+                internalType: "bool",
+                name: "isAbandoned",
+                type: "bool",
               },
             ],
             internalType: "struct IBingoRoom.Participant[]",

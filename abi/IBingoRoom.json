@@ -306,6 +306,11 @@
             "internalType": "uint256",
             "name": "cardId",
             "type": "uint256"
+          },
+          {
+            "internalType": "bool",
+            "name": "isAbandoned",
+            "type": "bool"
           }
         ],
         "internalType": "struct IBingoRoom.Participant[]",
@@ -420,6 +425,11 @@
                 "internalType": "uint256",
                 "name": "cardId",
                 "type": "uint256"
+              },
+              {
+                "internalType": "bool",
+                "name": "isAbandoned",
+                "type": "bool"
               }
             ],
             "internalType": "struct IBingoRoom.Participant[]",
@@ -483,6 +493,11 @@
                 "internalType": "uint256",
                 "name": "cardId",
                 "type": "uint256"
+              },
+              {
+                "internalType": "bool",
+                "name": "isAbandoned",
+                "type": "bool"
               }
             ],
             "internalType": "struct IBingoRoom.Participant[]",

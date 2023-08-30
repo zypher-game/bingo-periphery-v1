@@ -32,11 +32,13 @@ export declare namespace IBingoRoom {
   export type ParticipantStruct = {
     user: PromiseOrValue<string>;
     cardId: PromiseOrValue<BigNumberish>;
+    isAbandoned: PromiseOrValue<boolean>;
   };
 
-  export type ParticipantStructOutput = [string, BigNumber] & {
+  export type ParticipantStructOutput = [string, BigNumber, boolean] & {
     user: string;
     cardId: BigNumber;
+    isAbandoned: boolean;
   };
 
   export type GameRoundStruct = {
@@ -112,7 +114,6 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
     "bingo(uint256,uint8[][],bytes)": FunctionFragment;
     "expectedLines()": FunctionFragment;
     "feeInfo()": FunctionFragment;
-    "gameAbandons(uint256)": FunctionFragment;
     "gameCard()": FunctionFragment;
     "gameInputPer()": FunctionFragment;
     "getCurrentRound(uint256)": FunctionFragment;
@@ -156,7 +157,6 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
       | "bingo"
       | "expectedLines"
       | "feeInfo"
-      | "gameAbandons"
       | "gameCard"
       | "gameInputPer"
       | "getCurrentRound"
@@ -217,10 +217,6 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "feeInfo", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "gameAbandons",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
   encodeFunctionData(functionFragment: "gameCard", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "gameInputPer",
@@ -368,10 +364,6 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "feeInfo", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "gameAbandons",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "gameCard", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "gameInputPer",
@@ -698,11 +690,6 @@ export interface ZkBingoLobby extends BaseContract {
       }
     >;
 
-    gameAbandons(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[number] & { diffRound: number }>;
-
     gameCard(overrides?: CallOverrides): Promise<[string]>;
 
     gameInputPer(overrides?: CallOverrides): Promise<[BigNumber]>;
@@ -924,11 +911,6 @@ export interface ZkBingoLobby extends BaseContract {
     }
   >;
 
-  gameAbandons(
-    arg0: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<number>;
-
   gameCard(overrides?: CallOverrides): Promise<string>;
 
   gameInputPer(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1135,11 +1117,6 @@ export interface ZkBingoLobby extends BaseContract {
         balance: BigNumber;
       }
     >;
-
-    gameAbandons(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<number>;
 
     gameCard(overrides?: CallOverrides): Promise<string>;
 
@@ -1467,11 +1444,6 @@ export interface ZkBingoLobby extends BaseContract {
 
     feeInfo(overrides?: CallOverrides): Promise<BigNumber>;
 
-    gameAbandons(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     gameCard(overrides?: CallOverrides): Promise<BigNumber>;
 
     gameInputPer(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1640,11 +1612,6 @@ export interface ZkBingoLobby extends BaseContract {
     expectedLines(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     feeInfo(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    gameAbandons(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
 
     gameCard(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 

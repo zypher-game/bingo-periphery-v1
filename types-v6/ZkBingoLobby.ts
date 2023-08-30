@@ -24,12 +24,17 @@ import type {
 } from "./common";
 
 export declare namespace IBingoRoom {
-  export type ParticipantStruct = { user: AddressLike; cardId: BigNumberish };
-
-  export type ParticipantStructOutput = [user: string, cardId: bigint] & {
-    user: string;
-    cardId: bigint;
+  export type ParticipantStruct = {
+    user: AddressLike;
+    cardId: BigNumberish;
+    isAbandoned: boolean;
   };
+
+  export type ParticipantStructOutput = [
+    user: string,
+    cardId: bigint,
+    isAbandoned: boolean
+  ] & { user: string; cardId: bigint; isAbandoned: boolean };
 
   export type GameRoundStruct = {
     round: BigNumberish;
@@ -105,7 +110,6 @@ export interface ZkBingoLobbyInterface extends Interface {
       | "bingo"
       | "expectedLines"
       | "feeInfo"
-      | "gameAbandons"
       | "gameCard"
       | "gameInputPer"
       | "getCurrentRound"
@@ -180,10 +184,6 @@ export interface ZkBingoLobbyInterface extends Interface {
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "feeInfo", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "gameAbandons",
-    values: [BigNumberish]
-  ): string;
   encodeFunctionData(functionFragment: "gameCard", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "gameInputPer",
@@ -319,10 +319,6 @@ export interface ZkBingoLobbyInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "feeInfo", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "gameAbandons",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "gameCard", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "gameInputPer",
@@ -717,8 +713,6 @@ export interface ZkBingoLobby extends BaseContract {
     "view"
   >;
 
-  gameAbandons: TypedContractMethod<[arg0: BigNumberish], [bigint], "view">;
-
   gameCard: TypedContractMethod<[], [string], "view">;
 
   gameInputPer: TypedContractMethod<[], [bigint], "view">;
@@ -956,9 +950,6 @@ export interface ZkBingoLobby extends BaseContract {
     ],
     "view"
   >;
-  getFunction(
-    nameOrSignature: "gameAbandons"
-  ): TypedContractMethod<[arg0: BigNumberish], [bigint], "view">;
   getFunction(
     nameOrSignature: "gameCard"
   ): TypedContractMethod<[], [string], "view">;
