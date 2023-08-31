@@ -423,47 +423,6 @@
         "type": "uint256"
       }
     ],
-    "name": "getLatestRound",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint32",
-            "name": "round",
-            "type": "uint32"
-          },
-          {
-            "internalType": "uint8",
-            "name": "number",
-            "type": "uint8"
-          },
-          {
-            "internalType": "uint32",
-            "name": "timestamp",
-            "type": "uint32"
-          },
-          {
-            "internalType": "address",
-            "name": "player",
-            "type": "address"
-          }
-        ],
-        "internalType": "struct IBingoRoom.GameRound",
-        "name": "last",
-        "type": "tuple"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "gameId",
-        "type": "uint256"
-      }
-    ],
     "name": "getSelectedNumbers",
     "outputs": [
       {

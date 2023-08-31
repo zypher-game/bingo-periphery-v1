@@ -114,7 +114,6 @@ export interface ZkBingoLobbyInterface extends Interface {
       | "gameInputPer"
       | "getCurrentRound"
       | "getGameInfo"
-      | "getLatestRound"
       | "getNextKeyLabel"
       | "getSelectedNumbers"
       | "initialize"
@@ -195,10 +194,6 @@ export interface ZkBingoLobbyInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "getGameInfo",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getLatestRound",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
@@ -330,10 +325,6 @@ export interface ZkBingoLobbyInterface extends Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "getGameInfo",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getLatestRound",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -752,12 +743,6 @@ export interface ZkBingoLobby extends BaseContract {
     "view"
   >;
 
-  getLatestRound: TypedContractMethod<
-    [gameId: BigNumberish],
-    [IBingoRoom.GameRoundStructOutput],
-    "view"
-  >;
-
   getNextKeyLabel: TypedContractMethod<[user: AddressLike], [string], "view">;
 
   getSelectedNumbers: TypedContractMethod<
@@ -991,13 +976,6 @@ export interface ZkBingoLobby extends BaseContract {
         status: string;
       }
     ],
-    "view"
-  >;
-  getFunction(
-    nameOrSignature: "getLatestRound"
-  ): TypedContractMethod<
-    [gameId: BigNumberish],
-    [IBingoRoom.GameRoundStructOutput],
     "view"
   >;
   getFunction(

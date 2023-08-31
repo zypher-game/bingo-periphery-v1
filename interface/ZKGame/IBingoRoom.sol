@@ -11,6 +11,7 @@ interface IBingoRoom {
     struct Abandon {
         uint32 diffRound;
         uint32 abandonCounts;
+        uint32 lastRoundTime;
     }
 
     struct GameRound {

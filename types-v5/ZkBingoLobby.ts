@@ -118,7 +118,6 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
     "gameInputPer()": FunctionFragment;
     "getCurrentRound(uint256)": FunctionFragment;
     "getGameInfo(uint256)": FunctionFragment;
-    "getLatestRound(uint256)": FunctionFragment;
     "getNextKeyLabel(address)": FunctionFragment;
     "getSelectedNumbers(uint256)": FunctionFragment;
     "initialize(address,uint8,uint8,uint8,uint8,uint8,address)": FunctionFragment;
@@ -161,7 +160,6 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
       | "gameInputPer"
       | "getCurrentRound"
       | "getGameInfo"
-      | "getLatestRound"
       | "getNextKeyLabel"
       | "getSelectedNumbers"
       | "initialize"
@@ -228,10 +226,6 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "getGameInfo",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getLatestRound",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
@@ -375,10 +369,6 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "getGameInfo",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getLatestRound",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -727,15 +717,6 @@ export interface ZkBingoLobby extends BaseContract {
       }
     >;
 
-    getLatestRound(
-      gameId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<
-      [IBingoRoom.GameRoundStructOutput] & {
-        last: IBingoRoom.GameRoundStructOutput;
-      }
-    >;
-
     getNextKeyLabel(
       user: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -948,11 +929,6 @@ export interface ZkBingoLobby extends BaseContract {
     }
   >;
 
-  getLatestRound(
-    gameId: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<IBingoRoom.GameRoundStructOutput>;
-
   getNextKeyLabel(
     user: PromiseOrValue<string>,
     overrides?: CallOverrides
@@ -1154,11 +1130,6 @@ export interface ZkBingoLobby extends BaseContract {
         status: string;
       }
     >;
-
-    getLatestRound(
-      gameId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<IBingoRoom.GameRoundStructOutput>;
 
     getNextKeyLabel(
       user: PromiseOrValue<string>,
@@ -1458,11 +1429,6 @@ export interface ZkBingoLobby extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getLatestRound(
-      gameId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     getNextKeyLabel(
       user: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -1623,11 +1589,6 @@ export interface ZkBingoLobby extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     getGameInfo(
-      gameId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    getLatestRound(
       gameId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
