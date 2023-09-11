@@ -30,8 +30,6 @@ interface IBingoRoom {
         FINISHED
     }
 
-    event UpdateInputPer(uint256 oldInputPer, uint256 newInputPer);
-
     event GameStarted(uint256 indexed gameId, address cardContract, address[] players);
 
     event GameParticipated(
@@ -52,7 +50,12 @@ interface IBingoRoom {
 
     event RewardChanged(address indexed newReward, address indexed oldReward);
 
-    event GameHalted(uint256 indexed gameId, address indexed user, bool isOvertime, uint256 confiscate);
+    event GameHalted(
+        uint256 indexed gameId,
+        address indexed user,
+        bool isOvertime,
+        uint256 confiscate
+    );
 
     function abandon(uint256 gameId) external;
 
@@ -142,4 +145,6 @@ interface IBingoRoom {
             uint256 totalPlayersJoined,
             uint256 totalRewardDistributed
         );
+
+    function gamePlayerCounts(uint256 gameId) external view returns (uint8);
 }

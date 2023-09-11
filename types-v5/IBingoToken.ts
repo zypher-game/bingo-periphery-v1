@@ -25,18 +25,46 @@ import type {
 
 export interface IBingoTokenInterface extends utils.Interface {
   functions: {
-    "mintTo(address,uint256)": FunctionFragment;
+    "balanceOf(address)": FunctionFragment;
+    "getDebt()": FunctionFragment;
+    "mintTo(address,uint256,uint256)": FunctionFragment;
+    "repayment(uint256)": FunctionFragment;
+    "totalSupply()": FunctionFragment;
     "transfer(address,uint256)": FunctionFragment;
     "transferFrom(address,address,uint256)": FunctionFragment;
   };
 
   getFunction(
-    nameOrSignatureOrTopic: "mintTo" | "transfer" | "transferFrom"
+    nameOrSignatureOrTopic:
+      | "balanceOf"
+      | "getDebt"
+      | "mintTo"
+      | "repayment"
+      | "totalSupply"
+      | "transfer"
+      | "transferFrom"
   ): FunctionFragment;
 
   encodeFunctionData(
+    functionFragment: "balanceOf",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(functionFragment: "getDebt", values?: undefined): string;
+  encodeFunctionData(
     functionFragment: "mintTo",
-    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>
+    ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "repayment",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "totalSupply",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "transfer",
@@ -51,7 +79,14 @@ export interface IBingoTokenInterface extends utils.Interface {
     ]
   ): string;
 
+  decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getDebt", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "mintTo", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "repayment", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "totalSupply",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "transfer", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "transferFrom",
@@ -88,11 +123,26 @@ export interface IBingoToken extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    balanceOf(
+      account: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    getDebt(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     mintTo(
       to_: PromiseOrValue<string>,
       amount_: PromiseOrValue<BigNumberish>,
+      debt_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
+
+    repayment(
+      amount_: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    totalSupply(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     transfer(
       to_: PromiseOrValue<string>,
@@ -108,11 +158,26 @@ export interface IBingoToken extends BaseContract {
     ): Promise<ContractTransaction>;
   };
 
+  balanceOf(
+    account: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  getDebt(overrides?: CallOverrides): Promise<BigNumber>;
+
   mintTo(
     to_: PromiseOrValue<string>,
     amount_: PromiseOrValue<BigNumberish>,
+    debt_: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
+
+  repayment(
+    amount_: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
   transfer(
     to_: PromiseOrValue<string>,
@@ -128,11 +193,26 @@ export interface IBingoToken extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
+    balanceOf(
+      account: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getDebt(overrides?: CallOverrides): Promise<BigNumber>;
+
     mintTo(
       to_: PromiseOrValue<string>,
       amount_: PromiseOrValue<BigNumberish>,
+      debt_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    repayment(
+      amount_: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
     transfer(
       to_: PromiseOrValue<string>,
@@ -151,11 +231,26 @@ export interface IBingoToken extends BaseContract {
   filters: {};
 
   estimateGas: {
+    balanceOf(
+      account: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getDebt(overrides?: CallOverrides): Promise<BigNumber>;
+
     mintTo(
       to_: PromiseOrValue<string>,
       amount_: PromiseOrValue<BigNumberish>,
+      debt_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
+
+    repayment(
+      amount_: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    totalSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
     transfer(
       to_: PromiseOrValue<string>,
@@ -172,11 +267,26 @@ export interface IBingoToken extends BaseContract {
   };
 
   populateTransaction: {
+    balanceOf(
+      account: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getDebt(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     mintTo(
       to_: PromiseOrValue<string>,
       amount_: PromiseOrValue<BigNumberish>,
+      debt_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
+
+    repayment(
+      amount_: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    totalSupply(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     transfer(
       to_: PromiseOrValue<string>,

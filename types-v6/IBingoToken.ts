@@ -23,12 +23,32 @@ import type {
 
 export interface IBingoTokenInterface extends Interface {
   getFunction(
-    nameOrSignature: "mintTo" | "transfer" | "transferFrom"
+    nameOrSignature:
+      | "balanceOf"
+      | "getDebt"
+      | "mintTo"
+      | "repayment"
+      | "totalSupply"
+      | "transfer"
+      | "transferFrom"
   ): FunctionFragment;
 
   encodeFunctionData(
+    functionFragment: "balanceOf",
+    values: [AddressLike]
+  ): string;
+  encodeFunctionData(functionFragment: "getDebt", values?: undefined): string;
+  encodeFunctionData(
     functionFragment: "mintTo",
-    values: [AddressLike, BigNumberish]
+    values: [AddressLike, BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "repayment",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "totalSupply",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "transfer",
@@ -39,7 +59,14 @@ export interface IBingoTokenInterface extends Interface {
     values: [AddressLike, AddressLike, BigNumberish]
   ): string;
 
+  decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getDebt", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "mintTo", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "repayment", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "totalSupply",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "transfer", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "transferFrom",
@@ -90,11 +117,19 @@ export interface IBingoToken extends BaseContract {
     event?: TCEvent
   ): Promise<this>;
 
+  balanceOf: TypedContractMethod<[account: AddressLike], [bigint], "view">;
+
+  getDebt: TypedContractMethod<[], [bigint], "view">;
+
   mintTo: TypedContractMethod<
-    [to_: AddressLike, amount_: BigNumberish],
+    [to_: AddressLike, amount_: BigNumberish, debt_: BigNumberish],
     [void],
     "nonpayable"
   >;
+
+  repayment: TypedContractMethod<[amount_: BigNumberish], [void], "nonpayable">;
+
+  totalSupply: TypedContractMethod<[], [bigint], "view">;
 
   transfer: TypedContractMethod<
     [to_: AddressLike, amount_: BigNumberish],
@@ -113,12 +148,24 @@ export interface IBingoToken extends BaseContract {
   ): T;
 
   getFunction(
+    nameOrSignature: "balanceOf"
+  ): TypedContractMethod<[account: AddressLike], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "getDebt"
+  ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
     nameOrSignature: "mintTo"
   ): TypedContractMethod<
-    [to_: AddressLike, amount_: BigNumberish],
+    [to_: AddressLike, amount_: BigNumberish, debt_: BigNumberish],
     [void],
     "nonpayable"
   >;
+  getFunction(
+    nameOrSignature: "repayment"
+  ): TypedContractMethod<[amount_: BigNumberish], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "totalSupply"
+  ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "transfer"
   ): TypedContractMethod<

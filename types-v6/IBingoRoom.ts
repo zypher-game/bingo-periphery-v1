@@ -83,6 +83,7 @@ export interface IBingoRoomInterface extends Interface {
       | "bingo"
       | "expectedLines"
       | "gameCard"
+      | "gamePlayerCounts"
       | "getCurrentRound"
       | "getGameInfo"
       | "getSelectedNumbers"
@@ -102,7 +103,6 @@ export interface IBingoRoomInterface extends Interface {
       | "GameStarted"
       | "NumberSelected"
       | "RewardChanged"
-      | "UpdateInputPer"
   ): EventFragment;
 
   encodeFunctionData(
@@ -118,6 +118,10 @@ export interface IBingoRoomInterface extends Interface {
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "gameCard", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "gamePlayerCounts",
+    values: [BigNumberish]
+  ): string;
   encodeFunctionData(
     functionFragment: "getCurrentRound",
     values: [BigNumberish]
@@ -159,6 +163,10 @@ export interface IBingoRoomInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "gameCard", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "gamePlayerCounts",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "getCurrentRound",
     data: BytesLike
@@ -317,22 +325,6 @@ export namespace RewardChangedEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
-export namespace UpdateInputPerEvent {
-  export type InputTuple = [
-    oldInputPer: BigNumberish,
-    newInputPer: BigNumberish
-  ];
-  export type OutputTuple = [oldInputPer: bigint, newInputPer: bigint];
-  export interface OutputObject {
-    oldInputPer: bigint;
-    newInputPer: bigint;
-  }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
-}
-
 export interface IBingoRoom extends BaseContract {
   connect(runner?: ContractRunner | null): IBingoRoom;
   waitForDeployment(): Promise<this>;
@@ -391,6 +383,12 @@ export interface IBingoRoom extends BaseContract {
   expectedLines: TypedContractMethod<[], [bigint], "view">;
 
   gameCard: TypedContractMethod<[], [string], "view">;
+
+  gamePlayerCounts: TypedContractMethod<
+    [gameId: BigNumberish],
+    [bigint],
+    "view"
+  >;
 
   getCurrentRound: TypedContractMethod<
     [gameId: BigNumberish],
@@ -514,6 +512,9 @@ export interface IBingoRoom extends BaseContract {
   getFunction(
     nameOrSignature: "gameCard"
   ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "gamePlayerCounts"
+  ): TypedContractMethod<[gameId: BigNumberish], [bigint], "view">;
   getFunction(
     nameOrSignature: "getCurrentRound"
   ): TypedContractMethod<
@@ -660,13 +661,6 @@ export interface IBingoRoom extends BaseContract {
     RewardChangedEvent.OutputTuple,
     RewardChangedEvent.OutputObject
   >;
-  getEvent(
-    key: "UpdateInputPer"
-  ): TypedContractEvent<
-    UpdateInputPerEvent.InputTuple,
-    UpdateInputPerEvent.OutputTuple,
-    UpdateInputPerEvent.OutputObject
-  >;
 
   filters: {
     "Bingo(uint256,address)": TypedContractEvent<
@@ -733,17 +727,6 @@ export interface IBingoRoom extends BaseContract {
       RewardChangedEvent.InputTuple,
       RewardChangedEvent.OutputTuple,
       RewardChangedEvent.OutputObject
-    >;
-
-    "UpdateInputPer(uint256,uint256)": TypedContractEvent<
-      UpdateInputPerEvent.InputTuple,
-      UpdateInputPerEvent.OutputTuple,
-      UpdateInputPerEvent.OutputObject
-    >;
-    UpdateInputPer: TypedContractEvent<
-      UpdateInputPerEvent.InputTuple,
-      UpdateInputPerEvent.OutputTuple,
-      UpdateInputPerEvent.OutputObject
     >;
   };
 }

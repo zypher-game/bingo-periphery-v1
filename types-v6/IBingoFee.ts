@@ -21,49 +21,46 @@ import type {
   TypedContractMethod,
 } from "./common";
 
-export declare namespace IUserCenter {
-  export type PlayerStatisticsStruct = {
-    joined: BigNumberish;
-    joinAmount: BigNumberish;
-    wins: BigNumberish;
-    winAmount: BigNumberish;
-  };
-
-  export type PlayerStatisticsStructOutput = [
-    joined: bigint,
-    joinAmount: bigint,
-    wins: bigint,
-    winAmount: bigint
-  ] & { joined: bigint; joinAmount: bigint; wins: bigint; winAmount: bigint };
-}
-
-export interface UserCenterInterface extends Interface {
-  getFunction(nameOrSignature: "_seasonLogs" | "userRecords"): FunctionFragment;
+export interface IBingoFeeInterface extends Interface {
+  getFunction(
+    nameOrSignature:
+      | "afterGameTimeOut"
+      | "afterGameWon"
+      | "beforeJoin"
+      | "leave"
+  ): FunctionFragment;
 
   encodeFunctionData(
-    functionFragment: "_seasonLogs",
+    functionFragment: "afterGameTimeOut",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "afterGameWon",
     values: [BigNumberish, AddressLike]
   ): string;
   encodeFunctionData(
-    functionFragment: "userRecords",
+    functionFragment: "beforeJoin",
     values: [AddressLike]
   ): string;
+  encodeFunctionData(functionFragment: "leave", values: [AddressLike]): string;
 
   decodeFunctionResult(
-    functionFragment: "_seasonLogs",
+    functionFragment: "afterGameTimeOut",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "userRecords",
+    functionFragment: "afterGameWon",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "beforeJoin", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "leave", data: BytesLike): Result;
 }
 
-export interface UserCenter extends BaseContract {
-  connect(runner?: ContractRunner | null): UserCenter;
+export interface IBingoFee extends BaseContract {
+  connect(runner?: ContractRunner | null): IBingoFee;
   waitForDeployment(): Promise<this>;
 
-  interface: UserCenterInterface;
+  interface: IBingoFeeInterface;
 
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
@@ -102,66 +99,42 @@ export interface UserCenter extends BaseContract {
     event?: TCEvent
   ): Promise<this>;
 
-  _seasonLogs: TypedContractMethod<
-    [arg0: BigNumberish, arg1: AddressLike],
-    [
-      [bigint, bigint, bigint, bigint] & {
-        joined: bigint;
-        joinAmount: bigint;
-        wins: bigint;
-        winAmount: bigint;
-      }
-    ],
-    "view"
+  afterGameTimeOut: TypedContractMethod<
+    [gameId: BigNumberish],
+    [bigint],
+    "nonpayable"
   >;
 
-  userRecords: TypedContractMethod<
-    [user: AddressLike],
-    [
-      [
-        IUserCenter.PlayerStatisticsStructOutput,
-        IUserCenter.PlayerStatisticsStructOutput
-      ] & {
-        current: IUserCenter.PlayerStatisticsStructOutput;
-        overall: IUserCenter.PlayerStatisticsStructOutput;
-      }
-    ],
-    "view"
+  afterGameWon: TypedContractMethod<
+    [gameId: BigNumberish, to: AddressLike],
+    [void],
+    "nonpayable"
   >;
+
+  beforeJoin: TypedContractMethod<[from: AddressLike], [void], "nonpayable">;
+
+  leave: TypedContractMethod<[to: AddressLike], [void], "nonpayable">;
 
   getFunction<T extends ContractMethod = ContractMethod>(
     key: string | FunctionFragment
   ): T;
 
   getFunction(
-    nameOrSignature: "_seasonLogs"
+    nameOrSignature: "afterGameTimeOut"
+  ): TypedContractMethod<[gameId: BigNumberish], [bigint], "nonpayable">;
+  getFunction(
+    nameOrSignature: "afterGameWon"
   ): TypedContractMethod<
-    [arg0: BigNumberish, arg1: AddressLike],
-    [
-      [bigint, bigint, bigint, bigint] & {
-        joined: bigint;
-        joinAmount: bigint;
-        wins: bigint;
-        winAmount: bigint;
-      }
-    ],
-    "view"
+    [gameId: BigNumberish, to: AddressLike],
+    [void],
+    "nonpayable"
   >;
   getFunction(
-    nameOrSignature: "userRecords"
-  ): TypedContractMethod<
-    [user: AddressLike],
-    [
-      [
-        IUserCenter.PlayerStatisticsStructOutput,
-        IUserCenter.PlayerStatisticsStructOutput
-      ] & {
-        current: IUserCenter.PlayerStatisticsStructOutput;
-        overall: IUserCenter.PlayerStatisticsStructOutput;
-      }
-    ],
-    "view"
-  >;
+    nameOrSignature: "beforeJoin"
+  ): TypedContractMethod<[from: AddressLike], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "leave"
+  ): TypedContractMethod<[to: AddressLike], [void], "nonpayable">;
 
   filters: {};
 }

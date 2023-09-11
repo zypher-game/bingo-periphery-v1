@@ -86,6 +86,7 @@ export interface IBingoRoomInterface extends utils.Interface {
     "bingo(uint256,uint8[][],bytes)": FunctionFragment;
     "expectedLines()": FunctionFragment;
     "gameCard()": FunctionFragment;
+    "gamePlayerCounts(uint256)": FunctionFragment;
     "getCurrentRound(uint256)": FunctionFragment;
     "getGameInfo(uint256)": FunctionFragment;
     "getSelectedNumbers(uint256)": FunctionFragment;
@@ -103,6 +104,7 @@ export interface IBingoRoomInterface extends utils.Interface {
       | "bingo"
       | "expectedLines"
       | "gameCard"
+      | "gamePlayerCounts"
       | "getCurrentRound"
       | "getGameInfo"
       | "getSelectedNumbers"
@@ -131,6 +133,10 @@ export interface IBingoRoomInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(functionFragment: "gameCard", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "gamePlayerCounts",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
   encodeFunctionData(
     functionFragment: "getCurrentRound",
     values: [PromiseOrValue<BigNumberish>]
@@ -182,6 +188,10 @@ export interface IBingoRoomInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "gameCard", data: BytesLike): Result;
   decodeFunctionResult(
+    functionFragment: "gamePlayerCounts",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "getCurrentRound",
     data: BytesLike
   ): Result;
@@ -222,7 +232,6 @@ export interface IBingoRoomInterface extends utils.Interface {
     "GameStarted(uint256,address,address[])": EventFragment;
     "NumberSelected(uint256,uint32,address,uint8)": EventFragment;
     "RewardChanged(address,address)": EventFragment;
-    "UpdateInputPer(uint256,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Bingo"): EventFragment;
@@ -231,7 +240,6 @@ export interface IBingoRoomInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "GameStarted"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "NumberSelected"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RewardChanged"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "UpdateInputPer"): EventFragment;
 }
 
 export interface BingoEventObject {
@@ -305,17 +313,6 @@ export type RewardChangedEvent = TypedEvent<
 
 export type RewardChangedEventFilter = TypedEventFilter<RewardChangedEvent>;
 
-export interface UpdateInputPerEventObject {
-  oldInputPer: BigNumber;
-  newInputPer: BigNumber;
-}
-export type UpdateInputPerEvent = TypedEvent<
-  [BigNumber, BigNumber],
-  UpdateInputPerEventObject
->;
-
-export type UpdateInputPerEventFilter = TypedEventFilter<UpdateInputPerEvent>;
-
 export interface IBingoRoom extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
@@ -358,6 +355,11 @@ export interface IBingoRoom extends BaseContract {
     expectedLines(overrides?: CallOverrides): Promise<[number]>;
 
     gameCard(overrides?: CallOverrides): Promise<[string]>;
+
+    gamePlayerCounts(
+      gameId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[number]>;
 
     getCurrentRound(
       gameId: PromiseOrValue<BigNumberish>,
@@ -464,6 +466,11 @@ export interface IBingoRoom extends BaseContract {
 
   gameCard(overrides?: CallOverrides): Promise<string>;
 
+  gamePlayerCounts(
+    gameId: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<number>;
+
   getCurrentRound(
     gameId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
@@ -560,6 +567,11 @@ export interface IBingoRoom extends BaseContract {
     expectedLines(overrides?: CallOverrides): Promise<number>;
 
     gameCard(overrides?: CallOverrides): Promise<string>;
+
+    gamePlayerCounts(
+      gameId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<number>;
 
     getCurrentRound(
       gameId: PromiseOrValue<BigNumberish>,
@@ -716,15 +728,6 @@ export interface IBingoRoom extends BaseContract {
       newReward?: PromiseOrValue<string> | null,
       oldReward?: PromiseOrValue<string> | null
     ): RewardChangedEventFilter;
-
-    "UpdateInputPer(uint256,uint256)"(
-      oldInputPer?: null,
-      newInputPer?: null
-    ): UpdateInputPerEventFilter;
-    UpdateInputPer(
-      oldInputPer?: null,
-      newInputPer?: null
-    ): UpdateInputPerEventFilter;
   };
 
   estimateGas: {
@@ -743,6 +746,11 @@ export interface IBingoRoom extends BaseContract {
     expectedLines(overrides?: CallOverrides): Promise<BigNumber>;
 
     gameCard(overrides?: CallOverrides): Promise<BigNumber>;
+
+    gamePlayerCounts(
+      gameId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     getCurrentRound(
       gameId: PromiseOrValue<BigNumberish>,
@@ -810,6 +818,11 @@ export interface IBingoRoom extends BaseContract {
     expectedLines(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     gameCard(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    gamePlayerCounts(
+      gameId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     getCurrentRound(
       gameId: PromiseOrValue<BigNumberish>,

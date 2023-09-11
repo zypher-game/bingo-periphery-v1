@@ -164,38 +164,6 @@ const _abi = [
     type: "event",
   },
   {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "oldInputPer",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "newInputPer",
-        type: "uint256",
-      },
-    ],
-    name: "UpdateInputPer",
-    type: "event",
-  },
-  {
-    inputs: [],
-    name: "GAME_FEE_RATIO",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [],
     name: "RECENT_GAME_COUNTS",
     outputs: [
@@ -246,12 +214,12 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "expectedLines",
+    name: "bingoFee",
     outputs: [
       {
-        internalType: "uint8",
+        internalType: "contract IBingoFee",
         name: "",
-        type: "uint8",
+        type: "address",
       },
     ],
     stateMutability: "view",
@@ -259,22 +227,12 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "feeInfo",
+    name: "expectedLines",
     outputs: [
       {
-        internalType: "uint256",
-        name: "income",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "expenditure",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "balance",
-        type: "uint256",
+        internalType: "uint8",
+        name: "",
+        type: "uint8",
       },
     ],
     stateMutability: "view",
@@ -294,13 +252,19 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "gameInputPer",
-    outputs: [
+    inputs: [
       {
         internalType: "uint256",
-        name: "",
+        name: "gameId",
         type: "uint256",
+      },
+    ],
+    name: "gamePlayerCounts",
+    outputs: [
+      {
+        internalType: "uint8",
+        name: "",
+        type: "uint8",
       },
     ],
     stateMutability: "view",
@@ -437,19 +401,6 @@ const _abi = [
         internalType: "uint8[]",
         name: "numbers",
         type: "uint8[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "inputPerToken",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
       },
     ],
     stateMutability: "view",

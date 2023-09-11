@@ -36,6 +36,7 @@ export interface ZkBingoTokenInterface extends Interface {
       | "burnFrom"
       | "decimals"
       | "decreaseAllowance"
+      | "getDebt"
       | "getRoleAdmin"
       | "grantRole"
       | "hasRole"
@@ -43,23 +44,30 @@ export interface ZkBingoTokenInterface extends Interface {
       | "initialize"
       | "mintTo"
       | "name"
+      | "proxiableUUID"
       | "renounceRole"
+      | "repayment"
       | "revokeRole"
       | "supportsInterface"
       | "symbol"
       | "totalSupply"
       | "transfer"
       | "transferFrom"
+      | "upgradeTo"
+      | "upgradeToAndCall"
   ): FunctionFragment;
 
   getEvent(
     nameOrSignatureOrTopic:
+      | "AdminChanged"
       | "Approval"
+      | "BeaconUpgraded"
       | "Initialized"
       | "RoleAdminChanged"
       | "RoleGranted"
       | "RoleRevoked"
       | "Transfer"
+      | "Upgraded"
   ): EventFragment;
 
   encodeFunctionData(
@@ -93,6 +101,7 @@ export interface ZkBingoTokenInterface extends Interface {
     functionFragment: "decreaseAllowance",
     values: [AddressLike, BigNumberish]
   ): string;
+  encodeFunctionData(functionFragment: "getDebt", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "getRoleAdmin",
     values: [BytesLike]
@@ -115,12 +124,20 @@ export interface ZkBingoTokenInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "mintTo",
-    values: [AddressLike, BigNumberish]
+    values: [AddressLike, BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(
+    functionFragment: "proxiableUUID",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "renounceRole",
     values: [BytesLike, AddressLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "repayment",
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "revokeRole",
@@ -143,6 +160,14 @@ export interface ZkBingoTokenInterface extends Interface {
     functionFragment: "transferFrom",
     values: [AddressLike, AddressLike, BigNumberish]
   ): string;
+  encodeFunctionData(
+    functionFragment: "upgradeTo",
+    values: [AddressLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "upgradeToAndCall",
+    values: [AddressLike, BytesLike]
+  ): string;
 
   decodeFunctionResult(
     functionFragment: "DEFAULT_ADMIN_ROLE",
@@ -163,6 +188,7 @@ export interface ZkBingoTokenInterface extends Interface {
     functionFragment: "decreaseAllowance",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "getDebt", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getRoleAdmin",
     data: BytesLike
@@ -177,9 +203,14 @@ export interface ZkBingoTokenInterface extends Interface {
   decodeFunctionResult(functionFragment: "mintTo", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "name", data: BytesLike): Result;
   decodeFunctionResult(
+    functionFragment: "proxiableUUID",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "renounceRole",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "repayment", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "supportsInterface",
@@ -195,6 +226,24 @@ export interface ZkBingoTokenInterface extends Interface {
     functionFragment: "transferFrom",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "upgradeTo", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "upgradeToAndCall",
+    data: BytesLike
+  ): Result;
+}
+
+export namespace AdminChangedEvent {
+  export type InputTuple = [previousAdmin: AddressLike, newAdmin: AddressLike];
+  export type OutputTuple = [previousAdmin: string, newAdmin: string];
+  export interface OutputObject {
+    previousAdmin: string;
+    newAdmin: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
 }
 
 export namespace ApprovalEvent {
@@ -208,6 +257,18 @@ export namespace ApprovalEvent {
     owner: string;
     spender: string;
     value: bigint;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace BeaconUpgradedEvent {
+  export type InputTuple = [beacon: AddressLike];
+  export type OutputTuple = [beacon: string];
+  export interface OutputObject {
+    beacon: string;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -303,6 +364,18 @@ export namespace TransferEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
+export namespace UpgradedEvent {
+  export type InputTuple = [implementation: AddressLike];
+  export type OutputTuple = [implementation: string];
+  export interface OutputObject {
+    implementation: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
 export interface ZkBingoToken extends BaseContract {
   connect(runner?: ContractRunner | null): ZkBingoToken;
   waitForDeployment(): Promise<this>;
@@ -382,6 +455,8 @@ export interface ZkBingoToken extends BaseContract {
     "nonpayable"
   >;
 
+  getDebt: TypedContractMethod<[], [bigint], "view">;
+
   getRoleAdmin: TypedContractMethod<[role: BytesLike], [string], "view">;
 
   grantRole: TypedContractMethod<
@@ -405,18 +480,22 @@ export interface ZkBingoToken extends BaseContract {
   initialize: TypedContractMethod<[], [void], "nonpayable">;
 
   mintTo: TypedContractMethod<
-    [to_: AddressLike, amount_: BigNumberish],
+    [to_: AddressLike, amount_: BigNumberish, debt_: BigNumberish],
     [void],
     "nonpayable"
   >;
 
   name: TypedContractMethod<[], [string], "view">;
 
+  proxiableUUID: TypedContractMethod<[], [string], "view">;
+
   renounceRole: TypedContractMethod<
     [role: BytesLike, account: AddressLike],
     [void],
     "nonpayable"
   >;
+
+  repayment: TypedContractMethod<[amount_: BigNumberish], [void], "nonpayable">;
 
   revokeRole: TypedContractMethod<
     [role: BytesLike, account: AddressLike],
@@ -444,6 +523,18 @@ export interface ZkBingoToken extends BaseContract {
     [from_: AddressLike, to_: AddressLike, amount_: BigNumberish],
     [boolean],
     "nonpayable"
+  >;
+
+  upgradeTo: TypedContractMethod<
+    [newImplementation: AddressLike],
+    [void],
+    "nonpayable"
+  >;
+
+  upgradeToAndCall: TypedContractMethod<
+    [newImplementation: AddressLike, data: BytesLike],
+    [void],
+    "payable"
   >;
 
   getFunction<T extends ContractMethod = ContractMethod>(
@@ -497,6 +588,9 @@ export interface ZkBingoToken extends BaseContract {
     "nonpayable"
   >;
   getFunction(
+    nameOrSignature: "getDebt"
+  ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
     nameOrSignature: "getRoleAdmin"
   ): TypedContractMethod<[role: BytesLike], [string], "view">;
   getFunction(
@@ -526,12 +620,15 @@ export interface ZkBingoToken extends BaseContract {
   getFunction(
     nameOrSignature: "mintTo"
   ): TypedContractMethod<
-    [to_: AddressLike, amount_: BigNumberish],
+    [to_: AddressLike, amount_: BigNumberish, debt_: BigNumberish],
     [void],
     "nonpayable"
   >;
   getFunction(
     nameOrSignature: "name"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "proxiableUUID"
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "renounceRole"
@@ -540,6 +637,9 @@ export interface ZkBingoToken extends BaseContract {
     [void],
     "nonpayable"
   >;
+  getFunction(
+    nameOrSignature: "repayment"
+  ): TypedContractMethod<[amount_: BigNumberish], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "revokeRole"
   ): TypedContractMethod<
@@ -570,13 +670,41 @@ export interface ZkBingoToken extends BaseContract {
     [boolean],
     "nonpayable"
   >;
+  getFunction(
+    nameOrSignature: "upgradeTo"
+  ): TypedContractMethod<
+    [newImplementation: AddressLike],
+    [void],
+    "nonpayable"
+  >;
+  getFunction(
+    nameOrSignature: "upgradeToAndCall"
+  ): TypedContractMethod<
+    [newImplementation: AddressLike, data: BytesLike],
+    [void],
+    "payable"
+  >;
 
+  getEvent(
+    key: "AdminChanged"
+  ): TypedContractEvent<
+    AdminChangedEvent.InputTuple,
+    AdminChangedEvent.OutputTuple,
+    AdminChangedEvent.OutputObject
+  >;
   getEvent(
     key: "Approval"
   ): TypedContractEvent<
     ApprovalEvent.InputTuple,
     ApprovalEvent.OutputTuple,
     ApprovalEvent.OutputObject
+  >;
+  getEvent(
+    key: "BeaconUpgraded"
+  ): TypedContractEvent<
+    BeaconUpgradedEvent.InputTuple,
+    BeaconUpgradedEvent.OutputTuple,
+    BeaconUpgradedEvent.OutputObject
   >;
   getEvent(
     key: "Initialized"
@@ -613,8 +741,26 @@ export interface ZkBingoToken extends BaseContract {
     TransferEvent.OutputTuple,
     TransferEvent.OutputObject
   >;
+  getEvent(
+    key: "Upgraded"
+  ): TypedContractEvent<
+    UpgradedEvent.InputTuple,
+    UpgradedEvent.OutputTuple,
+    UpgradedEvent.OutputObject
+  >;
 
   filters: {
+    "AdminChanged(address,address)": TypedContractEvent<
+      AdminChangedEvent.InputTuple,
+      AdminChangedEvent.OutputTuple,
+      AdminChangedEvent.OutputObject
+    >;
+    AdminChanged: TypedContractEvent<
+      AdminChangedEvent.InputTuple,
+      AdminChangedEvent.OutputTuple,
+      AdminChangedEvent.OutputObject
+    >;
+
     "Approval(address,address,uint256)": TypedContractEvent<
       ApprovalEvent.InputTuple,
       ApprovalEvent.OutputTuple,
@@ -624,6 +770,17 @@ export interface ZkBingoToken extends BaseContract {
       ApprovalEvent.InputTuple,
       ApprovalEvent.OutputTuple,
       ApprovalEvent.OutputObject
+    >;
+
+    "BeaconUpgraded(address)": TypedContractEvent<
+      BeaconUpgradedEvent.InputTuple,
+      BeaconUpgradedEvent.OutputTuple,
+      BeaconUpgradedEvent.OutputObject
+    >;
+    BeaconUpgraded: TypedContractEvent<
+      BeaconUpgradedEvent.InputTuple,
+      BeaconUpgradedEvent.OutputTuple,
+      BeaconUpgradedEvent.OutputObject
     >;
 
     "Initialized(uint8)": TypedContractEvent<
@@ -679,6 +836,17 @@ export interface ZkBingoToken extends BaseContract {
       TransferEvent.InputTuple,
       TransferEvent.OutputTuple,
       TransferEvent.OutputObject
+    >;
+
+    "Upgraded(address)": TypedContractEvent<
+      UpgradedEvent.InputTuple,
+      UpgradedEvent.OutputTuple,
+      UpgradedEvent.OutputObject
+    >;
+    Upgraded: TypedContractEvent<
+      UpgradedEvent.InputTuple,
+      UpgradedEvent.OutputTuple,
+      UpgradedEvent.OutputObject
     >;
   };
 }

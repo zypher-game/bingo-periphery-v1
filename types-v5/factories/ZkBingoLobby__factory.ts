@@ -257,25 +257,6 @@ const _abi = [
     anonymous: false,
     inputs: [
       {
-        indexed: false,
-        internalType: "uint256",
-        name: "oldInputPer",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "newInputPer",
-        type: "uint256",
-      },
-    ],
-    name: "UpdateInputPer",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
         indexed: true,
         internalType: "address",
         name: "implementation",
@@ -284,19 +265,6 @@ const _abi = [
     ],
     name: "Upgraded",
     type: "event",
-  },
-  {
-    inputs: [],
-    name: "GAME_FEE_RATIO",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
   },
   {
     inputs: [],
@@ -362,12 +330,12 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "expectedLines",
+    name: "bingoFee",
     outputs: [
       {
-        internalType: "uint8",
+        internalType: "contract IBingoFee",
         name: "",
-        type: "uint8",
+        type: "address",
       },
     ],
     stateMutability: "view",
@@ -375,22 +343,12 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "feeInfo",
+    name: "expectedLines",
     outputs: [
       {
-        internalType: "uint256",
-        name: "income",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "expenditure",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "balance",
-        type: "uint256",
+        internalType: "uint8",
+        name: "",
+        type: "uint8",
       },
     ],
     stateMutability: "view",
@@ -410,13 +368,19 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "gameInputPer",
-    outputs: [
+    inputs: [
       {
         internalType: "uint256",
-        name: "",
+        name: "gameId",
         type: "uint256",
+      },
+    ],
+    name: "gamePlayerCounts",
+    outputs: [
+      {
+        internalType: "uint8",
+        name: "",
+        type: "uint8",
       },
     ],
     stateMutability: "view",
@@ -609,28 +573,10 @@ const _abi = [
         name: "maxCardNumber",
         type: "uint8",
       },
-      {
-        internalType: "address",
-        name: "_inputPerToken",
-        type: "address",
-      },
     ],
     name: "initialize",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "inputPerToken",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
     type: "function",
   },
   {
@@ -954,12 +900,12 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "uint256",
-        name: "inputPer",
-        type: "uint256",
+        internalType: "address",
+        name: "bingoFee_",
+        type: "address",
       },
     ],
-    name: "setGameInputPer",
+    name: "setBingFee",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -993,6 +939,29 @@ const _abi = [
       },
     ],
     name: "setGameTimers",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "firstGameId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "totalPlayers",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "rewardDistributed",
+        type: "uint256",
+      },
+    ],
+    name: "setInitData",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -1122,24 +1091,6 @@ const _abi = [
       },
     ],
     stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "to",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-    ],
-    name: "withdrawFee",
-    outputs: [],
-    stateMutability: "nonpayable",
     type: "function",
   },
 ];

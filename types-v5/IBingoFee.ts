@@ -23,63 +23,59 @@ import type {
   PromiseOrValue,
 } from "./common";
 
-export interface ICashmanInterface extends utils.Interface {
+export interface IBingoFeeInterface extends utils.Interface {
   functions: {
-    "addMintable(address)": FunctionFragment;
-    "isMintable(address)": FunctionFragment;
-    "removeMintable(address)": FunctionFragment;
-    "transferTo(address,address,uint256)": FunctionFragment;
+    "afterGameTimeOut(uint256)": FunctionFragment;
+    "afterGameWon(uint256,address)": FunctionFragment;
+    "beforeJoin(address)": FunctionFragment;
+    "leave(address)": FunctionFragment;
   };
 
   getFunction(
     nameOrSignatureOrTopic:
-      | "addMintable"
-      | "isMintable"
-      | "removeMintable"
-      | "transferTo"
+      | "afterGameTimeOut"
+      | "afterGameWon"
+      | "beforeJoin"
+      | "leave"
   ): FunctionFragment;
 
   encodeFunctionData(
-    functionFragment: "addMintable",
+    functionFragment: "afterGameTimeOut",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "afterGameWon",
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "beforeJoin",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "isMintable",
+    functionFragment: "leave",
     values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "removeMintable",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "transferTo",
-    values: [
-      PromiseOrValue<string>,
-      PromiseOrValue<string>,
-      PromiseOrValue<BigNumberish>
-    ]
   ): string;
 
   decodeFunctionResult(
-    functionFragment: "addMintable",
+    functionFragment: "afterGameTimeOut",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "isMintable", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "removeMintable",
+    functionFragment: "afterGameWon",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "transferTo", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "beforeJoin", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "leave", data: BytesLike): Result;
 
   events: {};
 }
 
-export interface ICashman extends BaseContract {
+export interface IBingoFee extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: ICashmanInterface;
+  interface: IBingoFeeInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -101,121 +97,113 @@ export interface ICashman extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    addMintable(
-      token: PromiseOrValue<string>,
+    afterGameTimeOut(
+      gameId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    isMintable(
-      token: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
-
-    removeMintable(
-      token: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    transferTo(
-      token: PromiseOrValue<string>,
+    afterGameWon(
+      gameId: PromiseOrValue<BigNumberish>,
       to: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    beforeJoin(
+      from: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    leave(
+      to: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
   };
 
-  addMintable(
-    token: PromiseOrValue<string>,
+  afterGameTimeOut(
+    gameId: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  isMintable(
-    token: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
-
-  removeMintable(
-    token: PromiseOrValue<string>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  transferTo(
-    token: PromiseOrValue<string>,
+  afterGameWon(
+    gameId: PromiseOrValue<BigNumberish>,
     to: PromiseOrValue<string>,
-    amount: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  beforeJoin(
+    from: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  leave(
+    to: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    addMintable(
-      token: PromiseOrValue<string>,
+    afterGameTimeOut(
+      gameId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<BigNumber>;
 
-    isMintable(
-      token: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
-
-    removeMintable(
-      token: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    transferTo(
-      token: PromiseOrValue<string>,
+    afterGameWon(
+      gameId: PromiseOrValue<BigNumberish>,
       to: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<boolean>;
+    ): Promise<void>;
+
+    beforeJoin(
+      from: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    leave(to: PromiseOrValue<string>, overrides?: CallOverrides): Promise<void>;
   };
 
   filters: {};
 
   estimateGas: {
-    addMintable(
-      token: PromiseOrValue<string>,
+    afterGameTimeOut(
+      gameId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    isMintable(
-      token: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    removeMintable(
-      token: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    transferTo(
-      token: PromiseOrValue<string>,
+    afterGameWon(
+      gameId: PromiseOrValue<BigNumberish>,
       to: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    beforeJoin(
+      from: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    leave(
+      to: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    addMintable(
-      token: PromiseOrValue<string>,
+    afterGameTimeOut(
+      gameId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    isMintable(
-      token: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    removeMintable(
-      token: PromiseOrValue<string>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    transferTo(
-      token: PromiseOrValue<string>,
+    afterGameWon(
+      gameId: PromiseOrValue<BigNumberish>,
       to: PromiseOrValue<string>,
-      amount: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    beforeJoin(
+      from: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    leave(
+      to: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
   };

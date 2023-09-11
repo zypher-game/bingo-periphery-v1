@@ -67,6 +67,7 @@ export interface ZkBingoPointsInterface extends utils.Interface {
     "nativeSwap(address,uint256)": FunctionFragment;
     "nativeWithdrawTo(address,uint256)": FunctionFragment;
     "pointsToken()": FunctionFragment;
+    "proxiableUUID()": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
     "revokeRole(bytes32,address)": FunctionFragment;
     "setBlindBoxAddress(address)": FunctionFragment;
@@ -82,6 +83,8 @@ export interface ZkBingoPointsInterface extends utils.Interface {
     "swapRatios(address)": FunctionFragment;
     "swaps(address,address,address)": FunctionFragment;
     "totalSwaps(address,address)": FunctionFragment;
+    "upgradeTo(address)": FunctionFragment;
+    "upgradeToAndCall(address,bytes)": FunctionFragment;
   };
 
   getFunction(
@@ -101,6 +104,7 @@ export interface ZkBingoPointsInterface extends utils.Interface {
       | "nativeSwap"
       | "nativeWithdrawTo"
       | "pointsToken"
+      | "proxiableUUID"
       | "renounceRole"
       | "revokeRole"
       | "setBlindBoxAddress"
@@ -116,6 +120,8 @@ export interface ZkBingoPointsInterface extends utils.Interface {
       | "swapRatios"
       | "swaps"
       | "totalSwaps"
+      | "upgradeTo"
+      | "upgradeToAndCall"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -173,6 +179,10 @@ export interface ZkBingoPointsInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "pointsToken",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "proxiableUUID",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -243,6 +253,14 @@ export interface ZkBingoPointsInterface extends utils.Interface {
     functionFragment: "totalSwaps",
     values: [PromiseOrValue<string>, PromiseOrValue<string>]
   ): string;
+  encodeFunctionData(
+    functionFragment: "upgradeTo",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "upgradeToAndCall",
+    values: [PromiseOrValue<string>, PromiseOrValue<BytesLike>]
+  ): string;
 
   decodeFunctionResult(
     functionFragment: "CONSECUTIVE_TIMES",
@@ -284,6 +302,10 @@ export interface ZkBingoPointsInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "pointsToken",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "proxiableUUID",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -331,25 +353,57 @@ export interface ZkBingoPointsInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "swapRatios", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "swaps", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "totalSwaps", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "upgradeTo", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "upgradeToAndCall",
+    data: BytesLike
+  ): Result;
 
   events: {
+    "AdminChanged(address,address)": EventFragment;
+    "BeaconUpgraded(address)": EventFragment;
     "Claim(address,uint8,uint256)": EventFragment;
     "Initialized(uint8)": EventFragment;
     "RoleAdminChanged(bytes32,bytes32,bytes32)": EventFragment;
     "RoleGranted(bytes32,address,address)": EventFragment;
     "RoleRevoked(bytes32,address,address)": EventFragment;
     "Swap(address,address,uint256,uint256)": EventFragment;
+    "Upgraded(address)": EventFragment;
     "WithdrawTo(address,address,uint256)": EventFragment;
   };
 
+  getEvent(nameOrSignatureOrTopic: "AdminChanged"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "BeaconUpgraded"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Claim"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleAdminChanged"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleGranted"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "RoleRevoked"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Swap"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Upgraded"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "WithdrawTo"): EventFragment;
 }
+
+export interface AdminChangedEventObject {
+  previousAdmin: string;
+  newAdmin: string;
+}
+export type AdminChangedEvent = TypedEvent<
+  [string, string],
+  AdminChangedEventObject
+>;
+
+export type AdminChangedEventFilter = TypedEventFilter<AdminChangedEvent>;
+
+export interface BeaconUpgradedEventObject {
+  beacon: string;
+}
+export type BeaconUpgradedEvent = TypedEvent<
+  [string],
+  BeaconUpgradedEventObject
+>;
+
+export type BeaconUpgradedEventFilter = TypedEventFilter<BeaconUpgradedEvent>;
 
 export interface ClaimEventObject {
   operator: string;
@@ -419,6 +473,13 @@ export type SwapEvent = TypedEvent<
 >;
 
 export type SwapEventFilter = TypedEventFilter<SwapEvent>;
+
+export interface UpgradedEventObject {
+  implementation: string;
+}
+export type UpgradedEvent = TypedEvent<[string], UpgradedEventObject>;
+
+export type UpgradedEventFilter = TypedEventFilter<UpgradedEvent>;
 
 export interface WithdrawToEventObject {
   operator: string;
@@ -518,6 +579,8 @@ export interface ZkBingoPoints extends BaseContract {
 
     pointsToken(overrides?: CallOverrides): Promise<[string]>;
 
+    proxiableUUID(overrides?: CallOverrides): Promise<[string]>;
+
     renounceRole(
       role: PromiseOrValue<BytesLike>,
       account: PromiseOrValue<string>,
@@ -603,6 +666,17 @@ export interface ZkBingoPoints extends BaseContract {
       arg1: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
+
+    upgradeTo(
+      newImplementation: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    upgradeToAndCall(
+      newImplementation: PromiseOrValue<string>,
+      data: PromiseOrValue<BytesLike>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
   };
 
   CONSECUTIVE_TIMES(overrides?: CallOverrides): Promise<BigNumber>;
@@ -663,6 +737,8 @@ export interface ZkBingoPoints extends BaseContract {
   ): Promise<ContractTransaction>;
 
   pointsToken(overrides?: CallOverrides): Promise<string>;
+
+  proxiableUUID(overrides?: CallOverrides): Promise<string>;
 
   renounceRole(
     role: PromiseOrValue<BytesLike>,
@@ -750,6 +826,17 @@ export interface ZkBingoPoints extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
+  upgradeTo(
+    newImplementation: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  upgradeToAndCall(
+    newImplementation: PromiseOrValue<string>,
+    data: PromiseOrValue<BytesLike>,
+    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   callStatic: {
     CONSECUTIVE_TIMES(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -807,6 +894,8 @@ export interface ZkBingoPoints extends BaseContract {
     ): Promise<void>;
 
     pointsToken(overrides?: CallOverrides): Promise<string>;
+
+    proxiableUUID(overrides?: CallOverrides): Promise<string>;
 
     renounceRole(
       role: PromiseOrValue<BytesLike>,
@@ -893,9 +982,36 @@ export interface ZkBingoPoints extends BaseContract {
       arg1: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    upgradeTo(
+      newImplementation: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    upgradeToAndCall(
+      newImplementation: PromiseOrValue<string>,
+      data: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<void>;
   };
 
   filters: {
+    "AdminChanged(address,address)"(
+      previousAdmin?: null,
+      newAdmin?: null
+    ): AdminChangedEventFilter;
+    AdminChanged(
+      previousAdmin?: null,
+      newAdmin?: null
+    ): AdminChangedEventFilter;
+
+    "BeaconUpgraded(address)"(
+      beacon?: PromiseOrValue<string> | null
+    ): BeaconUpgradedEventFilter;
+    BeaconUpgraded(
+      beacon?: PromiseOrValue<string> | null
+    ): BeaconUpgradedEventFilter;
+
     "Claim(address,uint8,uint256)"(
       operator?: PromiseOrValue<string> | null,
       claimType?: null,
@@ -955,6 +1071,13 @@ export interface ZkBingoPoints extends BaseContract {
       nativeAmount?: null,
       pointsAmount?: null
     ): SwapEventFilter;
+
+    "Upgraded(address)"(
+      implementation?: PromiseOrValue<string> | null
+    ): UpgradedEventFilter;
+    Upgraded(
+      implementation?: PromiseOrValue<string> | null
+    ): UpgradedEventFilter;
 
     "WithdrawTo(address,address,uint256)"(
       operator?: PromiseOrValue<string> | null,
@@ -1028,6 +1151,8 @@ export interface ZkBingoPoints extends BaseContract {
 
     pointsToken(overrides?: CallOverrides): Promise<BigNumber>;
 
+    proxiableUUID(overrides?: CallOverrides): Promise<BigNumber>;
+
     renounceRole(
       role: PromiseOrValue<BytesLike>,
       account: PromiseOrValue<string>,
@@ -1110,6 +1235,17 @@ export interface ZkBingoPoints extends BaseContract {
       arg0: PromiseOrValue<string>,
       arg1: PromiseOrValue<string>,
       overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    upgradeTo(
+      newImplementation: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    upgradeToAndCall(
+      newImplementation: PromiseOrValue<string>,
+      data: PromiseOrValue<BytesLike>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
   };
 
@@ -1175,6 +1311,8 @@ export interface ZkBingoPoints extends BaseContract {
 
     pointsToken(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    proxiableUUID(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     renounceRole(
       role: PromiseOrValue<BytesLike>,
       account: PromiseOrValue<string>,
@@ -1257,6 +1395,17 @@ export interface ZkBingoPoints extends BaseContract {
       arg0: PromiseOrValue<string>,
       arg1: PromiseOrValue<string>,
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    upgradeTo(
+      newImplementation: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    upgradeToAndCall(
+      newImplementation: PromiseOrValue<string>,
+      data: PromiseOrValue<BytesLike>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
   };
 }

@@ -103,18 +103,16 @@ export declare namespace BingoGameRoom {
 export interface BingoGameRoomInterface extends Interface {
   getFunction(
     nameOrSignature:
-      | "GAME_FEE_RATIO"
       | "RECENT_GAME_COUNTS"
       | "abandon"
       | "bingo"
+      | "bingoFee"
       | "expectedLines"
-      | "feeInfo"
       | "gameCard"
-      | "gameInputPer"
+      | "gamePlayerCounts"
       | "getCurrentRound"
       | "getGameInfo"
       | "getSelectedNumbers"
-      | "inputPerToken"
       | "playedGames"
       | "recentGames"
       | "restoreGame"
@@ -132,13 +130,8 @@ export interface BingoGameRoomInterface extends Interface {
       | "GameStarted"
       | "NumberSelected"
       | "RewardChanged"
-      | "UpdateInputPer"
   ): EventFragment;
 
-  encodeFunctionData(
-    functionFragment: "GAME_FEE_RATIO",
-    values?: undefined
-  ): string;
   encodeFunctionData(
     functionFragment: "RECENT_GAME_COUNTS",
     values?: undefined
@@ -151,15 +144,15 @@ export interface BingoGameRoomInterface extends Interface {
     functionFragment: "bingo",
     values: [BigNumberish, BigNumberish[][], BytesLike]
   ): string;
+  encodeFunctionData(functionFragment: "bingoFee", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "expectedLines",
     values?: undefined
   ): string;
-  encodeFunctionData(functionFragment: "feeInfo", values?: undefined): string;
   encodeFunctionData(functionFragment: "gameCard", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "gameInputPer",
-    values?: undefined
+    functionFragment: "gamePlayerCounts",
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "getCurrentRound",
@@ -172,10 +165,6 @@ export interface BingoGameRoomInterface extends Interface {
   encodeFunctionData(
     functionFragment: "getSelectedNumbers",
     values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "inputPerToken",
-    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "playedGames",
@@ -201,23 +190,19 @@ export interface BingoGameRoomInterface extends Interface {
   encodeFunctionData(functionFragment: "timer", values?: undefined): string;
 
   decodeFunctionResult(
-    functionFragment: "GAME_FEE_RATIO",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "RECENT_GAME_COUNTS",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "abandon", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "bingo", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "bingoFee", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "expectedLines",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "feeInfo", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "gameCard", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "gameInputPer",
+    functionFragment: "gamePlayerCounts",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -230,10 +215,6 @@ export interface BingoGameRoomInterface extends Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "getSelectedNumbers",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "inputPerToken",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -383,22 +364,6 @@ export namespace RewardChangedEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
-export namespace UpdateInputPerEvent {
-  export type InputTuple = [
-    oldInputPer: BigNumberish,
-    newInputPer: BigNumberish
-  ];
-  export type OutputTuple = [oldInputPer: bigint, newInputPer: bigint];
-  export interface OutputObject {
-    oldInputPer: bigint;
-    newInputPer: bigint;
-  }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
-}
-
 export interface BingoGameRoom extends BaseContract {
   connect(runner?: ContractRunner | null): BingoGameRoom;
   waitForDeployment(): Promise<this>;
@@ -442,8 +407,6 @@ export interface BingoGameRoom extends BaseContract {
     event?: TCEvent
   ): Promise<this>;
 
-  GAME_FEE_RATIO: TypedContractMethod<[], [bigint], "view">;
-
   RECENT_GAME_COUNTS: TypedContractMethod<[], [bigint], "view">;
 
   abandon: TypedContractMethod<[gameId: BigNumberish], [void], "nonpayable">;
@@ -458,23 +421,17 @@ export interface BingoGameRoom extends BaseContract {
     "nonpayable"
   >;
 
-  expectedLines: TypedContractMethod<[], [bigint], "view">;
+  bingoFee: TypedContractMethod<[], [string], "view">;
 
-  feeInfo: TypedContractMethod<
-    [],
-    [
-      [bigint, bigint, bigint] & {
-        income: bigint;
-        expenditure: bigint;
-        balance: bigint;
-      }
-    ],
-    "view"
-  >;
+  expectedLines: TypedContractMethod<[], [bigint], "view">;
 
   gameCard: TypedContractMethod<[], [string], "view">;
 
-  gameInputPer: TypedContractMethod<[], [bigint], "view">;
+  gamePlayerCounts: TypedContractMethod<
+    [gameId: BigNumberish],
+    [bigint],
+    "view"
+  >;
 
   getCurrentRound: TypedContractMethod<
     [gameId: BigNumberish],
@@ -516,8 +473,6 @@ export interface BingoGameRoom extends BaseContract {
     [bigint[]],
     "view"
   >;
-
-  inputPerToken: TypedContractMethod<[], [string], "view">;
 
   playedGames: TypedContractMethod<
     [user: AddressLike, skip: BigNumberish],
@@ -587,9 +542,6 @@ export interface BingoGameRoom extends BaseContract {
   ): T;
 
   getFunction(
-    nameOrSignature: "GAME_FEE_RATIO"
-  ): TypedContractMethod<[], [bigint], "view">;
-  getFunction(
     nameOrSignature: "RECENT_GAME_COUNTS"
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
@@ -607,27 +559,17 @@ export interface BingoGameRoom extends BaseContract {
     "nonpayable"
   >;
   getFunction(
+    nameOrSignature: "bingoFee"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
     nameOrSignature: "expectedLines"
   ): TypedContractMethod<[], [bigint], "view">;
-  getFunction(
-    nameOrSignature: "feeInfo"
-  ): TypedContractMethod<
-    [],
-    [
-      [bigint, bigint, bigint] & {
-        income: bigint;
-        expenditure: bigint;
-        balance: bigint;
-      }
-    ],
-    "view"
-  >;
   getFunction(
     nameOrSignature: "gameCard"
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
-    nameOrSignature: "gameInputPer"
-  ): TypedContractMethod<[], [bigint], "view">;
+    nameOrSignature: "gamePlayerCounts"
+  ): TypedContractMethod<[gameId: BigNumberish], [bigint], "view">;
   getFunction(
     nameOrSignature: "getCurrentRound"
   ): TypedContractMethod<
@@ -668,9 +610,6 @@ export interface BingoGameRoom extends BaseContract {
   getFunction(
     nameOrSignature: "getSelectedNumbers"
   ): TypedContractMethod<[gameId: BigNumberish], [bigint[]], "view">;
-  getFunction(
-    nameOrSignature: "inputPerToken"
-  ): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "playedGames"
   ): TypedContractMethod<
@@ -780,13 +719,6 @@ export interface BingoGameRoom extends BaseContract {
     RewardChangedEvent.OutputTuple,
     RewardChangedEvent.OutputObject
   >;
-  getEvent(
-    key: "UpdateInputPer"
-  ): TypedContractEvent<
-    UpdateInputPerEvent.InputTuple,
-    UpdateInputPerEvent.OutputTuple,
-    UpdateInputPerEvent.OutputObject
-  >;
 
   filters: {
     "Bingo(uint256,address)": TypedContractEvent<
@@ -853,17 +785,6 @@ export interface BingoGameRoom extends BaseContract {
       RewardChangedEvent.InputTuple,
       RewardChangedEvent.OutputTuple,
       RewardChangedEvent.OutputObject
-    >;
-
-    "UpdateInputPer(uint256,uint256)": TypedContractEvent<
-      UpdateInputPerEvent.InputTuple,
-      UpdateInputPerEvent.OutputTuple,
-      UpdateInputPerEvent.OutputObject
-    >;
-    UpdateInputPer: TypedContractEvent<
-      UpdateInputPerEvent.InputTuple,
-      UpdateInputPerEvent.OutputTuple,
-      UpdateInputPerEvent.OutputObject
     >;
   };
 }
