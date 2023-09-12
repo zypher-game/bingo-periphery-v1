@@ -124,6 +124,7 @@ export interface ZkBingoLobbyInterface extends Interface {
       | "owner"
       | "playedGames"
       | "proxiableUUID"
+      | "recentGameById"
       | "recentGames"
       | "renounceOwnership"
       | "restoreGame"
@@ -232,6 +233,10 @@ export interface ZkBingoLobbyInterface extends Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "recentGameById",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "recentGames",
     values: [BigNumberish]
   ): string;
@@ -335,6 +340,10 @@ export interface ZkBingoLobbyInterface extends Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "proxiableUUID",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "recentGameById",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -737,6 +746,12 @@ export interface ZkBingoLobby extends BaseContract {
 
   proxiableUUID: TypedContractMethod<[], [string], "view">;
 
+  recentGameById: TypedContractMethod<
+    [gameId: BigNumberish],
+    [IBingoRoom.RecentGameStructOutput],
+    "view"
+  >;
+
   recentGames: TypedContractMethod<
     [filter: BigNumberish],
     [IBingoRoom.RecentGameStructOutput[]],
@@ -967,6 +982,13 @@ export interface ZkBingoLobby extends BaseContract {
   getFunction(
     nameOrSignature: "proxiableUUID"
   ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "recentGameById"
+  ): TypedContractMethod<
+    [gameId: BigNumberish],
+    [IBingoRoom.RecentGameStructOutput],
+    "view"
+  >;
   getFunction(
     nameOrSignature: "recentGames"
   ): TypedContractMethod<

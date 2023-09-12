@@ -114,6 +114,7 @@ export interface BingoGameRoomInterface extends Interface {
       | "getGameInfo"
       | "getSelectedNumbers"
       | "playedGames"
+      | "recentGameById"
       | "recentGames"
       | "restoreGame"
       | "selectAndBingo"
@@ -171,6 +172,10 @@ export interface BingoGameRoomInterface extends Interface {
     values: [AddressLike, BigNumberish]
   ): string;
   encodeFunctionData(
+    functionFragment: "recentGameById",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "recentGames",
     values: [BigNumberish]
   ): string;
@@ -219,6 +224,10 @@ export interface BingoGameRoomInterface extends Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "playedGames",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "recentGameById",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -480,6 +489,12 @@ export interface BingoGameRoom extends BaseContract {
     "view"
   >;
 
+  recentGameById: TypedContractMethod<
+    [gameId: BigNumberish],
+    [IBingoRoom.RecentGameStructOutput],
+    "view"
+  >;
+
   recentGames: TypedContractMethod<
     [filter: BigNumberish],
     [IBingoRoom.RecentGameStructOutput[]],
@@ -615,6 +630,13 @@ export interface BingoGameRoom extends BaseContract {
   ): TypedContractMethod<
     [user: AddressLike, skip: BigNumberish],
     [IBingoRoom.RecentGameStructOutput[]],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "recentGameById"
+  ): TypedContractMethod<
+    [gameId: BigNumberish],
+    [IBingoRoom.RecentGameStructOutput],
     "view"
   >;
   getFunction(
