@@ -409,14 +409,18 @@ export interface IBingoRoom extends BaseContract {
       [
         bigint,
         bigint,
+        bigint,
         string,
+        bigint,
         IBingoRoom.ParticipantStructOutput[],
         IBingoRoom.GameRoundStructOutput[],
         string
       ] & {
         startedAt: bigint;
         endedAt: bigint;
+        joinAmount: bigint;
         winner: string;
+        winAmount: bigint;
         players: IBingoRoom.ParticipantStructOutput[];
         rounds: IBingoRoom.GameRoundStructOutput[];
         status: string;
@@ -537,14 +541,18 @@ export interface IBingoRoom extends BaseContract {
       [
         bigint,
         bigint,
+        bigint,
         string,
+        bigint,
         IBingoRoom.ParticipantStructOutput[],
         IBingoRoom.GameRoundStructOutput[],
         string
       ] & {
         startedAt: bigint;
         endedAt: bigint;
+        joinAmount: bigint;
         winner: string;
+        winAmount: bigint;
         players: IBingoRoom.ParticipantStructOutput[];
         rounds: IBingoRoom.GameRoundStructOutput[];
         status: string;

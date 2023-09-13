@@ -114,7 +114,6 @@ export interface BingoGameRoomInterface extends Interface {
       | "getGameInfo"
       | "getSelectedNumbers"
       | "playedGames"
-      | "recentGameById"
       | "recentGames"
       | "restoreGame"
       | "selectAndBingo"
@@ -172,10 +171,6 @@ export interface BingoGameRoomInterface extends Interface {
     values: [AddressLike, BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "recentGameById",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
     functionFragment: "recentGames",
     values: [BigNumberish]
   ): string;
@@ -224,10 +219,6 @@ export interface BingoGameRoomInterface extends Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "playedGames",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "recentGameById",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -461,14 +452,18 @@ export interface BingoGameRoom extends BaseContract {
       [
         bigint,
         bigint,
+        bigint,
         string,
+        bigint,
         IBingoRoom.ParticipantStructOutput[],
         IBingoRoom.GameRoundStructOutput[],
         string
       ] & {
         startedAt: bigint;
         endedAt: bigint;
+        joinAmount: bigint;
         winner: string;
+        winAmount: bigint;
         players: IBingoRoom.ParticipantStructOutput[];
         rounds: IBingoRoom.GameRoundStructOutput[];
         status: string;
@@ -486,12 +481,6 @@ export interface BingoGameRoom extends BaseContract {
   playedGames: TypedContractMethod<
     [user: AddressLike, skip: BigNumberish],
     [IBingoRoom.RecentGameStructOutput[]],
-    "view"
-  >;
-
-  recentGameById: TypedContractMethod<
-    [gameId: BigNumberish],
-    [IBingoRoom.RecentGameStructOutput],
     "view"
   >;
 
@@ -607,14 +596,18 @@ export interface BingoGameRoom extends BaseContract {
       [
         bigint,
         bigint,
+        bigint,
         string,
+        bigint,
         IBingoRoom.ParticipantStructOutput[],
         IBingoRoom.GameRoundStructOutput[],
         string
       ] & {
         startedAt: bigint;
         endedAt: bigint;
+        joinAmount: bigint;
         winner: string;
+        winAmount: bigint;
         players: IBingoRoom.ParticipantStructOutput[];
         rounds: IBingoRoom.GameRoundStructOutput[];
         status: string;
@@ -630,13 +623,6 @@ export interface BingoGameRoom extends BaseContract {
   ): TypedContractMethod<
     [user: AddressLike, skip: BigNumberish],
     [IBingoRoom.RecentGameStructOutput[]],
-    "view"
-  >;
-  getFunction(
-    nameOrSignature: "recentGameById"
-  ): TypedContractMethod<
-    [gameId: BigNumberish],
-    [IBingoRoom.RecentGameStructOutput],
     "view"
   >;
   getFunction(

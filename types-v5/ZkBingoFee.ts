@@ -36,7 +36,9 @@ export interface ZkBingoFeeInterface extends utils.Interface {
     "beforeJoin(address)": FunctionFragment;
     "bingoToken()": FunctionFragment;
     "feeInfo()": FunctionFragment;
+    "gameFee(uint256)": FunctionFragment;
     "gameInputPer()": FunctionFragment;
+    "getGameFee(uint256)": FunctionFragment;
     "getGameFeeRatio()": FunctionFragment;
     "initialize(address,address)": FunctionFragment;
     "leave(address)": FunctionFragment;
@@ -59,7 +61,9 @@ export interface ZkBingoFeeInterface extends utils.Interface {
       | "beforeJoin"
       | "bingoToken"
       | "feeInfo"
+      | "gameFee"
       | "gameInputPer"
+      | "getGameFee"
       | "getGameFeeRatio"
       | "initialize"
       | "leave"
@@ -93,8 +97,16 @@ export interface ZkBingoFeeInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "feeInfo", values?: undefined): string;
   encodeFunctionData(
+    functionFragment: "gameFee",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "gameInputPer",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getGameFee",
+    values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "getGameFeeRatio",
@@ -151,10 +163,12 @@ export interface ZkBingoFeeInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "beforeJoin", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "bingoToken", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "feeInfo", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "gameFee", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "gameInputPer",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "getGameFee", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getGameFeeRatio",
     data: BytesLike
@@ -190,7 +204,7 @@ export interface ZkBingoFeeInterface extends utils.Interface {
   ): Result;
 
   events: {
-    "AafterGameWon(uint256,address,uint256,uint256,uint256,uint256)": EventFragment;
+    "AafterGameWon(uint256,uint256,uint256,address,uint256,uint256,uint256)": EventFragment;
     "AdminChanged(address,address)": EventFragment;
     "BeaconUpgraded(address)": EventFragment;
     "Initialized(uint8)": EventFragment;
@@ -210,14 +224,15 @@ export interface ZkBingoFeeInterface extends utils.Interface {
 
 export interface AafterGameWonEventObject {
   gameId: BigNumber;
+  counts: BigNumber;
+  joinAmount: BigNumber;
   winner: string;
-  feeRatio: BigNumber;
-  totalAmount: BigNumber;
   winAmount: BigNumber;
   feeAmount: BigNumber;
+  feeRatio: BigNumber;
 }
 export type AafterGameWonEvent = TypedEvent<
-  [BigNumber, string, BigNumber, BigNumber, BigNumber, BigNumber],
+  [BigNumber, BigNumber, BigNumber, string, BigNumber, BigNumber, BigNumber],
   AafterGameWonEventObject
 >;
 
@@ -339,7 +354,26 @@ export interface ZkBingoFee extends BaseContract {
       }
     >;
 
+    gameFee(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber, string, BigNumber, BigNumber, BigNumber] & {
+        counts: BigNumber;
+        joinAmount: BigNumber;
+        winner: string;
+        winAmount: BigNumber;
+        feeAmount: BigNumber;
+        feeRatio: BigNumber;
+      }
+    >;
+
     gameInputPer(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    getGameFee(
+      gameId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber, BigNumber, BigNumber]>;
 
     getGameFeeRatio(overrides?: CallOverrides): Promise<[BigNumber]>;
 
@@ -423,7 +457,26 @@ export interface ZkBingoFee extends BaseContract {
     }
   >;
 
+  gameFee(
+    arg0: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<
+    [BigNumber, BigNumber, string, BigNumber, BigNumber, BigNumber] & {
+      counts: BigNumber;
+      joinAmount: BigNumber;
+      winner: string;
+      winAmount: BigNumber;
+      feeAmount: BigNumber;
+      feeRatio: BigNumber;
+    }
+  >;
+
   gameInputPer(overrides?: CallOverrides): Promise<BigNumber>;
+
+  getGameFee(
+    gameId: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<[BigNumber, BigNumber, BigNumber]>;
 
   getGameFeeRatio(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -507,7 +560,26 @@ export interface ZkBingoFee extends BaseContract {
       }
     >;
 
+    gameFee(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber, string, BigNumber, BigNumber, BigNumber] & {
+        counts: BigNumber;
+        joinAmount: BigNumber;
+        winner: string;
+        winAmount: BigNumber;
+        feeAmount: BigNumber;
+        feeRatio: BigNumber;
+      }
+    >;
+
     gameInputPer(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getGameFee(
+      gameId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber, BigNumber, BigNumber]>;
 
     getGameFeeRatio(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -556,21 +628,23 @@ export interface ZkBingoFee extends BaseContract {
   };
 
   filters: {
-    "AafterGameWon(uint256,address,uint256,uint256,uint256,uint256)"(
+    "AafterGameWon(uint256,uint256,uint256,address,uint256,uint256,uint256)"(
       gameId?: null,
+      counts?: null,
+      joinAmount?: null,
       winner?: null,
-      feeRatio?: null,
-      totalAmount?: null,
       winAmount?: null,
-      feeAmount?: null
+      feeAmount?: null,
+      feeRatio?: null
     ): AafterGameWonEventFilter;
     AafterGameWon(
       gameId?: null,
+      counts?: null,
+      joinAmount?: null,
       winner?: null,
-      feeRatio?: null,
-      totalAmount?: null,
       winAmount?: null,
-      feeAmount?: null
+      feeAmount?: null,
+      feeRatio?: null
     ): AafterGameWonEventFilter;
 
     "AdminChanged(address,address)"(
@@ -641,7 +715,17 @@ export interface ZkBingoFee extends BaseContract {
 
     feeInfo(overrides?: CallOverrides): Promise<BigNumber>;
 
+    gameFee(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     gameInputPer(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getGameFee(
+      gameId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
 
     getGameFeeRatio(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -717,7 +801,17 @@ export interface ZkBingoFee extends BaseContract {
 
     feeInfo(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    gameFee(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     gameInputPer(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getGameFee(
+      gameId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
 
     getGameFeeRatio(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 

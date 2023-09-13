@@ -17,21 +17,21 @@ const _abi = [
       },
       {
         indexed: false,
+        internalType: "uint256",
+        name: "counts",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "joinAmount",
+        type: "uint256",
+      },
+      {
+        indexed: false,
         internalType: "address",
         name: "winner",
         type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "feeRatio",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "totalAmount",
-        type: "uint256",
       },
       {
         indexed: false,
@@ -43,6 +43,12 @@ const _abi = [
         indexed: false,
         internalType: "uint256",
         name: "feeAmount",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "feeRatio",
         type: "uint256",
       },
     ],
@@ -250,9 +256,82 @@ const _abi = [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "gameFee",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "counts",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "joinAmount",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "winner",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "winAmount",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "feeAmount",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "feeRatio",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "gameInputPer",
     outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "gameId",
+        type: "uint256",
+      },
+    ],
+    name: "getGameFee",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
       {
         internalType: "uint256",
         name: "",

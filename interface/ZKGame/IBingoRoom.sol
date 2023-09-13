@@ -71,7 +71,9 @@ interface IBingoRoom {
         returns (
             uint32 startedAt,
             uint32 endedAt,
+            uint256 joinAmount,
             address winner,
+            uint256 winAmount,
             Participant[] memory players,
             GameRound[] memory rounds,
             string memory status

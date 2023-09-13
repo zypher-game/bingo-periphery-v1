@@ -128,7 +128,6 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
     "owner()": FunctionFragment;
     "playedGames(address,uint256)": FunctionFragment;
     "proxiableUUID()": FunctionFragment;
-    "recentGameById(uint256)": FunctionFragment;
     "recentGames(uint8)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "restoreGame(address,uint8[][],bytes)": FunctionFragment;
@@ -169,7 +168,6 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
       | "owner"
       | "playedGames"
       | "proxiableUUID"
-      | "recentGameById"
       | "recentGames"
       | "renounceOwnership"
       | "restoreGame"
@@ -266,10 +264,6 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "proxiableUUID",
     values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "recentGameById",
-    values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "recentGames",
@@ -388,10 +382,6 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "proxiableUUID",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "recentGameById",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -673,14 +663,18 @@ export interface ZkBingoLobby extends BaseContract {
       [
         number,
         number,
+        BigNumber,
         string,
+        BigNumber,
         IBingoRoom.ParticipantStructOutput[],
         IBingoRoom.GameRoundStructOutput[],
         string
       ] & {
         startedAt: number;
         endedAt: number;
+        joinAmount: BigNumber;
         winner: string;
+        winAmount: BigNumber;
         players: IBingoRoom.ParticipantStructOutput[];
         rounds: IBingoRoom.GameRoundStructOutput[];
         status: string;
@@ -737,11 +731,6 @@ export interface ZkBingoLobby extends BaseContract {
     >;
 
     proxiableUUID(overrides?: CallOverrides): Promise<[string]>;
-
-    recentGameById(
-      gameId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[IBingoRoom.RecentGameStructOutput]>;
 
     recentGames(
       filter: PromiseOrValue<BigNumberish>,
@@ -881,14 +870,18 @@ export interface ZkBingoLobby extends BaseContract {
     [
       number,
       number,
+      BigNumber,
       string,
+      BigNumber,
       IBingoRoom.ParticipantStructOutput[],
       IBingoRoom.GameRoundStructOutput[],
       string
     ] & {
       startedAt: number;
       endedAt: number;
+      joinAmount: BigNumber;
       winner: string;
+      winAmount: BigNumber;
       players: IBingoRoom.ParticipantStructOutput[];
       rounds: IBingoRoom.GameRoundStructOutput[];
       status: string;
@@ -939,11 +932,6 @@ export interface ZkBingoLobby extends BaseContract {
   ): Promise<IBingoRoom.RecentGameStructOutput[]>;
 
   proxiableUUID(overrides?: CallOverrides): Promise<string>;
-
-  recentGameById(
-    gameId: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<IBingoRoom.RecentGameStructOutput>;
 
   recentGames(
     filter: PromiseOrValue<BigNumberish>,
@@ -1079,14 +1067,18 @@ export interface ZkBingoLobby extends BaseContract {
       [
         number,
         number,
+        BigNumber,
         string,
+        BigNumber,
         IBingoRoom.ParticipantStructOutput[],
         IBingoRoom.GameRoundStructOutput[],
         string
       ] & {
         startedAt: number;
         endedAt: number;
+        joinAmount: BigNumber;
         winner: string;
+        winAmount: BigNumber;
         players: IBingoRoom.ParticipantStructOutput[];
         rounds: IBingoRoom.GameRoundStructOutput[];
         status: string;
@@ -1135,11 +1127,6 @@ export interface ZkBingoLobby extends BaseContract {
     ): Promise<IBingoRoom.RecentGameStructOutput[]>;
 
     proxiableUUID(overrides?: CallOverrides): Promise<string>;
-
-    recentGameById(
-      gameId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<IBingoRoom.RecentGameStructOutput>;
 
     recentGames(
       filter: PromiseOrValue<BigNumberish>,
@@ -1431,11 +1418,6 @@ export interface ZkBingoLobby extends BaseContract {
 
     proxiableUUID(overrides?: CallOverrides): Promise<BigNumber>;
 
-    recentGameById(
-      gameId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     recentGames(
       filter: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -1598,11 +1580,6 @@ export interface ZkBingoLobby extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     proxiableUUID(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    recentGameById(
-      gameId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
 
     recentGames(
       filter: PromiseOrValue<BigNumberish>,

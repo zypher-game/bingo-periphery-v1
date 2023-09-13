@@ -32,7 +32,9 @@ export interface ZkBingoFeeInterface extends Interface {
       | "beforeJoin"
       | "bingoToken"
       | "feeInfo"
+      | "gameFee"
       | "gameInputPer"
+      | "getGameFee"
       | "getGameFeeRatio"
       | "initialize"
       | "leave"
@@ -77,8 +79,16 @@ export interface ZkBingoFeeInterface extends Interface {
   ): string;
   encodeFunctionData(functionFragment: "feeInfo", values?: undefined): string;
   encodeFunctionData(
+    functionFragment: "gameFee",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "gameInputPer",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getGameFee",
+    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "getGameFeeRatio",
@@ -132,10 +142,12 @@ export interface ZkBingoFeeInterface extends Interface {
   decodeFunctionResult(functionFragment: "beforeJoin", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "bingoToken", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "feeInfo", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "gameFee", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "gameInputPer",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "getGameFee", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getGameFeeRatio",
     data: BytesLike
@@ -174,27 +186,30 @@ export interface ZkBingoFeeInterface extends Interface {
 export namespace AafterGameWonEvent {
   export type InputTuple = [
     gameId: BigNumberish,
+    counts: BigNumberish,
+    joinAmount: BigNumberish,
     winner: AddressLike,
-    feeRatio: BigNumberish,
-    totalAmount: BigNumberish,
     winAmount: BigNumberish,
-    feeAmount: BigNumberish
+    feeAmount: BigNumberish,
+    feeRatio: BigNumberish
   ];
   export type OutputTuple = [
     gameId: bigint,
+    counts: bigint,
+    joinAmount: bigint,
     winner: string,
-    feeRatio: bigint,
-    totalAmount: bigint,
     winAmount: bigint,
-    feeAmount: bigint
+    feeAmount: bigint,
+    feeRatio: bigint
   ];
   export interface OutputObject {
     gameId: bigint;
+    counts: bigint;
+    joinAmount: bigint;
     winner: string;
-    feeRatio: bigint;
-    totalAmount: bigint;
     winAmount: bigint;
     feeAmount: bigint;
+    feeRatio: bigint;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -354,7 +369,28 @@ export interface ZkBingoFee extends BaseContract {
     "view"
   >;
 
+  gameFee: TypedContractMethod<
+    [arg0: BigNumberish],
+    [
+      [bigint, bigint, string, bigint, bigint, bigint] & {
+        counts: bigint;
+        joinAmount: bigint;
+        winner: string;
+        winAmount: bigint;
+        feeAmount: bigint;
+        feeRatio: bigint;
+      }
+    ],
+    "view"
+  >;
+
   gameInputPer: TypedContractMethod<[], [bigint], "view">;
+
+  getGameFee: TypedContractMethod<
+    [gameId: BigNumberish],
+    [[bigint, bigint, bigint]],
+    "view"
+  >;
 
   getGameFeeRatio: TypedContractMethod<[], [bigint], "view">;
 
@@ -442,8 +478,31 @@ export interface ZkBingoFee extends BaseContract {
     "view"
   >;
   getFunction(
+    nameOrSignature: "gameFee"
+  ): TypedContractMethod<
+    [arg0: BigNumberish],
+    [
+      [bigint, bigint, string, bigint, bigint, bigint] & {
+        counts: bigint;
+        joinAmount: bigint;
+        winner: string;
+        winAmount: bigint;
+        feeAmount: bigint;
+        feeRatio: bigint;
+      }
+    ],
+    "view"
+  >;
+  getFunction(
     nameOrSignature: "gameInputPer"
   ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "getGameFee"
+  ): TypedContractMethod<
+    [gameId: BigNumberish],
+    [[bigint, bigint, bigint]],
+    "view"
+  >;
   getFunction(
     nameOrSignature: "getGameFeeRatio"
   ): TypedContractMethod<[], [bigint], "view">;
@@ -548,7 +607,7 @@ export interface ZkBingoFee extends BaseContract {
   >;
 
   filters: {
-    "AafterGameWon(uint256,address,uint256,uint256,uint256,uint256)": TypedContractEvent<
+    "AafterGameWon(uint256,uint256,uint256,address,uint256,uint256,uint256)": TypedContractEvent<
       AafterGameWonEvent.InputTuple,
       AafterGameWonEvent.OutputTuple,
       AafterGameWonEvent.OutputObject

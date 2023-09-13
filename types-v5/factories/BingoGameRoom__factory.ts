@@ -325,9 +325,19 @@ const _abi = [
         type: "uint32",
       },
       {
+        internalType: "uint256",
+        name: "joinAmount",
+        type: "uint256",
+      },
+      {
         internalType: "address",
         name: "winner",
         type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "winAmount",
+        type: "uint256",
       },
       {
         components: [
@@ -474,74 +484,6 @@ const _abi = [
         internalType: "struct IBingoRoom.RecentGame[]",
         name: "games",
         type: "tuple[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "gameId",
-        type: "uint256",
-      },
-    ],
-    name: "recentGameById",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "uint256",
-            name: "gameId",
-            type: "uint256",
-          },
-          {
-            internalType: "string",
-            name: "status",
-            type: "string",
-          },
-          {
-            internalType: "address",
-            name: "winner",
-            type: "address",
-          },
-          {
-            internalType: "uint8[][]",
-            name: "cardNumbers",
-            type: "uint8[][]",
-          },
-          {
-            internalType: "uint8[]",
-            name: "selectedNumbers",
-            type: "uint8[]",
-          },
-          {
-            components: [
-              {
-                internalType: "address",
-                name: "user",
-                type: "address",
-              },
-              {
-                internalType: "uint256",
-                name: "cardId",
-                type: "uint256",
-              },
-              {
-                internalType: "bool",
-                name: "isAbandoned",
-                type: "bool",
-              },
-            ],
-            internalType: "struct IBingoRoom.Participant[]",
-            name: "players",
-            type: "tuple[]",
-          },
-        ],
-        internalType: "struct IBingoRoom.RecentGame",
-        name: "",
-        type: "tuple",
       },
     ],
     stateMutability: "view",

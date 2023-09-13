@@ -28,6 +28,7 @@ export interface IBingoFeeInterface extends utils.Interface {
     "afterGameTimeOut(uint256)": FunctionFragment;
     "afterGameWon(uint256,address)": FunctionFragment;
     "beforeJoin(address)": FunctionFragment;
+    "getGameFee(uint256)": FunctionFragment;
     "leave(address)": FunctionFragment;
   };
 
@@ -36,6 +37,7 @@ export interface IBingoFeeInterface extends utils.Interface {
       | "afterGameTimeOut"
       | "afterGameWon"
       | "beforeJoin"
+      | "getGameFee"
       | "leave"
   ): FunctionFragment;
 
@@ -52,6 +54,10 @@ export interface IBingoFeeInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
+    functionFragment: "getGameFee",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "leave",
     values: [PromiseOrValue<string>]
   ): string;
@@ -65,6 +71,7 @@ export interface IBingoFeeInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "beforeJoin", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getGameFee", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "leave", data: BytesLike): Result;
 
   events: {};
@@ -113,6 +120,11 @@ export interface IBingoFee extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    getGameFee(
+      gameId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber, BigNumber, BigNumber]>;
+
     leave(
       to: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -134,6 +146,11 @@ export interface IBingoFee extends BaseContract {
     from: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
+
+  getGameFee(
+    gameId: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<[BigNumber, BigNumber, BigNumber]>;
 
   leave(
     to: PromiseOrValue<string>,
@@ -157,6 +174,11 @@ export interface IBingoFee extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    getGameFee(
+      gameId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber, BigNumber, BigNumber]>;
+
     leave(to: PromiseOrValue<string>, overrides?: CallOverrides): Promise<void>;
   };
 
@@ -177,6 +199,11 @@ export interface IBingoFee extends BaseContract {
     beforeJoin(
       from: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    getGameFee(
+      gameId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     leave(
@@ -200,6 +227,11 @@ export interface IBingoFee extends BaseContract {
     beforeJoin(
       from: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    getGameFee(
+      gameId: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
     leave(

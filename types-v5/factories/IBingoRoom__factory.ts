@@ -299,9 +299,19 @@ const _abi = [
         type: "uint32",
       },
       {
+        internalType: "uint256",
+        name: "joinAmount",
+        type: "uint256",
+      },
+      {
         internalType: "address",
         name: "winner",
         type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "winAmount",
+        type: "uint256",
       },
       {
         components: [
