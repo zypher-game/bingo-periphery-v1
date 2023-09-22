@@ -461,7 +461,7 @@ export interface BingoGameRoom extends BaseContract {
       ] & {
         startedAt: bigint;
         endedAt: bigint;
-        joinAmount: bigint;
+        gameInputPer: bigint;
         winner: string;
         winAmount: bigint;
         players: IBingoRoom.ParticipantStructOutput[];
@@ -605,7 +605,7 @@ export interface BingoGameRoom extends BaseContract {
       ] & {
         startedAt: bigint;
         endedAt: bigint;
-        joinAmount: bigint;
+        gameInputPer: bigint;
         winner: string;
         winAmount: bigint;
         players: IBingoRoom.ParticipantStructOutput[];

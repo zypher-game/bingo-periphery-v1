@@ -325,7 +325,7 @@ const _abi = [
       },
       {
         internalType: "uint256",
-        name: "joinAmount",
+        name: "gameInputPer",
         type: "uint256",
       },
       {

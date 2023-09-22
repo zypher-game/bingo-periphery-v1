@@ -10,7 +10,7 @@ interface IBingoToken {
 
     function transfer(address to_, uint256 amount_) external returns (bool);
 
-    function getDebt() external view returns (uint256);
+    function getResidue() external view returns (uint256);
 
     function totalSupply() external view returns (uint256);
 

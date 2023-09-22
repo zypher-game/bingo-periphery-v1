@@ -29,16 +29,6 @@ import type {
 } from "./common";
 
 export declare namespace ZkBingoPoints {
-  export type ClaimConfStruct = {
-    ordinary: PromiseOrValue<BigNumberish>;
-    princely: PromiseOrValue<BigNumberish>;
-  };
-
-  export type ClaimConfStructOutput = [BigNumber, BigNumber] & {
-    ordinary: BigNumber;
-    princely: BigNumber;
-  };
-
   export type SwapInfoStruct = {
     amount: PromiseOrValue<BigNumberish>;
     discount: PromiseOrValue<BigNumberish>;
@@ -54,29 +44,27 @@ export interface ZkBingoPointsInterface extends utils.Interface {
   functions: {
     "CONSECUTIVE_TIMES()": FunctionFragment;
     "DEFAULT_ADMIN_ROLE()": FunctionFragment;
-    "FREE_DURATION()": FunctionFragment;
-    "blindBoxAddress()": FunctionFragment;
-    "claim()": FunctionFragment;
-    "claimEnable()": FunctionFragment;
-    "claimStartTime()": FunctionFragment;
+    "bingoToken()": FunctionFragment;
     "dayClaimed(string,address)": FunctionFragment;
+    "freeClaim()": FunctionFragment;
+    "freeClaimEnable()": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
     "grantRole(bytes32,address)": FunctionFragment;
     "hasRole(bytes32,address)": FunctionFragment;
-    "initialize(address,address)": FunctionFragment;
+    "initialize(address)": FunctionFragment;
     "nativeSwap(address,uint256)": FunctionFragment;
     "nativeWithdrawTo(address,uint256)": FunctionFragment;
-    "pointsToken()": FunctionFragment;
     "proxiableUUID()": FunctionFragment;
     "renounceRole(bytes32,address)": FunctionFragment;
     "revokeRole(bytes32,address)": FunctionFragment;
-    "setBlindBoxAddress(address)": FunctionFragment;
-    "setClaimConf(uint8,(uint256,uint256)[])": FunctionFragment;
-    "setClaimEnable(bool)": FunctionFragment;
-    "setClaimStartTime(uint256)": FunctionFragment;
-    "setPointsToken(address)": FunctionFragment;
+    "setBingoToken(address)": FunctionFragment;
+    "setClaimConf(uint8,uint256[])": FunctionFragment;
+    "setFreeClaimEnable(bool)": FunctionFragment;
+    "setSignInClaimEnable(bool)": FunctionFragment;
     "setSwapInfo(uint256,(uint256,uint256)[])": FunctionFragment;
     "setSwapRatio(address,uint8,uint256)": FunctionFragment;
+    "signInClaim()": FunctionFragment;
+    "signInClaimEnable()": FunctionFragment;
     "signInInfos(address)": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "swapInfos(uint256)": FunctionFragment;
@@ -91,29 +79,27 @@ export interface ZkBingoPointsInterface extends utils.Interface {
     nameOrSignatureOrTopic:
       | "CONSECUTIVE_TIMES"
       | "DEFAULT_ADMIN_ROLE"
-      | "FREE_DURATION"
-      | "blindBoxAddress"
-      | "claim"
-      | "claimEnable"
-      | "claimStartTime"
+      | "bingoToken"
       | "dayClaimed"
+      | "freeClaim"
+      | "freeClaimEnable"
       | "getRoleAdmin"
       | "grantRole"
       | "hasRole"
       | "initialize"
       | "nativeSwap"
       | "nativeWithdrawTo"
-      | "pointsToken"
       | "proxiableUUID"
       | "renounceRole"
       | "revokeRole"
-      | "setBlindBoxAddress"
+      | "setBingoToken"
       | "setClaimConf"
-      | "setClaimEnable"
-      | "setClaimStartTime"
-      | "setPointsToken"
+      | "setFreeClaimEnable"
+      | "setSignInClaimEnable"
       | "setSwapInfo"
       | "setSwapRatio"
+      | "signInClaim"
+      | "signInClaimEnable"
       | "signInInfos"
       | "supportsInterface"
       | "swapInfos"
@@ -133,25 +119,17 @@ export interface ZkBingoPointsInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "FREE_DURATION",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "blindBoxAddress",
-    values?: undefined
-  ): string;
-  encodeFunctionData(functionFragment: "claim", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "claimEnable",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "claimStartTime",
+    functionFragment: "bingoToken",
     values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "dayClaimed",
     values: [PromiseOrValue<string>, PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(functionFragment: "freeClaim", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "freeClaimEnable",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "getRoleAdmin",
@@ -167,7 +145,7 @@ export interface ZkBingoPointsInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "initialize",
-    values: [PromiseOrValue<string>, PromiseOrValue<string>]
+    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "nativeSwap",
@@ -176,10 +154,6 @@ export interface ZkBingoPointsInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "nativeWithdrawTo",
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "pointsToken",
-    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "proxiableUUID",
@@ -194,24 +168,20 @@ export interface ZkBingoPointsInterface extends utils.Interface {
     values: [PromiseOrValue<BytesLike>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "setBlindBoxAddress",
+    functionFragment: "setBingoToken",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "setClaimConf",
-    values: [PromiseOrValue<BigNumberish>, ZkBingoPoints.ClaimConfStruct[]]
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>[]]
   ): string;
   encodeFunctionData(
-    functionFragment: "setClaimEnable",
+    functionFragment: "setFreeClaimEnable",
     values: [PromiseOrValue<boolean>]
   ): string;
   encodeFunctionData(
-    functionFragment: "setClaimStartTime",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setPointsToken",
-    values: [PromiseOrValue<string>]
+    functionFragment: "setSignInClaimEnable",
+    values: [PromiseOrValue<boolean>]
   ): string;
   encodeFunctionData(
     functionFragment: "setSwapInfo",
@@ -224,6 +194,14 @@ export interface ZkBingoPointsInterface extends utils.Interface {
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BigNumberish>
     ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "signInClaim",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "signInClaimEnable",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "signInInfos",
@@ -270,24 +248,13 @@ export interface ZkBingoPointsInterface extends utils.Interface {
     functionFragment: "DEFAULT_ADMIN_ROLE",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "FREE_DURATION",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "blindBoxAddress",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "claim", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "claimEnable",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "claimStartTime",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "bingoToken", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "dayClaimed", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "freeClaim", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "freeClaimEnable",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "getRoleAdmin",
     data: BytesLike
@@ -301,10 +268,6 @@ export interface ZkBingoPointsInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "pointsToken",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "proxiableUUID",
     data: BytesLike
   ): Result;
@@ -314,7 +277,7 @@ export interface ZkBingoPointsInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "setBlindBoxAddress",
+    functionFragment: "setBingoToken",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -322,15 +285,11 @@ export interface ZkBingoPointsInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setClaimEnable",
+    functionFragment: "setFreeClaimEnable",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setClaimStartTime",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setPointsToken",
+    functionFragment: "setSignInClaimEnable",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -339,6 +298,14 @@ export interface ZkBingoPointsInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "setSwapRatio",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "signInClaim",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "signInClaimEnable",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -524,23 +491,19 @@ export interface ZkBingoPoints extends BaseContract {
 
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<[string]>;
 
-    FREE_DURATION(overrides?: CallOverrides): Promise<[BigNumber]>;
-
-    blindBoxAddress(overrides?: CallOverrides): Promise<[string]>;
-
-    claim(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    claimEnable(overrides?: CallOverrides): Promise<[boolean]>;
-
-    claimStartTime(overrides?: CallOverrides): Promise<[BigNumber]>;
+    bingoToken(overrides?: CallOverrides): Promise<[string]>;
 
     dayClaimed(
       arg0: PromiseOrValue<string>,
       arg1: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[boolean]>;
+
+    freeClaim(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    freeClaimEnable(overrides?: CallOverrides): Promise<[boolean]>;
 
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,
@@ -560,8 +523,7 @@ export interface ZkBingoPoints extends BaseContract {
     ): Promise<[boolean]>;
 
     initialize(
-      pointsToken_: PromiseOrValue<string>,
-      blindBoxAddress_: PromiseOrValue<string>,
+      bingoToken_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -577,8 +539,6 @@ export interface ZkBingoPoints extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    pointsToken(overrides?: CallOverrides): Promise<[string]>;
-
     proxiableUUID(overrides?: CallOverrides): Promise<[string]>;
 
     renounceRole(
@@ -593,29 +553,24 @@ export interface ZkBingoPoints extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    setBlindBoxAddress(
-      blindBoxAddress_: PromiseOrValue<string>,
+    setBingoToken(
+      bingoToken_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     setClaimConf(
       claimType: PromiseOrValue<BigNumberish>,
-      claimConf_: ZkBingoPoints.ClaimConfStruct[],
+      claimConf_: PromiseOrValue<BigNumberish>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    setClaimEnable(
-      claimEnable_: PromiseOrValue<boolean>,
+    setFreeClaimEnable(
+      freeClaimEnable_: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    setClaimStartTime(
-      claimStartTime_: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    setPointsToken(
-      pointsToken_: PromiseOrValue<string>,
+    setSignInClaimEnable(
+      signInClaimEnable_: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -631,6 +586,12 @@ export interface ZkBingoPoints extends BaseContract {
       ratio_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
+
+    signInClaim(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    signInClaimEnable(overrides?: CallOverrides): Promise<[boolean]>;
 
     signInInfos(
       arg0: PromiseOrValue<string>,
@@ -683,23 +644,19 @@ export interface ZkBingoPoints extends BaseContract {
 
   DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
-  FREE_DURATION(overrides?: CallOverrides): Promise<BigNumber>;
-
-  blindBoxAddress(overrides?: CallOverrides): Promise<string>;
-
-  claim(
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  claimEnable(overrides?: CallOverrides): Promise<boolean>;
-
-  claimStartTime(overrides?: CallOverrides): Promise<BigNumber>;
+  bingoToken(overrides?: CallOverrides): Promise<string>;
 
   dayClaimed(
     arg0: PromiseOrValue<string>,
     arg1: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<boolean>;
+
+  freeClaim(
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  freeClaimEnable(overrides?: CallOverrides): Promise<boolean>;
 
   getRoleAdmin(
     role: PromiseOrValue<BytesLike>,
@@ -719,8 +676,7 @@ export interface ZkBingoPoints extends BaseContract {
   ): Promise<boolean>;
 
   initialize(
-    pointsToken_: PromiseOrValue<string>,
-    blindBoxAddress_: PromiseOrValue<string>,
+    bingoToken_: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -736,8 +692,6 @@ export interface ZkBingoPoints extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  pointsToken(overrides?: CallOverrides): Promise<string>;
-
   proxiableUUID(overrides?: CallOverrides): Promise<string>;
 
   renounceRole(
@@ -752,29 +706,24 @@ export interface ZkBingoPoints extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  setBlindBoxAddress(
-    blindBoxAddress_: PromiseOrValue<string>,
+  setBingoToken(
+    bingoToken_: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   setClaimConf(
     claimType: PromiseOrValue<BigNumberish>,
-    claimConf_: ZkBingoPoints.ClaimConfStruct[],
+    claimConf_: PromiseOrValue<BigNumberish>[],
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  setClaimEnable(
-    claimEnable_: PromiseOrValue<boolean>,
+  setFreeClaimEnable(
+    freeClaimEnable_: PromiseOrValue<boolean>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  setClaimStartTime(
-    claimStartTime_: PromiseOrValue<BigNumberish>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  setPointsToken(
-    pointsToken_: PromiseOrValue<string>,
+  setSignInClaimEnable(
+    signInClaimEnable_: PromiseOrValue<boolean>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -790,6 +739,12 @@ export interface ZkBingoPoints extends BaseContract {
     ratio_: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
+
+  signInClaim(
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  signInClaimEnable(overrides?: CallOverrides): Promise<boolean>;
 
   signInInfos(
     arg0: PromiseOrValue<string>,
@@ -842,21 +797,17 @@ export interface ZkBingoPoints extends BaseContract {
 
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<string>;
 
-    FREE_DURATION(overrides?: CallOverrides): Promise<BigNumber>;
-
-    blindBoxAddress(overrides?: CallOverrides): Promise<string>;
-
-    claim(overrides?: CallOverrides): Promise<void>;
-
-    claimEnable(overrides?: CallOverrides): Promise<boolean>;
-
-    claimStartTime(overrides?: CallOverrides): Promise<BigNumber>;
+    bingoToken(overrides?: CallOverrides): Promise<string>;
 
     dayClaimed(
       arg0: PromiseOrValue<string>,
       arg1: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<boolean>;
+
+    freeClaim(overrides?: CallOverrides): Promise<void>;
+
+    freeClaimEnable(overrides?: CallOverrides): Promise<boolean>;
 
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,
@@ -876,8 +827,7 @@ export interface ZkBingoPoints extends BaseContract {
     ): Promise<boolean>;
 
     initialize(
-      pointsToken_: PromiseOrValue<string>,
-      blindBoxAddress_: PromiseOrValue<string>,
+      bingoToken_: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -893,8 +843,6 @@ export interface ZkBingoPoints extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    pointsToken(overrides?: CallOverrides): Promise<string>;
-
     proxiableUUID(overrides?: CallOverrides): Promise<string>;
 
     renounceRole(
@@ -909,29 +857,24 @@ export interface ZkBingoPoints extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setBlindBoxAddress(
-      blindBoxAddress_: PromiseOrValue<string>,
+    setBingoToken(
+      bingoToken_: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
     setClaimConf(
       claimType: PromiseOrValue<BigNumberish>,
-      claimConf_: ZkBingoPoints.ClaimConfStruct[],
+      claimConf_: PromiseOrValue<BigNumberish>[],
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setClaimEnable(
-      claimEnable_: PromiseOrValue<boolean>,
+    setFreeClaimEnable(
+      freeClaimEnable_: PromiseOrValue<boolean>,
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setClaimStartTime(
-      claimStartTime_: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    setPointsToken(
-      pointsToken_: PromiseOrValue<string>,
+    setSignInClaimEnable(
+      signInClaimEnable_: PromiseOrValue<boolean>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -947,6 +890,10 @@ export interface ZkBingoPoints extends BaseContract {
       ratio_: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    signInClaim(overrides?: CallOverrides): Promise<void>;
+
+    signInClaimEnable(overrides?: CallOverrides): Promise<boolean>;
 
     signInInfos(
       arg0: PromiseOrValue<string>,
@@ -1096,23 +1043,19 @@ export interface ZkBingoPoints extends BaseContract {
 
     DEFAULT_ADMIN_ROLE(overrides?: CallOverrides): Promise<BigNumber>;
 
-    FREE_DURATION(overrides?: CallOverrides): Promise<BigNumber>;
-
-    blindBoxAddress(overrides?: CallOverrides): Promise<BigNumber>;
-
-    claim(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    claimEnable(overrides?: CallOverrides): Promise<BigNumber>;
-
-    claimStartTime(overrides?: CallOverrides): Promise<BigNumber>;
+    bingoToken(overrides?: CallOverrides): Promise<BigNumber>;
 
     dayClaimed(
       arg0: PromiseOrValue<string>,
       arg1: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
+
+    freeClaim(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    freeClaimEnable(overrides?: CallOverrides): Promise<BigNumber>;
 
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,
@@ -1132,8 +1075,7 @@ export interface ZkBingoPoints extends BaseContract {
     ): Promise<BigNumber>;
 
     initialize(
-      pointsToken_: PromiseOrValue<string>,
-      blindBoxAddress_: PromiseOrValue<string>,
+      bingoToken_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1149,8 +1091,6 @@ export interface ZkBingoPoints extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    pointsToken(overrides?: CallOverrides): Promise<BigNumber>;
-
     proxiableUUID(overrides?: CallOverrides): Promise<BigNumber>;
 
     renounceRole(
@@ -1165,29 +1105,24 @@ export interface ZkBingoPoints extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    setBlindBoxAddress(
-      blindBoxAddress_: PromiseOrValue<string>,
+    setBingoToken(
+      bingoToken_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     setClaimConf(
       claimType: PromiseOrValue<BigNumberish>,
-      claimConf_: ZkBingoPoints.ClaimConfStruct[],
+      claimConf_: PromiseOrValue<BigNumberish>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    setClaimEnable(
-      claimEnable_: PromiseOrValue<boolean>,
+    setFreeClaimEnable(
+      freeClaimEnable_: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    setClaimStartTime(
-      claimStartTime_: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    setPointsToken(
-      pointsToken_: PromiseOrValue<string>,
+    setSignInClaimEnable(
+      signInClaimEnable_: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1203,6 +1138,12 @@ export interface ZkBingoPoints extends BaseContract {
       ratio_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
+
+    signInClaim(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    signInClaimEnable(overrides?: CallOverrides): Promise<BigNumber>;
 
     signInInfos(
       arg0: PromiseOrValue<string>,
@@ -1256,23 +1197,19 @@ export interface ZkBingoPoints extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    FREE_DURATION(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    blindBoxAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    claim(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    claimEnable(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    claimStartTime(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    bingoToken(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     dayClaimed(
       arg0: PromiseOrValue<string>,
       arg1: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
+
+    freeClaim(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    freeClaimEnable(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,
@@ -1292,8 +1229,7 @@ export interface ZkBingoPoints extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     initialize(
-      pointsToken_: PromiseOrValue<string>,
-      blindBoxAddress_: PromiseOrValue<string>,
+      bingoToken_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1309,8 +1245,6 @@ export interface ZkBingoPoints extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    pointsToken(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     proxiableUUID(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     renounceRole(
@@ -1325,29 +1259,24 @@ export interface ZkBingoPoints extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    setBlindBoxAddress(
-      blindBoxAddress_: PromiseOrValue<string>,
+    setBingoToken(
+      bingoToken_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     setClaimConf(
       claimType: PromiseOrValue<BigNumberish>,
-      claimConf_: ZkBingoPoints.ClaimConfStruct[],
+      claimConf_: PromiseOrValue<BigNumberish>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    setClaimEnable(
-      claimEnable_: PromiseOrValue<boolean>,
+    setFreeClaimEnable(
+      freeClaimEnable_: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    setClaimStartTime(
-      claimStartTime_: PromiseOrValue<BigNumberish>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    setPointsToken(
-      pointsToken_: PromiseOrValue<string>,
+    setSignInClaimEnable(
+      signInClaimEnable_: PromiseOrValue<boolean>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -1363,6 +1292,12 @@ export interface ZkBingoPoints extends BaseContract {
       ratio_: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
+
+    signInClaim(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    signInClaimEnable(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     signInInfos(
       arg0: PromiseOrValue<string>,

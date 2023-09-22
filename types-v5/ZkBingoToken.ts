@@ -41,6 +41,8 @@ export interface ZkBingoTokenInterface extends utils.Interface {
     "decimals()": FunctionFragment;
     "decreaseAllowance(address,uint256)": FunctionFragment;
     "getDebt()": FunctionFragment;
+    "getRepay()": FunctionFragment;
+    "getResidue()": FunctionFragment;
     "getRoleAdmin(bytes32)": FunctionFragment;
     "grantRole(bytes32,address)": FunctionFragment;
     "hasRole(bytes32,address)": FunctionFragment;
@@ -74,6 +76,8 @@ export interface ZkBingoTokenInterface extends utils.Interface {
       | "decimals"
       | "decreaseAllowance"
       | "getDebt"
+      | "getRepay"
+      | "getResidue"
       | "getRoleAdmin"
       | "grantRole"
       | "hasRole"
@@ -129,6 +133,11 @@ export interface ZkBingoTokenInterface extends utils.Interface {
     values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(functionFragment: "getDebt", values?: undefined): string;
+  encodeFunctionData(functionFragment: "getRepay", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "getResidue",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "getRoleAdmin",
     values: [PromiseOrValue<BytesLike>]
@@ -224,6 +233,8 @@ export interface ZkBingoTokenInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getDebt", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getRepay", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getResidue", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getRoleAdmin",
     data: BytesLike
@@ -457,6 +468,10 @@ export interface ZkBingoToken extends BaseContract {
 
     getDebt(overrides?: CallOverrides): Promise<[BigNumber]>;
 
+    getRepay(overrides?: CallOverrides): Promise<[BigNumber]>;
+
+    getResidue(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
@@ -590,6 +605,10 @@ export interface ZkBingoToken extends BaseContract {
 
   getDebt(overrides?: CallOverrides): Promise<BigNumber>;
 
+  getRepay(overrides?: CallOverrides): Promise<BigNumber>;
+
+  getResidue(overrides?: CallOverrides): Promise<BigNumber>;
+
   getRoleAdmin(
     role: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
@@ -722,6 +741,10 @@ export interface ZkBingoToken extends BaseContract {
     ): Promise<boolean>;
 
     getDebt(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getRepay(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getResidue(overrides?: CallOverrides): Promise<BigNumber>;
 
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,
@@ -938,6 +961,10 @@ export interface ZkBingoToken extends BaseContract {
 
     getDebt(overrides?: CallOverrides): Promise<BigNumber>;
 
+    getRepay(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getResidue(overrides?: CallOverrides): Promise<BigNumber>;
+
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
@@ -1073,6 +1100,10 @@ export interface ZkBingoToken extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     getDebt(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getRepay(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getResidue(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getRoleAdmin(
       role: PromiseOrValue<BytesLike>,

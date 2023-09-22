@@ -672,7 +672,7 @@ export interface ZkBingoLobby extends BaseContract {
       ] & {
         startedAt: number;
         endedAt: number;
-        joinAmount: BigNumber;
+        gameInputPer: BigNumber;
         winner: string;
         winAmount: BigNumber;
         players: IBingoRoom.ParticipantStructOutput[];
@@ -879,7 +879,7 @@ export interface ZkBingoLobby extends BaseContract {
     ] & {
       startedAt: number;
       endedAt: number;
-      joinAmount: BigNumber;
+      gameInputPer: BigNumber;
       winner: string;
       winAmount: BigNumber;
       players: IBingoRoom.ParticipantStructOutput[];
@@ -1076,7 +1076,7 @@ export interface ZkBingoLobby extends BaseContract {
       ] & {
         startedAt: number;
         endedAt: number;
-        joinAmount: BigNumber;
+        gameInputPer: BigNumber;
         winner: string;
         winAmount: BigNumber;
         players: IBingoRoom.ParticipantStructOutput[];

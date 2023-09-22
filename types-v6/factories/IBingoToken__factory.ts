@@ -27,7 +27,7 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "getDebt",
+    name: "getResidue",
     outputs: [
       {
         internalType: "uint256",

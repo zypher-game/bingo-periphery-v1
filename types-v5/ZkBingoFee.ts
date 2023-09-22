@@ -40,12 +40,14 @@ export interface ZkBingoFeeInterface extends utils.Interface {
     "gameInputPer()": FunctionFragment;
     "getGameFee(uint256)": FunctionFragment;
     "getGameFeeRatio()": FunctionFragment;
+    "getGameInputPer()": FunctionFragment;
     "initialize(address,address)": FunctionFragment;
     "leave(address)": FunctionFragment;
     "lobby()": FunctionFragment;
     "owner()": FunctionFragment;
     "proxiableUUID()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
+    "setBingoToken(address)": FunctionFragment;
     "setGameInputPer(uint256)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
     "upgradeTo(address)": FunctionFragment;
@@ -65,12 +67,14 @@ export interface ZkBingoFeeInterface extends utils.Interface {
       | "gameInputPer"
       | "getGameFee"
       | "getGameFeeRatio"
+      | "getGameInputPer"
       | "initialize"
       | "leave"
       | "lobby"
       | "owner"
       | "proxiableUUID"
       | "renounceOwnership"
+      | "setBingoToken"
       | "setGameInputPer"
       | "transferOwnership"
       | "upgradeTo"
@@ -113,6 +117,10 @@ export interface ZkBingoFeeInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "getGameInputPer",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "initialize",
     values: [PromiseOrValue<string>, PromiseOrValue<string>]
   ): string;
@@ -129,6 +137,10 @@ export interface ZkBingoFeeInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setBingoToken",
+    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "setGameInputPer",
@@ -173,6 +185,10 @@ export interface ZkBingoFeeInterface extends utils.Interface {
     functionFragment: "getGameFeeRatio",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(
+    functionFragment: "getGameInputPer",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "leave", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "lobby", data: BytesLike): Result;
@@ -183,6 +199,10 @@ export interface ZkBingoFeeInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setBingoToken",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -377,6 +397,8 @@ export interface ZkBingoFee extends BaseContract {
 
     getGameFeeRatio(overrides?: CallOverrides): Promise<[BigNumber]>;
 
+    getGameInputPer(overrides?: CallOverrides): Promise<[BigNumber]>;
+
     initialize(
       lobby_: PromiseOrValue<string>,
       bingoToken_: PromiseOrValue<string>,
@@ -395,6 +417,11 @@ export interface ZkBingoFee extends BaseContract {
     proxiableUUID(overrides?: CallOverrides): Promise<[string]>;
 
     renounceOwnership(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    setBingoToken(
+      bingoToken_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -480,6 +507,8 @@ export interface ZkBingoFee extends BaseContract {
 
   getGameFeeRatio(overrides?: CallOverrides): Promise<BigNumber>;
 
+  getGameInputPer(overrides?: CallOverrides): Promise<BigNumber>;
+
   initialize(
     lobby_: PromiseOrValue<string>,
     bingoToken_: PromiseOrValue<string>,
@@ -498,6 +527,11 @@ export interface ZkBingoFee extends BaseContract {
   proxiableUUID(overrides?: CallOverrides): Promise<string>;
 
   renounceOwnership(
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  setBingoToken(
+    bingoToken_: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -583,6 +617,8 @@ export interface ZkBingoFee extends BaseContract {
 
     getGameFeeRatio(overrides?: CallOverrides): Promise<BigNumber>;
 
+    getGameInputPer(overrides?: CallOverrides): Promise<BigNumber>;
+
     initialize(
       lobby_: PromiseOrValue<string>,
       bingoToken_: PromiseOrValue<string>,
@@ -598,6 +634,11 @@ export interface ZkBingoFee extends BaseContract {
     proxiableUUID(overrides?: CallOverrides): Promise<string>;
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
+
+    setBingoToken(
+      bingoToken_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     setGameInputPer(
       inputPer: PromiseOrValue<BigNumberish>,
@@ -729,6 +770,8 @@ export interface ZkBingoFee extends BaseContract {
 
     getGameFeeRatio(overrides?: CallOverrides): Promise<BigNumber>;
 
+    getGameInputPer(overrides?: CallOverrides): Promise<BigNumber>;
+
     initialize(
       lobby_: PromiseOrValue<string>,
       bingoToken_: PromiseOrValue<string>,
@@ -747,6 +790,11 @@ export interface ZkBingoFee extends BaseContract {
     proxiableUUID(overrides?: CallOverrides): Promise<BigNumber>;
 
     renounceOwnership(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    setBingoToken(
+      bingoToken_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -815,6 +863,8 @@ export interface ZkBingoFee extends BaseContract {
 
     getGameFeeRatio(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    getGameInputPer(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     initialize(
       lobby_: PromiseOrValue<string>,
       bingoToken_: PromiseOrValue<string>,
@@ -833,6 +883,11 @@ export interface ZkBingoFee extends BaseContract {
     proxiableUUID(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     renounceOwnership(
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    setBingoToken(
+      bingoToken_: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

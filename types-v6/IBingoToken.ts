@@ -25,7 +25,7 @@ export interface IBingoTokenInterface extends Interface {
   getFunction(
     nameOrSignature:
       | "balanceOf"
-      | "getDebt"
+      | "getResidue"
       | "mintTo"
       | "repayment"
       | "totalSupply"
@@ -37,7 +37,10 @@ export interface IBingoTokenInterface extends Interface {
     functionFragment: "balanceOf",
     values: [AddressLike]
   ): string;
-  encodeFunctionData(functionFragment: "getDebt", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "getResidue",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "mintTo",
     values: [AddressLike, BigNumberish, BigNumberish]
@@ -60,7 +63,7 @@ export interface IBingoTokenInterface extends Interface {
   ): string;
 
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "getDebt", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getResidue", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "mintTo", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "repayment", data: BytesLike): Result;
   decodeFunctionResult(
@@ -119,7 +122,7 @@ export interface IBingoToken extends BaseContract {
 
   balanceOf: TypedContractMethod<[account: AddressLike], [bigint], "view">;
 
-  getDebt: TypedContractMethod<[], [bigint], "view">;
+  getResidue: TypedContractMethod<[], [bigint], "view">;
 
   mintTo: TypedContractMethod<
     [to_: AddressLike, amount_: BigNumberish, debt_: BigNumberish],
@@ -151,7 +154,7 @@ export interface IBingoToken extends BaseContract {
     nameOrSignature: "balanceOf"
   ): TypedContractMethod<[account: AddressLike], [bigint], "view">;
   getFunction(
-    nameOrSignature: "getDebt"
+    nameOrSignature: "getResidue"
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "mintTo"

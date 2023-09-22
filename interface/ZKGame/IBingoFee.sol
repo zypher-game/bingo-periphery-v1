@@ -3,6 +3,8 @@ pragma solidity ^0.8.4;
 
 interface IBingoFee {
 
+    function getGameInputPer() external view returns(uint256);
+
     function getGameFee(uint256 gameId) external view returns(uint256, uint256, uint256);
 
     function beforeJoin(address from) external;

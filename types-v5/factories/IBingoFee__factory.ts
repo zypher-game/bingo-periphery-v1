@@ -87,6 +87,19 @@ const _abi = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "getGameInputPer",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "address",

@@ -26,7 +26,7 @@ import type {
 export interface IBingoTokenInterface extends utils.Interface {
   functions: {
     "balanceOf(address)": FunctionFragment;
-    "getDebt()": FunctionFragment;
+    "getResidue()": FunctionFragment;
     "mintTo(address,uint256,uint256)": FunctionFragment;
     "repayment(uint256)": FunctionFragment;
     "totalSupply()": FunctionFragment;
@@ -37,7 +37,7 @@ export interface IBingoTokenInterface extends utils.Interface {
   getFunction(
     nameOrSignatureOrTopic:
       | "balanceOf"
-      | "getDebt"
+      | "getResidue"
       | "mintTo"
       | "repayment"
       | "totalSupply"
@@ -49,7 +49,10 @@ export interface IBingoTokenInterface extends utils.Interface {
     functionFragment: "balanceOf",
     values: [PromiseOrValue<string>]
   ): string;
-  encodeFunctionData(functionFragment: "getDebt", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "getResidue",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "mintTo",
     values: [
@@ -80,7 +83,7 @@ export interface IBingoTokenInterface extends utils.Interface {
   ): string;
 
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "getDebt", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getResidue", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "mintTo", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "repayment", data: BytesLike): Result;
   decodeFunctionResult(
@@ -128,7 +131,7 @@ export interface IBingoToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber]>;
 
-    getDebt(overrides?: CallOverrides): Promise<[BigNumber]>;
+    getResidue(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     mintTo(
       to_: PromiseOrValue<string>,
@@ -163,7 +166,7 @@ export interface IBingoToken extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
-  getDebt(overrides?: CallOverrides): Promise<BigNumber>;
+  getResidue(overrides?: CallOverrides): Promise<BigNumber>;
 
   mintTo(
     to_: PromiseOrValue<string>,
@@ -198,7 +201,7 @@ export interface IBingoToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getDebt(overrides?: CallOverrides): Promise<BigNumber>;
+    getResidue(overrides?: CallOverrides): Promise<BigNumber>;
 
     mintTo(
       to_: PromiseOrValue<string>,
@@ -236,7 +239,7 @@ export interface IBingoToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getDebt(overrides?: CallOverrides): Promise<BigNumber>;
+    getResidue(overrides?: CallOverrides): Promise<BigNumber>;
 
     mintTo(
       to_: PromiseOrValue<string>,
@@ -272,7 +275,7 @@ export interface IBingoToken extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    getDebt(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    getResidue(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     mintTo(
       to_: PromiseOrValue<string>,

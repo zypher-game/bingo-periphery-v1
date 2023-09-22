@@ -37,6 +37,8 @@ export interface ZkBingoTokenInterface extends Interface {
       | "decimals"
       | "decreaseAllowance"
       | "getDebt"
+      | "getRepay"
+      | "getResidue"
       | "getRoleAdmin"
       | "grantRole"
       | "hasRole"
@@ -102,6 +104,11 @@ export interface ZkBingoTokenInterface extends Interface {
     values: [AddressLike, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "getDebt", values?: undefined): string;
+  encodeFunctionData(functionFragment: "getRepay", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "getResidue",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "getRoleAdmin",
     values: [BytesLike]
@@ -189,6 +196,8 @@ export interface ZkBingoTokenInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getDebt", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getRepay", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getResidue", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getRoleAdmin",
     data: BytesLike
@@ -457,6 +466,10 @@ export interface ZkBingoToken extends BaseContract {
 
   getDebt: TypedContractMethod<[], [bigint], "view">;
 
+  getRepay: TypedContractMethod<[], [bigint], "view">;
+
+  getResidue: TypedContractMethod<[], [bigint], "view">;
+
   getRoleAdmin: TypedContractMethod<[role: BytesLike], [string], "view">;
 
   grantRole: TypedContractMethod<
@@ -589,6 +602,12 @@ export interface ZkBingoToken extends BaseContract {
   >;
   getFunction(
     nameOrSignature: "getDebt"
+  ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "getRepay"
+  ): TypedContractMethod<[], [bigint], "view">;
+  getFunction(
+    nameOrSignature: "getResidue"
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "getRoleAdmin"

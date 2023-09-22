@@ -356,6 +356,19 @@ const _abi = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "getGameInputPer",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "address",
@@ -428,6 +441,19 @@ const _abi = [
   {
     inputs: [],
     name: "renounceOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "bingoToken_",
+        type: "address",
+      },
+    ],
+    name: "setBingoToken",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

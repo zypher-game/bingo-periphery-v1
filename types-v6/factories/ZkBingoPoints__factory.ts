@@ -248,58 +248,12 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "FREE_DURATION",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "blindBoxAddress",
+    name: "bingoToken",
     outputs: [
       {
         internalType: "address",
         name: "",
         type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "claim",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "claimEnable",
-    outputs: [
-      {
-        internalType: "bool",
-        name: "",
-        type: "bool",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "claimStartTime",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
       },
     ],
     stateMutability: "view",
@@ -319,6 +273,26 @@ const _abi = [
       },
     ],
     name: "dayClaimed",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "freeClaim",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "freeClaimEnable",
     outputs: [
       {
         internalType: "bool",
@@ -394,12 +368,7 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "pointsToken_",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "blindBoxAddress_",
+        name: "bingoToken_",
         type: "address",
       },
     ],
@@ -442,19 +411,6 @@ const _abi = [
     name: "nativeWithdrawTo",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "pointsToken",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
     type: "function",
   },
   {
@@ -510,11 +466,11 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "blindBoxAddress_",
+        name: "bingoToken_",
         type: "address",
       },
     ],
-    name: "setBlindBoxAddress",
+    name: "setBingoToken",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -527,21 +483,9 @@ const _abi = [
         type: "uint8",
       },
       {
-        components: [
-          {
-            internalType: "uint256",
-            name: "ordinary",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256",
-            name: "princely",
-            type: "uint256",
-          },
-        ],
-        internalType: "struct ZkBingoPoints.ClaimConf[]",
+        internalType: "uint256[]",
         name: "claimConf_",
-        type: "tuple[]",
+        type: "uint256[]",
       },
     ],
     name: "setClaimConf",
@@ -553,11 +497,11 @@ const _abi = [
     inputs: [
       {
         internalType: "bool",
-        name: "claimEnable_",
+        name: "freeClaimEnable_",
         type: "bool",
       },
     ],
-    name: "setClaimEnable",
+    name: "setFreeClaimEnable",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -565,25 +509,12 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "uint256",
-        name: "claimStartTime_",
-        type: "uint256",
+        internalType: "bool",
+        name: "signInClaimEnable_",
+        type: "bool",
       },
     ],
-    name: "setClaimStartTime",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "pointsToken_",
-        type: "address",
-      },
-    ],
-    name: "setPointsToken",
+    name: "setSignInClaimEnable",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -639,6 +570,26 @@ const _abi = [
     name: "setSwapRatio",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "signInClaim",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "signInClaimEnable",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
     type: "function",
   },
   {

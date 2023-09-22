@@ -24,16 +24,6 @@ import type {
 } from "./common";
 
 export declare namespace ZkBingoPoints {
-  export type ClaimConfStruct = {
-    ordinary: BigNumberish;
-    princely: BigNumberish;
-  };
-
-  export type ClaimConfStructOutput = [ordinary: bigint, princely: bigint] & {
-    ordinary: bigint;
-    princely: bigint;
-  };
-
   export type SwapInfoStruct = { amount: BigNumberish; discount: BigNumberish };
 
   export type SwapInfoStructOutput = [amount: bigint, discount: bigint] & {
@@ -47,29 +37,27 @@ export interface ZkBingoPointsInterface extends Interface {
     nameOrSignature:
       | "CONSECUTIVE_TIMES"
       | "DEFAULT_ADMIN_ROLE"
-      | "FREE_DURATION"
-      | "blindBoxAddress"
-      | "claim"
-      | "claimEnable"
-      | "claimStartTime"
+      | "bingoToken"
       | "dayClaimed"
+      | "freeClaim"
+      | "freeClaimEnable"
       | "getRoleAdmin"
       | "grantRole"
       | "hasRole"
       | "initialize"
       | "nativeSwap"
       | "nativeWithdrawTo"
-      | "pointsToken"
       | "proxiableUUID"
       | "renounceRole"
       | "revokeRole"
-      | "setBlindBoxAddress"
+      | "setBingoToken"
       | "setClaimConf"
-      | "setClaimEnable"
-      | "setClaimStartTime"
-      | "setPointsToken"
+      | "setFreeClaimEnable"
+      | "setSignInClaimEnable"
       | "setSwapInfo"
       | "setSwapRatio"
+      | "signInClaim"
+      | "signInClaimEnable"
       | "signInInfos"
       | "supportsInterface"
       | "swapInfos"
@@ -103,25 +91,17 @@ export interface ZkBingoPointsInterface extends Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "FREE_DURATION",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "blindBoxAddress",
-    values?: undefined
-  ): string;
-  encodeFunctionData(functionFragment: "claim", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "claimEnable",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "claimStartTime",
+    functionFragment: "bingoToken",
     values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "dayClaimed",
     values: [string, AddressLike]
+  ): string;
+  encodeFunctionData(functionFragment: "freeClaim", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "freeClaimEnable",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "getRoleAdmin",
@@ -137,7 +117,7 @@ export interface ZkBingoPointsInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "initialize",
-    values: [AddressLike, AddressLike]
+    values: [AddressLike]
   ): string;
   encodeFunctionData(
     functionFragment: "nativeSwap",
@@ -146,10 +126,6 @@ export interface ZkBingoPointsInterface extends Interface {
   encodeFunctionData(
     functionFragment: "nativeWithdrawTo",
     values: [AddressLike, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "pointsToken",
-    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "proxiableUUID",
@@ -164,24 +140,20 @@ export interface ZkBingoPointsInterface extends Interface {
     values: [BytesLike, AddressLike]
   ): string;
   encodeFunctionData(
-    functionFragment: "setBlindBoxAddress",
+    functionFragment: "setBingoToken",
     values: [AddressLike]
   ): string;
   encodeFunctionData(
     functionFragment: "setClaimConf",
-    values: [BigNumberish, ZkBingoPoints.ClaimConfStruct[]]
+    values: [BigNumberish, BigNumberish[]]
   ): string;
   encodeFunctionData(
-    functionFragment: "setClaimEnable",
+    functionFragment: "setFreeClaimEnable",
     values: [boolean]
   ): string;
   encodeFunctionData(
-    functionFragment: "setClaimStartTime",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setPointsToken",
-    values: [AddressLike]
+    functionFragment: "setSignInClaimEnable",
+    values: [boolean]
   ): string;
   encodeFunctionData(
     functionFragment: "setSwapInfo",
@@ -190,6 +162,14 @@ export interface ZkBingoPointsInterface extends Interface {
   encodeFunctionData(
     functionFragment: "setSwapRatio",
     values: [AddressLike, BigNumberish, BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "signInClaim",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "signInClaimEnable",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "signInInfos",
@@ -232,24 +212,13 @@ export interface ZkBingoPointsInterface extends Interface {
     functionFragment: "DEFAULT_ADMIN_ROLE",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "FREE_DURATION",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "blindBoxAddress",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(functionFragment: "claim", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "claimEnable",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "claimStartTime",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "bingoToken", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "dayClaimed", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "freeClaim", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "freeClaimEnable",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "getRoleAdmin",
     data: BytesLike
@@ -263,10 +232,6 @@ export interface ZkBingoPointsInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "pointsToken",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "proxiableUUID",
     data: BytesLike
   ): Result;
@@ -276,7 +241,7 @@ export interface ZkBingoPointsInterface extends Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "revokeRole", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "setBlindBoxAddress",
+    functionFragment: "setBingoToken",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -284,15 +249,11 @@ export interface ZkBingoPointsInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setClaimEnable",
+    functionFragment: "setFreeClaimEnable",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "setClaimStartTime",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setPointsToken",
+    functionFragment: "setSignInClaimEnable",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -301,6 +262,14 @@ export interface ZkBingoPointsInterface extends Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "setSwapRatio",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "signInClaim",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "signInClaimEnable",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -541,21 +510,17 @@ export interface ZkBingoPoints extends BaseContract {
 
   DEFAULT_ADMIN_ROLE: TypedContractMethod<[], [string], "view">;
 
-  FREE_DURATION: TypedContractMethod<[], [bigint], "view">;
-
-  blindBoxAddress: TypedContractMethod<[], [string], "view">;
-
-  claim: TypedContractMethod<[], [void], "nonpayable">;
-
-  claimEnable: TypedContractMethod<[], [boolean], "view">;
-
-  claimStartTime: TypedContractMethod<[], [bigint], "view">;
+  bingoToken: TypedContractMethod<[], [string], "view">;
 
   dayClaimed: TypedContractMethod<
     [arg0: string, arg1: AddressLike],
     [boolean],
     "view"
   >;
+
+  freeClaim: TypedContractMethod<[], [void], "nonpayable">;
+
+  freeClaimEnable: TypedContractMethod<[], [boolean], "view">;
 
   getRoleAdmin: TypedContractMethod<[role: BytesLike], [string], "view">;
 
@@ -572,7 +537,7 @@ export interface ZkBingoPoints extends BaseContract {
   >;
 
   initialize: TypedContractMethod<
-    [pointsToken_: AddressLike, blindBoxAddress_: AddressLike],
+    [bingoToken_: AddressLike],
     [void],
     "nonpayable"
   >;
@@ -589,8 +554,6 @@ export interface ZkBingoPoints extends BaseContract {
     "nonpayable"
   >;
 
-  pointsToken: TypedContractMethod<[], [string], "view">;
-
   proxiableUUID: TypedContractMethod<[], [string], "view">;
 
   renounceRole: TypedContractMethod<
@@ -605,32 +568,26 @@ export interface ZkBingoPoints extends BaseContract {
     "nonpayable"
   >;
 
-  setBlindBoxAddress: TypedContractMethod<
-    [blindBoxAddress_: AddressLike],
+  setBingoToken: TypedContractMethod<
+    [bingoToken_: AddressLike],
     [void],
     "nonpayable"
   >;
 
   setClaimConf: TypedContractMethod<
-    [claimType: BigNumberish, claimConf_: ZkBingoPoints.ClaimConfStruct[]],
+    [claimType: BigNumberish, claimConf_: BigNumberish[]],
     [void],
     "nonpayable"
   >;
 
-  setClaimEnable: TypedContractMethod<
-    [claimEnable_: boolean],
+  setFreeClaimEnable: TypedContractMethod<
+    [freeClaimEnable_: boolean],
     [void],
     "nonpayable"
   >;
 
-  setClaimStartTime: TypedContractMethod<
-    [claimStartTime_: BigNumberish],
-    [void],
-    "nonpayable"
-  >;
-
-  setPointsToken: TypedContractMethod<
-    [pointsToken_: AddressLike],
+  setSignInClaimEnable: TypedContractMethod<
+    [signInClaimEnable_: boolean],
     [void],
     "nonpayable"
   >;
@@ -646,6 +603,10 @@ export interface ZkBingoPoints extends BaseContract {
     [void],
     "nonpayable"
   >;
+
+  signInClaim: TypedContractMethod<[], [void], "nonpayable">;
+
+  signInClaimEnable: TypedContractMethod<[], [boolean], "view">;
 
   signInInfos: TypedContractMethod<
     [arg0: AddressLike],
@@ -706,23 +667,17 @@ export interface ZkBingoPoints extends BaseContract {
     nameOrSignature: "DEFAULT_ADMIN_ROLE"
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
-    nameOrSignature: "FREE_DURATION"
-  ): TypedContractMethod<[], [bigint], "view">;
-  getFunction(
-    nameOrSignature: "blindBoxAddress"
+    nameOrSignature: "bingoToken"
   ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "claim"
-  ): TypedContractMethod<[], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "claimEnable"
-  ): TypedContractMethod<[], [boolean], "view">;
-  getFunction(
-    nameOrSignature: "claimStartTime"
-  ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "dayClaimed"
   ): TypedContractMethod<[arg0: string, arg1: AddressLike], [boolean], "view">;
+  getFunction(
+    nameOrSignature: "freeClaim"
+  ): TypedContractMethod<[], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "freeClaimEnable"
+  ): TypedContractMethod<[], [boolean], "view">;
   getFunction(
     nameOrSignature: "getRoleAdmin"
   ): TypedContractMethod<[role: BytesLike], [string], "view">;
@@ -742,11 +697,7 @@ export interface ZkBingoPoints extends BaseContract {
   >;
   getFunction(
     nameOrSignature: "initialize"
-  ): TypedContractMethod<
-    [pointsToken_: AddressLike, blindBoxAddress_: AddressLike],
-    [void],
-    "nonpayable"
-  >;
+  ): TypedContractMethod<[bingoToken_: AddressLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "nativeSwap"
   ): TypedContractMethod<
@@ -761,9 +712,6 @@ export interface ZkBingoPoints extends BaseContract {
     [void],
     "nonpayable"
   >;
-  getFunction(
-    nameOrSignature: "pointsToken"
-  ): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "proxiableUUID"
   ): TypedContractMethod<[], [string], "view">;
@@ -782,24 +730,21 @@ export interface ZkBingoPoints extends BaseContract {
     "nonpayable"
   >;
   getFunction(
-    nameOrSignature: "setBlindBoxAddress"
-  ): TypedContractMethod<[blindBoxAddress_: AddressLike], [void], "nonpayable">;
+    nameOrSignature: "setBingoToken"
+  ): TypedContractMethod<[bingoToken_: AddressLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "setClaimConf"
   ): TypedContractMethod<
-    [claimType: BigNumberish, claimConf_: ZkBingoPoints.ClaimConfStruct[]],
+    [claimType: BigNumberish, claimConf_: BigNumberish[]],
     [void],
     "nonpayable"
   >;
   getFunction(
-    nameOrSignature: "setClaimEnable"
-  ): TypedContractMethod<[claimEnable_: boolean], [void], "nonpayable">;
+    nameOrSignature: "setFreeClaimEnable"
+  ): TypedContractMethod<[freeClaimEnable_: boolean], [void], "nonpayable">;
   getFunction(
-    nameOrSignature: "setClaimStartTime"
-  ): TypedContractMethod<[claimStartTime_: BigNumberish], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "setPointsToken"
-  ): TypedContractMethod<[pointsToken_: AddressLike], [void], "nonpayable">;
+    nameOrSignature: "setSignInClaimEnable"
+  ): TypedContractMethod<[signInClaimEnable_: boolean], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "setSwapInfo"
   ): TypedContractMethod<
@@ -814,6 +759,12 @@ export interface ZkBingoPoints extends BaseContract {
     [void],
     "nonpayable"
   >;
+  getFunction(
+    nameOrSignature: "signInClaim"
+  ): TypedContractMethod<[], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "signInClaimEnable"
+  ): TypedContractMethod<[], [boolean], "view">;
   getFunction(
     nameOrSignature: "signInInfos"
   ): TypedContractMethod<
