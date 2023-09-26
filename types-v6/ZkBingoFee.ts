@@ -33,10 +33,8 @@ export interface ZkBingoFeeInterface extends Interface {
       | "bingoToken"
       | "feeInfo"
       | "gameFee"
-      | "gameInputPer"
       | "getGameFee"
       | "getGameFeeRatio"
-      | "getGameInputPer"
       | "initialize"
       | "leave"
       | "lobby"
@@ -44,7 +42,6 @@ export interface ZkBingoFeeInterface extends Interface {
       | "proxiableUUID"
       | "renounceOwnership"
       | "setBingoToken"
-      | "setGameInputPer"
       | "transferOwnership"
       | "upgradeTo"
       | "upgradeToAndCall"
@@ -65,15 +62,15 @@ export interface ZkBingoFeeInterface extends Interface {
   encodeFunctionData(functionFragment: "AMPLIFY", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "afterGameTimeOut",
-    values: [BigNumberish]
+    values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "afterGameWon",
-    values: [BigNumberish, AddressLike]
+    values: [BigNumberish, BigNumberish, AddressLike]
   ): string;
   encodeFunctionData(
     functionFragment: "beforeJoin",
-    values: [AddressLike]
+    values: [AddressLike, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "bingoToken",
@@ -85,10 +82,6 @@ export interface ZkBingoFeeInterface extends Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "gameInputPer",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
     functionFragment: "getGameFee",
     values: [BigNumberish]
   ): string;
@@ -97,14 +90,13 @@ export interface ZkBingoFeeInterface extends Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "getGameInputPer",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
     functionFragment: "initialize",
     values: [AddressLike, AddressLike]
   ): string;
-  encodeFunctionData(functionFragment: "leave", values: [AddressLike]): string;
+  encodeFunctionData(
+    functionFragment: "leave",
+    values: [AddressLike, BigNumberish]
+  ): string;
   encodeFunctionData(functionFragment: "lobby", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
@@ -118,10 +110,6 @@ export interface ZkBingoFeeInterface extends Interface {
   encodeFunctionData(
     functionFragment: "setBingoToken",
     values: [AddressLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setGameInputPer",
-    values: [BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "transferOwnership",
@@ -153,17 +141,9 @@ export interface ZkBingoFeeInterface extends Interface {
   decodeFunctionResult(functionFragment: "bingoToken", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "feeInfo", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "gameFee", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "gameInputPer",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "getGameFee", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getGameFeeRatio",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "getGameInputPer",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
@@ -180,10 +160,6 @@ export interface ZkBingoFeeInterface extends Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "setBingoToken",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setGameInputPer",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -359,18 +335,22 @@ export interface ZkBingoFee extends BaseContract {
   AMPLIFY: TypedContractMethod<[], [bigint], "view">;
 
   afterGameTimeOut: TypedContractMethod<
-    [gameId: BigNumberish],
+    [gameId: BigNumberish, betSize: BigNumberish],
     [bigint],
     "nonpayable"
   >;
 
   afterGameWon: TypedContractMethod<
-    [gameId: BigNumberish, to: AddressLike],
+    [gameId: BigNumberish, betSize: BigNumberish, to: AddressLike],
     [void],
     "nonpayable"
   >;
 
-  beforeJoin: TypedContractMethod<[from: AddressLike], [void], "nonpayable">;
+  beforeJoin: TypedContractMethod<
+    [from: AddressLike, betSize: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
 
   bingoToken: TypedContractMethod<[], [string], "view">;
 
@@ -402,8 +382,6 @@ export interface ZkBingoFee extends BaseContract {
     "view"
   >;
 
-  gameInputPer: TypedContractMethod<[], [bigint], "view">;
-
   getGameFee: TypedContractMethod<
     [gameId: BigNumberish],
     [[bigint, bigint, bigint]],
@@ -412,15 +390,17 @@ export interface ZkBingoFee extends BaseContract {
 
   getGameFeeRatio: TypedContractMethod<[], [bigint], "view">;
 
-  getGameInputPer: TypedContractMethod<[], [bigint], "view">;
-
   initialize: TypedContractMethod<
     [lobby_: AddressLike, bingoToken_: AddressLike],
     [void],
     "nonpayable"
   >;
 
-  leave: TypedContractMethod<[to: AddressLike], [void], "nonpayable">;
+  leave: TypedContractMethod<
+    [to: AddressLike, betSize: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
 
   lobby: TypedContractMethod<[], [string], "view">;
 
@@ -432,12 +412,6 @@ export interface ZkBingoFee extends BaseContract {
 
   setBingoToken: TypedContractMethod<
     [bingoToken_: AddressLike],
-    [void],
-    "nonpayable"
-  >;
-
-  setGameInputPer: TypedContractMethod<
-    [inputPer: BigNumberish],
     [void],
     "nonpayable"
   >;
@@ -475,17 +449,25 @@ export interface ZkBingoFee extends BaseContract {
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "afterGameTimeOut"
-  ): TypedContractMethod<[gameId: BigNumberish], [bigint], "nonpayable">;
+  ): TypedContractMethod<
+    [gameId: BigNumberish, betSize: BigNumberish],
+    [bigint],
+    "nonpayable"
+  >;
   getFunction(
     nameOrSignature: "afterGameWon"
   ): TypedContractMethod<
-    [gameId: BigNumberish, to: AddressLike],
+    [gameId: BigNumberish, betSize: BigNumberish, to: AddressLike],
     [void],
     "nonpayable"
   >;
   getFunction(
     nameOrSignature: "beforeJoin"
-  ): TypedContractMethod<[from: AddressLike], [void], "nonpayable">;
+  ): TypedContractMethod<
+    [from: AddressLike, betSize: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
   getFunction(
     nameOrSignature: "bingoToken"
   ): TypedContractMethod<[], [string], "view">;
@@ -520,9 +502,6 @@ export interface ZkBingoFee extends BaseContract {
     "view"
   >;
   getFunction(
-    nameOrSignature: "gameInputPer"
-  ): TypedContractMethod<[], [bigint], "view">;
-  getFunction(
     nameOrSignature: "getGameFee"
   ): TypedContractMethod<
     [gameId: BigNumberish],
@@ -533,9 +512,6 @@ export interface ZkBingoFee extends BaseContract {
     nameOrSignature: "getGameFeeRatio"
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
-    nameOrSignature: "getGameInputPer"
-  ): TypedContractMethod<[], [bigint], "view">;
-  getFunction(
     nameOrSignature: "initialize"
   ): TypedContractMethod<
     [lobby_: AddressLike, bingoToken_: AddressLike],
@@ -544,7 +520,11 @@ export interface ZkBingoFee extends BaseContract {
   >;
   getFunction(
     nameOrSignature: "leave"
-  ): TypedContractMethod<[to: AddressLike], [void], "nonpayable">;
+  ): TypedContractMethod<
+    [to: AddressLike, betSize: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
   getFunction(
     nameOrSignature: "lobby"
   ): TypedContractMethod<[], [string], "view">;
@@ -560,9 +540,6 @@ export interface ZkBingoFee extends BaseContract {
   getFunction(
     nameOrSignature: "setBingoToken"
   ): TypedContractMethod<[bingoToken_: AddressLike], [void], "nonpayable">;
-  getFunction(
-    nameOrSignature: "setGameInputPer"
-  ): TypedContractMethod<[inputPer: BigNumberish], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "transferOwnership"
   ): TypedContractMethod<[newOwner: AddressLike], [void], "nonpayable">;

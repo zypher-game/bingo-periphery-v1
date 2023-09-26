@@ -28,31 +28,29 @@ export interface IBingoFeeInterface extends Interface {
       | "afterGameWon"
       | "beforeJoin"
       | "getGameFee"
-      | "getGameInputPer"
       | "leave"
   ): FunctionFragment;
 
   encodeFunctionData(
     functionFragment: "afterGameTimeOut",
-    values: [BigNumberish]
+    values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "afterGameWon",
-    values: [BigNumberish, AddressLike]
+    values: [BigNumberish, BigNumberish, AddressLike]
   ): string;
   encodeFunctionData(
     functionFragment: "beforeJoin",
-    values: [AddressLike]
+    values: [AddressLike, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "getGameFee",
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "getGameInputPer",
-    values?: undefined
+    functionFragment: "leave",
+    values: [AddressLike, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: "leave", values: [AddressLike]): string;
 
   decodeFunctionResult(
     functionFragment: "afterGameTimeOut",
@@ -64,10 +62,6 @@ export interface IBingoFeeInterface extends Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "beforeJoin", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getGameFee", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "getGameInputPer",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "leave", data: BytesLike): Result;
 }
 
@@ -115,18 +109,22 @@ export interface IBingoFee extends BaseContract {
   ): Promise<this>;
 
   afterGameTimeOut: TypedContractMethod<
-    [gameId: BigNumberish],
+    [gameId: BigNumberish, betSize: BigNumberish],
     [bigint],
     "nonpayable"
   >;
 
   afterGameWon: TypedContractMethod<
-    [gameId: BigNumberish, to: AddressLike],
+    [gameId: BigNumberish, betSize: BigNumberish, to: AddressLike],
     [void],
     "nonpayable"
   >;
 
-  beforeJoin: TypedContractMethod<[from: AddressLike], [void], "nonpayable">;
+  beforeJoin: TypedContractMethod<
+    [from: AddressLike, betSize: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
 
   getGameFee: TypedContractMethod<
     [gameId: BigNumberish],
@@ -134,9 +132,11 @@ export interface IBingoFee extends BaseContract {
     "view"
   >;
 
-  getGameInputPer: TypedContractMethod<[], [bigint], "view">;
-
-  leave: TypedContractMethod<[to: AddressLike], [void], "nonpayable">;
+  leave: TypedContractMethod<
+    [to: AddressLike, betSize: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
 
   getFunction<T extends ContractMethod = ContractMethod>(
     key: string | FunctionFragment
@@ -144,17 +144,25 @@ export interface IBingoFee extends BaseContract {
 
   getFunction(
     nameOrSignature: "afterGameTimeOut"
-  ): TypedContractMethod<[gameId: BigNumberish], [bigint], "nonpayable">;
+  ): TypedContractMethod<
+    [gameId: BigNumberish, betSize: BigNumberish],
+    [bigint],
+    "nonpayable"
+  >;
   getFunction(
     nameOrSignature: "afterGameWon"
   ): TypedContractMethod<
-    [gameId: BigNumberish, to: AddressLike],
+    [gameId: BigNumberish, betSize: BigNumberish, to: AddressLike],
     [void],
     "nonpayable"
   >;
   getFunction(
     nameOrSignature: "beforeJoin"
-  ): TypedContractMethod<[from: AddressLike], [void], "nonpayable">;
+  ): TypedContractMethod<
+    [from: AddressLike, betSize: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
   getFunction(
     nameOrSignature: "getGameFee"
   ): TypedContractMethod<
@@ -163,11 +171,12 @@ export interface IBingoFee extends BaseContract {
     "view"
   >;
   getFunction(
-    nameOrSignature: "getGameInputPer"
-  ): TypedContractMethod<[], [bigint], "view">;
-  getFunction(
     nameOrSignature: "leave"
-  ): TypedContractMethod<[to: AddressLike], [void], "nonpayable">;
+  ): TypedContractMethod<
+    [to: AddressLike, betSize: BigNumberish],
+    [void],
+    "nonpayable"
+  >;
 
   filters: {};
 }

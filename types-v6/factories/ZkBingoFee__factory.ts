@@ -171,6 +171,11 @@ const _abi = [
         name: "gameId",
         type: "uint256",
       },
+      {
+        internalType: "uint256",
+        name: "betSize",
+        type: "uint256",
+      },
     ],
     name: "afterGameTimeOut",
     outputs: [
@@ -191,6 +196,11 @@ const _abi = [
         type: "uint256",
       },
       {
+        internalType: "uint256",
+        name: "betSize",
+        type: "uint256",
+      },
+      {
         internalType: "address",
         name: "to",
         type: "address",
@@ -207,6 +217,11 @@ const _abi = [
         internalType: "address",
         name: "from",
         type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "betSize",
+        type: "uint256",
       },
     ],
     name: "beforeJoin",
@@ -300,19 +315,6 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "gameInputPer",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [
       {
         internalType: "uint256",
@@ -355,19 +357,6 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "getGameInputPer",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [
       {
         internalType: "address",
@@ -391,6 +380,11 @@ const _abi = [
         internalType: "address",
         name: "to",
         type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "betSize",
+        type: "uint256",
       },
     ],
     name: "leave",
@@ -453,19 +447,6 @@ const _abi = [
       },
     ],
     name: "setBingoToken",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "inputPer",
-        type: "uint256",
-      },
-    ],
-    name: "setGameInputPer",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

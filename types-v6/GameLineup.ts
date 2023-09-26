@@ -3,6 +3,7 @@
 /* eslint-disable */
 import type {
   BaseContract,
+  BigNumberish,
   BytesLike,
   FunctionFragment,
   Result,
@@ -22,6 +23,51 @@ import type {
   TypedContractMethod,
 } from "./common";
 
+export declare namespace IGameLineup {
+  export type WaitingInfoStruct = {
+    level: BigNumberish;
+    users: AddressLike[];
+    minWinCounts: BigNumberish;
+    minWinRate: BigNumberish;
+    maxWinCounts: BigNumberish;
+    maxWinRate: BigNumberish;
+    startedAt: BigNumberish;
+    endedAt: BigNumberish;
+    betSize: BigNumberish;
+    expectedLines: BigNumberish;
+    minNumber: BigNumberish;
+    maxNumber: BigNumberish;
+  };
+
+  export type WaitingInfoStructOutput = [
+    level: bigint,
+    users: string[],
+    minWinCounts: bigint,
+    minWinRate: bigint,
+    maxWinCounts: bigint,
+    maxWinRate: bigint,
+    startedAt: bigint,
+    endedAt: bigint,
+    betSize: bigint,
+    expectedLines: bigint,
+    minNumber: bigint,
+    maxNumber: bigint
+  ] & {
+    level: bigint;
+    users: string[];
+    minWinCounts: bigint;
+    minWinRate: bigint;
+    maxWinCounts: bigint;
+    maxWinRate: bigint;
+    startedAt: bigint;
+    endedAt: bigint;
+    betSize: bigint;
+    expectedLines: bigint;
+    minNumber: bigint;
+    maxNumber: bigint;
+  };
+}
+
 export interface GameLineupInterface extends Interface {
   getFunction(
     nameOrSignature: "join" | "leave" | "lineupUsers" | "start"
@@ -31,7 +77,10 @@ export interface GameLineupInterface extends Interface {
     nameOrSignatureOrTopic: "LineupJoined" | "LineupLeft"
   ): EventFragment;
 
-  encodeFunctionData(functionFragment: "join", values: [BytesLike]): string;
+  encodeFunctionData(
+    functionFragment: "join",
+    values: [BigNumberish, BytesLike]
+  ): string;
   encodeFunctionData(functionFragment: "leave", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "lineupUsers",
@@ -115,11 +164,19 @@ export interface GameLineup extends BaseContract {
     event?: TCEvent
   ): Promise<this>;
 
-  join: TypedContractMethod<[zkCard: BytesLike], [void], "nonpayable">;
+  join: TypedContractMethod<
+    [level: BigNumberish, zkCard: BytesLike],
+    [void],
+    "nonpayable"
+  >;
 
   leave: TypedContractMethod<[], [void], "nonpayable">;
 
-  lineupUsers: TypedContractMethod<[], [string[]], "view">;
+  lineupUsers: TypedContractMethod<
+    [],
+    [[bigint, IGameLineup.WaitingInfoStructOutput[]]],
+    "view"
+  >;
 
   start: TypedContractMethod<[], [void], "nonpayable">;
 
@@ -129,13 +186,21 @@ export interface GameLineup extends BaseContract {
 
   getFunction(
     nameOrSignature: "join"
-  ): TypedContractMethod<[zkCard: BytesLike], [void], "nonpayable">;
+  ): TypedContractMethod<
+    [level: BigNumberish, zkCard: BytesLike],
+    [void],
+    "nonpayable"
+  >;
   getFunction(
     nameOrSignature: "leave"
   ): TypedContractMethod<[], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "lineupUsers"
-  ): TypedContractMethod<[], [string[]], "view">;
+  ): TypedContractMethod<
+    [],
+    [[bigint, IGameLineup.WaitingInfoStructOutput[]]],
+    "view"
+  >;
   getFunction(
     nameOrSignature: "start"
   ): TypedContractMethod<[], [void], "nonpayable">;

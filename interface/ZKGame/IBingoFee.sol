@@ -3,15 +3,13 @@ pragma solidity ^0.8.4;
 
 interface IBingoFee {
 
-    function getGameInputPer() external view returns(uint256);
-
     function getGameFee(uint256 gameId) external view returns(uint256, uint256, uint256);
 
-    function beforeJoin(address from) external;
+    function beforeJoin(address from, uint256 betSize) external;
 
-    function leave(address to) external;
+    function leave(address to, uint256 betSize) external;
 
-    function afterGameTimeOut(uint256 gameId) external returns(uint256);
+    function afterGameTimeOut(uint256 gameId, uint256 betSize) external returns(uint256);
 
-    function afterGameWon(uint256 gameId, address to) external;
+    function afterGameWon(uint256 gameId, uint256 betSize, address to) external;
 }

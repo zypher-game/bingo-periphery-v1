@@ -25,12 +25,11 @@ import type {
 
 export interface IBingoFeeInterface extends utils.Interface {
   functions: {
-    "afterGameTimeOut(uint256)": FunctionFragment;
-    "afterGameWon(uint256,address)": FunctionFragment;
-    "beforeJoin(address)": FunctionFragment;
+    "afterGameTimeOut(uint256,uint256)": FunctionFragment;
+    "afterGameWon(uint256,uint256,address)": FunctionFragment;
+    "beforeJoin(address,uint256)": FunctionFragment;
     "getGameFee(uint256)": FunctionFragment;
-    "getGameInputPer()": FunctionFragment;
-    "leave(address)": FunctionFragment;
+    "leave(address,uint256)": FunctionFragment;
   };
 
   getFunction(
@@ -39,33 +38,32 @@ export interface IBingoFeeInterface extends utils.Interface {
       | "afterGameWon"
       | "beforeJoin"
       | "getGameFee"
-      | "getGameInputPer"
       | "leave"
   ): FunctionFragment;
 
   encodeFunctionData(
     functionFragment: "afterGameTimeOut",
-    values: [PromiseOrValue<BigNumberish>]
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "afterGameWon",
-    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<string>]
+    values: [
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<string>
+    ]
   ): string;
   encodeFunctionData(
     functionFragment: "beforeJoin",
-    values: [PromiseOrValue<string>]
+    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "getGameFee",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
-    functionFragment: "getGameInputPer",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
     functionFragment: "leave",
-    values: [PromiseOrValue<string>]
+    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
   ): string;
 
   decodeFunctionResult(
@@ -78,10 +76,6 @@ export interface IBingoFeeInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "beforeJoin", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getGameFee", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "getGameInputPer",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "leave", data: BytesLike): Result;
 
   events: {};
@@ -116,17 +110,20 @@ export interface IBingoFee extends BaseContract {
   functions: {
     afterGameTimeOut(
       gameId: PromiseOrValue<BigNumberish>,
+      betSize: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     afterGameWon(
       gameId: PromiseOrValue<BigNumberish>,
+      betSize: PromiseOrValue<BigNumberish>,
       to: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     beforeJoin(
       from: PromiseOrValue<string>,
+      betSize: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -135,27 +132,29 @@ export interface IBingoFee extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber, BigNumber, BigNumber]>;
 
-    getGameInputPer(overrides?: CallOverrides): Promise<[BigNumber]>;
-
     leave(
       to: PromiseOrValue<string>,
+      betSize: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
   };
 
   afterGameTimeOut(
     gameId: PromiseOrValue<BigNumberish>,
+    betSize: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   afterGameWon(
     gameId: PromiseOrValue<BigNumberish>,
+    betSize: PromiseOrValue<BigNumberish>,
     to: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   beforeJoin(
     from: PromiseOrValue<string>,
+    betSize: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -164,27 +163,29 @@ export interface IBingoFee extends BaseContract {
     overrides?: CallOverrides
   ): Promise<[BigNumber, BigNumber, BigNumber]>;
 
-  getGameInputPer(overrides?: CallOverrides): Promise<BigNumber>;
-
   leave(
     to: PromiseOrValue<string>,
+    betSize: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   callStatic: {
     afterGameTimeOut(
       gameId: PromiseOrValue<BigNumberish>,
+      betSize: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
     afterGameWon(
       gameId: PromiseOrValue<BigNumberish>,
+      betSize: PromiseOrValue<BigNumberish>,
       to: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
     beforeJoin(
       from: PromiseOrValue<string>,
+      betSize: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -193,9 +194,11 @@ export interface IBingoFee extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber, BigNumber, BigNumber]>;
 
-    getGameInputPer(overrides?: CallOverrides): Promise<BigNumber>;
-
-    leave(to: PromiseOrValue<string>, overrides?: CallOverrides): Promise<void>;
+    leave(
+      to: PromiseOrValue<string>,
+      betSize: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
   };
 
   filters: {};
@@ -203,17 +206,20 @@ export interface IBingoFee extends BaseContract {
   estimateGas: {
     afterGameTimeOut(
       gameId: PromiseOrValue<BigNumberish>,
+      betSize: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     afterGameWon(
       gameId: PromiseOrValue<BigNumberish>,
+      betSize: PromiseOrValue<BigNumberish>,
       to: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     beforeJoin(
       from: PromiseOrValue<string>,
+      betSize: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -222,10 +228,9 @@ export interface IBingoFee extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getGameInputPer(overrides?: CallOverrides): Promise<BigNumber>;
-
     leave(
       to: PromiseOrValue<string>,
+      betSize: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
   };
@@ -233,17 +238,20 @@ export interface IBingoFee extends BaseContract {
   populateTransaction: {
     afterGameTimeOut(
       gameId: PromiseOrValue<BigNumberish>,
+      betSize: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     afterGameWon(
       gameId: PromiseOrValue<BigNumberish>,
+      betSize: PromiseOrValue<BigNumberish>,
       to: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     beforeJoin(
       from: PromiseOrValue<string>,
+      betSize: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -252,10 +260,9 @@ export interface IBingoFee extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    getGameInputPer(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     leave(
       to: PromiseOrValue<string>,
+      betSize: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
   };

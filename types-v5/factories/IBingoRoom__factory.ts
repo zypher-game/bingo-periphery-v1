@@ -8,6 +8,36 @@ import type { IBingoRoom, IBingoRoomInterface } from "../IBingoRoom";
 
 const _abi = [
   {
+    inputs: [],
+    name: "BadSettings",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidGameId",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidGameStatus",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidNumber",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "NotBingo",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "WrongTurn",
+    type: "error",
+  },
+  {
     anonymous: false,
     inputs: [
       {
@@ -201,19 +231,6 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "expectedLines",
-    outputs: [
-      {
-        internalType: "uint8",
-        name: "",
-        type: "uint8",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
     name: "gameCard",
     outputs: [
       {
@@ -299,11 +316,6 @@ const _abi = [
         type: "uint32",
       },
       {
-        internalType: "uint256",
-        name: "joinAmount",
-        type: "uint256",
-      },
-      {
         internalType: "address",
         name: "winner",
         type: "address",
@@ -363,6 +375,33 @@ const _abi = [
         type: "tuple[]",
       },
       {
+        components: [
+          {
+            internalType: "uint256",
+            name: "betSize",
+            type: "uint256",
+          },
+          {
+            internalType: "uint8",
+            name: "expectedLines",
+            type: "uint8",
+          },
+          {
+            internalType: "uint8",
+            name: "minNumber",
+            type: "uint8",
+          },
+          {
+            internalType: "uint8",
+            name: "maxNumber",
+            type: "uint8",
+          },
+        ],
+        internalType: "struct IBingoRoom.GameSettings",
+        name: "settings",
+        type: "tuple",
+      },
+      {
         internalType: "string",
         name: "status",
         type: "string",
@@ -385,147 +424,6 @@ const _abi = [
         internalType: "uint8[]",
         name: "",
         type: "uint8[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "player",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "skip",
-        type: "uint256",
-      },
-    ],
-    name: "playedGames",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "uint256",
-            name: "gameId",
-            type: "uint256",
-          },
-          {
-            internalType: "string",
-            name: "status",
-            type: "string",
-          },
-          {
-            internalType: "address",
-            name: "winner",
-            type: "address",
-          },
-          {
-            internalType: "uint8[][]",
-            name: "cardNumbers",
-            type: "uint8[][]",
-          },
-          {
-            internalType: "uint8[]",
-            name: "selectedNumbers",
-            type: "uint8[]",
-          },
-          {
-            components: [
-              {
-                internalType: "address",
-                name: "user",
-                type: "address",
-              },
-              {
-                internalType: "uint256",
-                name: "cardId",
-                type: "uint256",
-              },
-              {
-                internalType: "bool",
-                name: "isAbandoned",
-                type: "bool",
-              },
-            ],
-            internalType: "struct IBingoRoom.Participant[]",
-            name: "players",
-            type: "tuple[]",
-          },
-        ],
-        internalType: "struct IBingoRoom.RecentGame[]",
-        name: "games",
-        type: "tuple[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "enum IBingoRoom.RecentGameFilter",
-        name: "filter",
-        type: "uint8",
-      },
-    ],
-    name: "recentGames",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "uint256",
-            name: "gameId",
-            type: "uint256",
-          },
-          {
-            internalType: "string",
-            name: "status",
-            type: "string",
-          },
-          {
-            internalType: "address",
-            name: "winner",
-            type: "address",
-          },
-          {
-            internalType: "uint8[][]",
-            name: "cardNumbers",
-            type: "uint8[][]",
-          },
-          {
-            internalType: "uint8[]",
-            name: "selectedNumbers",
-            type: "uint8[]",
-          },
-          {
-            components: [
-              {
-                internalType: "address",
-                name: "user",
-                type: "address",
-              },
-              {
-                internalType: "uint256",
-                name: "cardId",
-                type: "uint256",
-              },
-              {
-                internalType: "bool",
-                name: "isAbandoned",
-                type: "bool",
-              },
-            ],
-            internalType: "struct IBingoRoom.Participant[]",
-            name: "players",
-            type: "tuple[]",
-          },
-        ],
-        internalType: "struct IBingoRoom.RecentGame[]",
-        name: "games",
-        type: "tuple[]",
       },
     ],
     stateMutability: "view",
@@ -614,29 +512,6 @@ const _abi = [
     name: "selectNumber",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "summary",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "totalGameStarted",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "totalPlayersJoined",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "totalRewardDistributed",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
     type: "function",
   },
 ];

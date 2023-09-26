@@ -7,6 +7,128 @@ import type { ZkBingoLobby, ZkBingoLobbyInterface } from "../ZkBingoLobby";
 
 const _abi = [
   {
+    inputs: [],
+    name: "AddressError",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "BadSettings",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidGameId",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidGameStatus",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidLevel",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidNumber",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidStringBytes",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidWaitingStatus",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "NotBingo",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "OwnableInvalid",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ReentrantCall",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint8",
+        name: "current",
+        type: "uint8",
+      },
+      {
+        internalType: "uint8",
+        name: "min",
+        type: "uint8",
+      },
+    ],
+    name: "TooFewPlayers",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint8",
+        name: "rule",
+        type: "uint8",
+      },
+      {
+        internalType: "uint256",
+        name: "expect",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "current",
+        type: "uint256",
+      },
+    ],
+    name: "UnavailableJoin",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "WrongTurn",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ZyAddressNotContract",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ZyInvalidImplementation",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ZyNoDelegateCall",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ZyOnlyProxy",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ZyUnsupported",
+    type: "error",
+  },
+  {
     anonymous: false,
     inputs: [
       {
@@ -148,19 +270,6 @@ const _abi = [
     anonymous: false,
     inputs: [
       {
-        indexed: false,
-        internalType: "uint8",
-        name: "version",
-        type: "uint8",
-      },
-    ],
-    name: "Initialized",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
         indexed: true,
         internalType: "address",
         name: "player",
@@ -267,19 +376,6 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "NAME",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
     name: "RECENT_GAME_COUNTS",
     outputs: [
       {
@@ -300,6 +396,64 @@ const _abi = [
       },
     ],
     name: "abandon",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "betSize",
+        type: "uint256",
+      },
+      {
+        internalType: "uint32",
+        name: "minWinCounts",
+        type: "uint32",
+      },
+      {
+        internalType: "uint32",
+        name: "minWinRate",
+        type: "uint32",
+      },
+      {
+        internalType: "uint32",
+        name: "maxWinCounts",
+        type: "uint32",
+      },
+      {
+        internalType: "uint32",
+        name: "maxWinRate",
+        type: "uint32",
+      },
+      {
+        internalType: "uint32",
+        name: "startedAt",
+        type: "uint32",
+      },
+      {
+        internalType: "uint32",
+        name: "endedAt",
+        type: "uint32",
+      },
+      {
+        internalType: "uint8",
+        name: "expectedLines",
+        type: "uint8",
+      },
+      {
+        internalType: "uint8",
+        name: "minCardNumber",
+        type: "uint8",
+      },
+      {
+        internalType: "uint8",
+        name: "maxCardNumber",
+        type: "uint8",
+      },
+    ],
+    name: "addLevel",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -335,19 +489,6 @@ const _abi = [
         internalType: "contract IBingoFee",
         name: "",
         type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "expectedLines",
-    outputs: [
-      {
-        internalType: "uint8",
-        name: "",
-        type: "uint8",
       },
     ],
     stateMutability: "view",
@@ -440,11 +581,6 @@ const _abi = [
         type: "uint32",
       },
       {
-        internalType: "uint256",
-        name: "gameInputPer",
-        type: "uint256",
-      },
-      {
         internalType: "address",
         name: "winner",
         type: "address",
@@ -502,6 +638,33 @@ const _abi = [
         internalType: "struct IBingoRoom.GameRound[]",
         name: "rounds",
         type: "tuple[]",
+      },
+      {
+        components: [
+          {
+            internalType: "uint256",
+            name: "betSize",
+            type: "uint256",
+          },
+          {
+            internalType: "uint8",
+            name: "expectedLines",
+            type: "uint8",
+          },
+          {
+            internalType: "uint8",
+            name: "minNumber",
+            type: "uint8",
+          },
+          {
+            internalType: "uint8",
+            name: "maxNumber",
+            type: "uint8",
+          },
+        ],
+        internalType: "struct IBingoRoom.GameSettings",
+        name: "settings",
+        type: "tuple",
       },
       {
         internalType: "string",
@@ -591,6 +754,11 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "uint8",
+        name: "level",
+        type: "uint8",
+      },
+      {
         internalType: "bytes",
         name: "zkCard",
         type: "bytes",
@@ -613,9 +781,76 @@ const _abi = [
     name: "lineupUsers",
     outputs: [
       {
-        internalType: "address[]",
+        internalType: "uint256",
+        name: "wRate",
+        type: "uint256",
+      },
+      {
+        components: [
+          {
+            internalType: "uint8",
+            name: "level",
+            type: "uint8",
+          },
+          {
+            internalType: "address[]",
+            name: "users",
+            type: "address[]",
+          },
+          {
+            internalType: "uint32",
+            name: "minWinCounts",
+            type: "uint32",
+          },
+          {
+            internalType: "uint32",
+            name: "minWinRate",
+            type: "uint32",
+          },
+          {
+            internalType: "uint32",
+            name: "maxWinCounts",
+            type: "uint32",
+          },
+          {
+            internalType: "uint32",
+            name: "maxWinRate",
+            type: "uint32",
+          },
+          {
+            internalType: "uint32",
+            name: "startedAt",
+            type: "uint32",
+          },
+          {
+            internalType: "uint32",
+            name: "endedAt",
+            type: "uint32",
+          },
+          {
+            internalType: "uint256",
+            name: "betSize",
+            type: "uint256",
+          },
+          {
+            internalType: "uint8",
+            name: "expectedLines",
+            type: "uint8",
+          },
+          {
+            internalType: "uint8",
+            name: "minNumber",
+            type: "uint8",
+          },
+          {
+            internalType: "uint8",
+            name: "maxNumber",
+            type: "uint8",
+          },
+        ],
+        internalType: "struct IGameLineup.WaitingInfo[]",
         name: "list",
-        type: "address[]",
+        type: "tuple[]",
       },
     ],
     stateMutability: "view",
@@ -661,79 +896,6 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "user",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "skip",
-        type: "uint256",
-      },
-    ],
-    name: "playedGames",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "uint256",
-            name: "gameId",
-            type: "uint256",
-          },
-          {
-            internalType: "string",
-            name: "status",
-            type: "string",
-          },
-          {
-            internalType: "address",
-            name: "winner",
-            type: "address",
-          },
-          {
-            internalType: "uint8[][]",
-            name: "cardNumbers",
-            type: "uint8[][]",
-          },
-          {
-            internalType: "uint8[]",
-            name: "selectedNumbers",
-            type: "uint8[]",
-          },
-          {
-            components: [
-              {
-                internalType: "address",
-                name: "user",
-                type: "address",
-              },
-              {
-                internalType: "uint256",
-                name: "cardId",
-                type: "uint256",
-              },
-              {
-                internalType: "bool",
-                name: "isAbandoned",
-                type: "bool",
-              },
-            ],
-            internalType: "struct IBingoRoom.Participant[]",
-            name: "players",
-            type: "tuple[]",
-          },
-        ],
-        internalType: "struct IBingoRoom.RecentGame[]",
-        name: "games",
-        type: "tuple[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [],
     name: "proxiableUUID",
     outputs: [
@@ -749,74 +911,12 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "enum IBingoRoom.RecentGameFilter",
-        name: "filter",
+        internalType: "uint8",
+        name: "lv",
         type: "uint8",
       },
     ],
-    name: "recentGames",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "uint256",
-            name: "gameId",
-            type: "uint256",
-          },
-          {
-            internalType: "string",
-            name: "status",
-            type: "string",
-          },
-          {
-            internalType: "address",
-            name: "winner",
-            type: "address",
-          },
-          {
-            internalType: "uint8[][]",
-            name: "cardNumbers",
-            type: "uint8[][]",
-          },
-          {
-            internalType: "uint8[]",
-            name: "selectedNumbers",
-            type: "uint8[]",
-          },
-          {
-            components: [
-              {
-                internalType: "address",
-                name: "user",
-                type: "address",
-              },
-              {
-                internalType: "uint256",
-                name: "cardId",
-                type: "uint256",
-              },
-              {
-                internalType: "bool",
-                name: "isAbandoned",
-                type: "bool",
-              },
-            ],
-            internalType: "struct IBingoRoom.Participant[]",
-            name: "players",
-            type: "tuple[]",
-          },
-        ],
-        internalType: "struct IBingoRoom.RecentGame[]",
-        name: "games",
-        type: "tuple[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "renounceOwnership",
+    name: "removeLevel",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -980,29 +1080,6 @@ const _abi = [
     name: "start",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "summary",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "totalGameStarted",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "totalPlayersJoined",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "totalRewardDistributed",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
     type: "function",
   },
   {

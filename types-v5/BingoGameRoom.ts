@@ -54,29 +54,18 @@ export declare namespace IBingoRoom {
     player: string;
   };
 
-  export type RecentGameStruct = {
-    gameId: PromiseOrValue<BigNumberish>;
-    status: PromiseOrValue<string>;
-    winner: PromiseOrValue<string>;
-    cardNumbers: PromiseOrValue<BigNumberish>[][];
-    selectedNumbers: PromiseOrValue<BigNumberish>[];
-    players: IBingoRoom.ParticipantStruct[];
+  export type GameSettingsStruct = {
+    betSize: PromiseOrValue<BigNumberish>;
+    expectedLines: PromiseOrValue<BigNumberish>;
+    minNumber: PromiseOrValue<BigNumberish>;
+    maxNumber: PromiseOrValue<BigNumberish>;
   };
 
-  export type RecentGameStructOutput = [
-    BigNumber,
-    string,
-    string,
-    number[][],
-    number[],
-    IBingoRoom.ParticipantStructOutput[]
-  ] & {
-    gameId: BigNumber;
-    status: string;
-    winner: string;
-    cardNumbers: number[][];
-    selectedNumbers: number[];
-    players: IBingoRoom.ParticipantStructOutput[];
+  export type GameSettingsStructOutput = [BigNumber, number, number, number] & {
+    betSize: BigNumber;
+    expectedLines: number;
+    minNumber: number;
+    maxNumber: number;
   };
 }
 
@@ -110,18 +99,14 @@ export interface BingoGameRoomInterface extends utils.Interface {
     "abandon(uint256)": FunctionFragment;
     "bingo(uint256,uint8[][],bytes)": FunctionFragment;
     "bingoFee()": FunctionFragment;
-    "expectedLines()": FunctionFragment;
     "gameCard()": FunctionFragment;
     "gamePlayerCounts(uint256)": FunctionFragment;
     "getCurrentRound(uint256)": FunctionFragment;
     "getGameInfo(uint256)": FunctionFragment;
     "getSelectedNumbers(uint256)": FunctionFragment;
-    "playedGames(address,uint256)": FunctionFragment;
-    "recentGames(uint8)": FunctionFragment;
     "restoreGame(address,uint8[][],bytes)": FunctionFragment;
     "selectAndBingo(uint256,uint8,uint8[][],bytes)": FunctionFragment;
     "selectNumber(uint256,uint8)": FunctionFragment;
-    "summary()": FunctionFragment;
     "timer()": FunctionFragment;
   };
 
@@ -131,18 +116,14 @@ export interface BingoGameRoomInterface extends utils.Interface {
       | "abandon"
       | "bingo"
       | "bingoFee"
-      | "expectedLines"
       | "gameCard"
       | "gamePlayerCounts"
       | "getCurrentRound"
       | "getGameInfo"
       | "getSelectedNumbers"
-      | "playedGames"
-      | "recentGames"
       | "restoreGame"
       | "selectAndBingo"
       | "selectNumber"
-      | "summary"
       | "timer"
   ): FunctionFragment;
 
@@ -163,10 +144,6 @@ export interface BingoGameRoomInterface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(functionFragment: "bingoFee", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "expectedLines",
-    values?: undefined
-  ): string;
   encodeFunctionData(functionFragment: "gameCard", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "gamePlayerCounts",
@@ -182,14 +159,6 @@ export interface BingoGameRoomInterface extends utils.Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "getSelectedNumbers",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "playedGames",
-    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "recentGames",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
@@ -213,7 +182,6 @@ export interface BingoGameRoomInterface extends utils.Interface {
     functionFragment: "selectNumber",
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
   ): string;
-  encodeFunctionData(functionFragment: "summary", values?: undefined): string;
   encodeFunctionData(functionFragment: "timer", values?: undefined): string;
 
   decodeFunctionResult(
@@ -223,10 +191,6 @@ export interface BingoGameRoomInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "abandon", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "bingo", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "bingoFee", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "expectedLines",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "gameCard", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "gamePlayerCounts",
@@ -245,14 +209,6 @@ export interface BingoGameRoomInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "playedGames",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "recentGames",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "restoreGame",
     data: BytesLike
   ): Result;
@@ -264,7 +220,6 @@ export interface BingoGameRoomInterface extends utils.Interface {
     functionFragment: "selectNumber",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "summary", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "timer", data: BytesLike): Result;
 
   events: {
@@ -398,8 +353,6 @@ export interface BingoGameRoom extends BaseContract {
 
     bingoFee(overrides?: CallOverrides): Promise<[string]>;
 
-    expectedLines(overrides?: CallOverrides): Promise<[number]>;
-
     gameCard(overrides?: CallOverrides): Promise<[string]>;
 
     gamePlayerCounts(
@@ -426,20 +379,20 @@ export interface BingoGameRoom extends BaseContract {
       [
         number,
         number,
-        BigNumber,
         string,
         BigNumber,
         IBingoRoom.ParticipantStructOutput[],
         IBingoRoom.GameRoundStructOutput[],
+        IBingoRoom.GameSettingsStructOutput,
         string
       ] & {
         startedAt: number;
         endedAt: number;
-        gameInputPer: BigNumber;
         winner: string;
         winAmount: BigNumber;
         players: IBingoRoom.ParticipantStructOutput[];
         rounds: IBingoRoom.GameRoundStructOutput[];
+        settings: IBingoRoom.GameSettingsStructOutput;
         status: string;
       }
     >;
@@ -448,25 +401,6 @@ export interface BingoGameRoom extends BaseContract {
       gameId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[number[]] & { numbers: number[] }>;
-
-    playedGames(
-      user: PromiseOrValue<string>,
-      skip: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<
-      [IBingoRoom.RecentGameStructOutput[]] & {
-        games: IBingoRoom.RecentGameStructOutput[];
-      }
-    >;
-
-    recentGames(
-      filter: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<
-      [IBingoRoom.RecentGameStructOutput[]] & {
-        games: IBingoRoom.RecentGameStructOutput[];
-      }
-    >;
 
     restoreGame(
       player: PromiseOrValue<string>,
@@ -489,16 +423,6 @@ export interface BingoGameRoom extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    summary(
-      overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber, BigNumber] & {
-        totalGameStarted: BigNumber;
-        totalPlayersJoined: BigNumber;
-        totalRewardDistributed: BigNumber;
-      }
-    >;
-
     timer(
       overrides?: CallOverrides
     ): Promise<[BingoGameRoom.GameTimeoutStructOutput]>;
@@ -519,8 +443,6 @@ export interface BingoGameRoom extends BaseContract {
   ): Promise<ContractTransaction>;
 
   bingoFee(overrides?: CallOverrides): Promise<string>;
-
-  expectedLines(overrides?: CallOverrides): Promise<number>;
 
   gameCard(overrides?: CallOverrides): Promise<string>;
 
@@ -548,20 +470,20 @@ export interface BingoGameRoom extends BaseContract {
     [
       number,
       number,
-      BigNumber,
       string,
       BigNumber,
       IBingoRoom.ParticipantStructOutput[],
       IBingoRoom.GameRoundStructOutput[],
+      IBingoRoom.GameSettingsStructOutput,
       string
     ] & {
       startedAt: number;
       endedAt: number;
-      gameInputPer: BigNumber;
       winner: string;
       winAmount: BigNumber;
       players: IBingoRoom.ParticipantStructOutput[];
       rounds: IBingoRoom.GameRoundStructOutput[];
+      settings: IBingoRoom.GameSettingsStructOutput;
       status: string;
     }
   >;
@@ -570,17 +492,6 @@ export interface BingoGameRoom extends BaseContract {
     gameId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<number[]>;
-
-  playedGames(
-    user: PromiseOrValue<string>,
-    skip: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<IBingoRoom.RecentGameStructOutput[]>;
-
-  recentGames(
-    filter: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<IBingoRoom.RecentGameStructOutput[]>;
 
   restoreGame(
     player: PromiseOrValue<string>,
@@ -603,16 +514,6 @@ export interface BingoGameRoom extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  summary(
-    overrides?: CallOverrides
-  ): Promise<
-    [BigNumber, BigNumber, BigNumber] & {
-      totalGameStarted: BigNumber;
-      totalPlayersJoined: BigNumber;
-      totalRewardDistributed: BigNumber;
-    }
-  >;
-
   timer(
     overrides?: CallOverrides
   ): Promise<BingoGameRoom.GameTimeoutStructOutput>;
@@ -633,8 +534,6 @@ export interface BingoGameRoom extends BaseContract {
     ): Promise<void>;
 
     bingoFee(overrides?: CallOverrides): Promise<string>;
-
-    expectedLines(overrides?: CallOverrides): Promise<number>;
 
     gameCard(overrides?: CallOverrides): Promise<string>;
 
@@ -662,20 +561,20 @@ export interface BingoGameRoom extends BaseContract {
       [
         number,
         number,
-        BigNumber,
         string,
         BigNumber,
         IBingoRoom.ParticipantStructOutput[],
         IBingoRoom.GameRoundStructOutput[],
+        IBingoRoom.GameSettingsStructOutput,
         string
       ] & {
         startedAt: number;
         endedAt: number;
-        gameInputPer: BigNumber;
         winner: string;
         winAmount: BigNumber;
         players: IBingoRoom.ParticipantStructOutput[];
         rounds: IBingoRoom.GameRoundStructOutput[];
+        settings: IBingoRoom.GameSettingsStructOutput;
         status: string;
       }
     >;
@@ -684,17 +583,6 @@ export interface BingoGameRoom extends BaseContract {
       gameId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<number[]>;
-
-    playedGames(
-      user: PromiseOrValue<string>,
-      skip: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<IBingoRoom.RecentGameStructOutput[]>;
-
-    recentGames(
-      filter: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<IBingoRoom.RecentGameStructOutput[]>;
 
     restoreGame(
       player: PromiseOrValue<string>,
@@ -722,16 +610,6 @@ export interface BingoGameRoom extends BaseContract {
       number: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
-
-    summary(
-      overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, BigNumber, BigNumber] & {
-        totalGameStarted: BigNumber;
-        totalPlayersJoined: BigNumber;
-        totalRewardDistributed: BigNumber;
-      }
-    >;
 
     timer(
       overrides?: CallOverrides
@@ -825,8 +703,6 @@ export interface BingoGameRoom extends BaseContract {
 
     bingoFee(overrides?: CallOverrides): Promise<BigNumber>;
 
-    expectedLines(overrides?: CallOverrides): Promise<BigNumber>;
-
     gameCard(overrides?: CallOverrides): Promise<BigNumber>;
 
     gamePlayerCounts(
@@ -846,17 +722,6 @@ export interface BingoGameRoom extends BaseContract {
 
     getSelectedNumbers(
       gameId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    playedGames(
-      user: PromiseOrValue<string>,
-      skip: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    recentGames(
-      filter: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -880,8 +745,6 @@ export interface BingoGameRoom extends BaseContract {
       number: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
-
-    summary(overrides?: CallOverrides): Promise<BigNumber>;
 
     timer(overrides?: CallOverrides): Promise<BigNumber>;
   };
@@ -905,8 +768,6 @@ export interface BingoGameRoom extends BaseContract {
 
     bingoFee(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    expectedLines(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
     gameCard(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     gamePlayerCounts(
@@ -926,17 +787,6 @@ export interface BingoGameRoom extends BaseContract {
 
     getSelectedNumbers(
       gameId: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    playedGames(
-      user: PromiseOrValue<string>,
-      skip: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    recentGames(
-      filter: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -960,8 +810,6 @@ export interface BingoGameRoom extends BaseContract {
       number: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
-
-    summary(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     timer(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };

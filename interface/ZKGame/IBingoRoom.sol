@@ -2,10 +2,24 @@
 pragma solidity ^0.8.4;
 
 interface IBingoRoom {
+    error InvalidGameId();
+    error InvalidGameStatus();
+    error InvalidNumber();
+    error BadSettings();
+    error WrongTurn();
+    error NotBingo();
+
     struct Participant {
         address user;
         uint256 cardId;
         bool isAbandoned;
+    }
+
+    struct GameSettings {
+        uint256 betSize;
+        uint8 expectedLines;
+        uint8 minNumber; // number smaller than this will not be selected
+        uint8 maxNumber; // number larger than this will not be selected
     }
 
     struct Abandon {
@@ -61,8 +75,6 @@ interface IBingoRoom {
 
     function gameCard() external view returns (address);
 
-    function expectedLines() external view returns (uint8);
-
     function getGameInfo(
         uint256 gameId
     )
@@ -71,11 +83,11 @@ interface IBingoRoom {
         returns (
             uint32 startedAt,
             uint32 endedAt,
-            uint256 joinAmount,
             address winner,
             uint256 winAmount,
             Participant[] memory players,
             GameRound[] memory rounds,
+            GameSettings memory settings,
             string memory status
         );
 
@@ -109,44 +121,6 @@ interface IBingoRoom {
         uint8[][] memory cardNumbers,
         bytes memory signedGameLabel
     ) external returns (uint256 playingGameId, uint32 autoEndTime, bool isCardContentMatched);
-
-    /*
-    ██       ██████   ██████  ███████
-    ██      ██    ██ ██       ██
-    ██      ██    ██ ██   ███ ███████ - recentGames: all games
-    ██      ██    ██ ██    ██      ██ - playedGames: player's games
-    ███████  ██████   ██████  ███████ - summary: total games, players, rewards
-    */
-
-    struct RecentGame {
-        uint256 gameId;
-        string status;
-        address winner;
-        uint8[][] cardNumbers;
-        uint8[] selectedNumbers;
-        Participant[] players;
-    }
-
-    function recentGames(RecentGameFilter filter) external view returns (RecentGame[] memory games);
-
-    function playedGames(
-        address player,
-        uint256 skip
-    ) external view returns (RecentGame[] memory games);
-
-    /**
-     * @return totalGameStarted - total games started
-     * @return totalPlayersJoined - total players joined
-     * @return totalRewardDistributed - total reward(NFTs) distributed
-     */
-    function summary()
-        external
-        view
-        returns (
-            uint256 totalGameStarted,
-            uint256 totalPlayersJoined,
-            uint256 totalRewardDistributed
-        );
 
     function gamePlayerCounts(uint256 gameId) external view returns (uint8);
 }

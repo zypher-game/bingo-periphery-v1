@@ -7,6 +7,32 @@ import type { IGameLineup, IGameLineupInterface } from "../IGameLineup";
 
 const _abi = [
   {
+    inputs: [],
+    name: "InvalidLevel",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidWaitingStatus",
+    type: "error",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint8",
+        name: "current",
+        type: "uint8",
+      },
+      {
+        internalType: "uint8",
+        name: "min",
+        type: "uint8",
+      },
+    ],
+    name: "TooFewPlayers",
+    type: "error",
+  },
+  {
     anonymous: false,
     inputs: [
       {
@@ -35,6 +61,11 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "uint8",
+        name: "level",
+        type: "uint8",
+      },
+      {
         internalType: "bytes",
         name: "zkCard",
         type: "bytes",
@@ -57,9 +88,76 @@ const _abi = [
     name: "lineupUsers",
     outputs: [
       {
-        internalType: "address[]",
+        internalType: "uint256",
         name: "",
-        type: "address[]",
+        type: "uint256",
+      },
+      {
+        components: [
+          {
+            internalType: "uint8",
+            name: "level",
+            type: "uint8",
+          },
+          {
+            internalType: "address[]",
+            name: "users",
+            type: "address[]",
+          },
+          {
+            internalType: "uint32",
+            name: "minWinCounts",
+            type: "uint32",
+          },
+          {
+            internalType: "uint32",
+            name: "minWinRate",
+            type: "uint32",
+          },
+          {
+            internalType: "uint32",
+            name: "maxWinCounts",
+            type: "uint32",
+          },
+          {
+            internalType: "uint32",
+            name: "maxWinRate",
+            type: "uint32",
+          },
+          {
+            internalType: "uint32",
+            name: "startedAt",
+            type: "uint32",
+          },
+          {
+            internalType: "uint32",
+            name: "endedAt",
+            type: "uint32",
+          },
+          {
+            internalType: "uint256",
+            name: "betSize",
+            type: "uint256",
+          },
+          {
+            internalType: "uint8",
+            name: "expectedLines",
+            type: "uint8",
+          },
+          {
+            internalType: "uint8",
+            name: "minNumber",
+            type: "uint8",
+          },
+          {
+            internalType: "uint8",
+            name: "maxNumber",
+            type: "uint8",
+          },
+        ],
+        internalType: "struct IGameLineup.WaitingInfo[]",
+        name: "",
+        type: "tuple[]",
       },
     ],
     stateMutability: "view",

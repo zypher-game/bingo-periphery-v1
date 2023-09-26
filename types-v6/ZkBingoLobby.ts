@@ -50,29 +50,68 @@ export declare namespace IBingoRoom {
     player: string
   ] & { round: bigint; number: bigint; timestamp: bigint; player: string };
 
-  export type RecentGameStruct = {
-    gameId: BigNumberish;
-    status: string;
-    winner: AddressLike;
-    cardNumbers: BigNumberish[][];
-    selectedNumbers: BigNumberish[];
-    players: IBingoRoom.ParticipantStruct[];
+  export type GameSettingsStruct = {
+    betSize: BigNumberish;
+    expectedLines: BigNumberish;
+    minNumber: BigNumberish;
+    maxNumber: BigNumberish;
   };
 
-  export type RecentGameStructOutput = [
-    gameId: bigint,
-    status: string,
-    winner: string,
-    cardNumbers: bigint[][],
-    selectedNumbers: bigint[],
-    players: IBingoRoom.ParticipantStructOutput[]
+  export type GameSettingsStructOutput = [
+    betSize: bigint,
+    expectedLines: bigint,
+    minNumber: bigint,
+    maxNumber: bigint
   ] & {
-    gameId: bigint;
-    status: string;
-    winner: string;
-    cardNumbers: bigint[][];
-    selectedNumbers: bigint[];
-    players: IBingoRoom.ParticipantStructOutput[];
+    betSize: bigint;
+    expectedLines: bigint;
+    minNumber: bigint;
+    maxNumber: bigint;
+  };
+}
+
+export declare namespace IGameLineup {
+  export type WaitingInfoStruct = {
+    level: BigNumberish;
+    users: AddressLike[];
+    minWinCounts: BigNumberish;
+    minWinRate: BigNumberish;
+    maxWinCounts: BigNumberish;
+    maxWinRate: BigNumberish;
+    startedAt: BigNumberish;
+    endedAt: BigNumberish;
+    betSize: BigNumberish;
+    expectedLines: BigNumberish;
+    minNumber: BigNumberish;
+    maxNumber: BigNumberish;
+  };
+
+  export type WaitingInfoStructOutput = [
+    level: bigint,
+    users: string[],
+    minWinCounts: bigint,
+    minWinRate: bigint,
+    maxWinCounts: bigint,
+    maxWinRate: bigint,
+    startedAt: bigint,
+    endedAt: bigint,
+    betSize: bigint,
+    expectedLines: bigint,
+    minNumber: bigint,
+    maxNumber: bigint
+  ] & {
+    level: bigint;
+    users: string[];
+    minWinCounts: bigint;
+    minWinRate: bigint;
+    maxWinCounts: bigint;
+    maxWinRate: bigint;
+    startedAt: bigint;
+    endedAt: bigint;
+    betSize: bigint;
+    expectedLines: bigint;
+    minNumber: bigint;
+    maxNumber: bigint;
   };
 }
 
@@ -103,12 +142,11 @@ export declare namespace BingoGameRoom {
 export interface ZkBingoLobbyInterface extends Interface {
   getFunction(
     nameOrSignature:
-      | "NAME"
       | "RECENT_GAME_COUNTS"
       | "abandon"
+      | "addLevel"
       | "bingo"
       | "bingoFee"
-      | "expectedLines"
       | "gameCard"
       | "gamePlayerCounts"
       | "getCurrentRound"
@@ -122,10 +160,8 @@ export interface ZkBingoLobbyInterface extends Interface {
       | "maxPlayers"
       | "minPlayers"
       | "owner"
-      | "playedGames"
       | "proxiableUUID"
-      | "recentGames"
-      | "renounceOwnership"
+      | "removeLevel"
       | "restoreGame"
       | "selectAndBingo"
       | "selectNumber"
@@ -133,7 +169,6 @@ export interface ZkBingoLobbyInterface extends Interface {
       | "setGameTimers"
       | "setInitData"
       | "start"
-      | "summary"
       | "timer"
       | "transferOwnership"
       | "upgradeTo"
@@ -149,7 +184,6 @@ export interface ZkBingoLobbyInterface extends Interface {
       | "GameHalted"
       | "GameParticipated"
       | "GameStarted"
-      | "Initialized"
       | "LineupJoined"
       | "LineupLeft"
       | "NumberSelected"
@@ -158,7 +192,6 @@ export interface ZkBingoLobbyInterface extends Interface {
       | "Upgraded"
   ): EventFragment;
 
-  encodeFunctionData(functionFragment: "NAME", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "RECENT_GAME_COUNTS",
     values?: undefined
@@ -168,14 +201,25 @@ export interface ZkBingoLobbyInterface extends Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
+    functionFragment: "addLevel",
+    values: [
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish,
+      BigNumberish
+    ]
+  ): string;
+  encodeFunctionData(
     functionFragment: "bingo",
     values: [BigNumberish, BigNumberish[][], BytesLike]
   ): string;
   encodeFunctionData(functionFragment: "bingoFee", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "expectedLines",
-    values?: undefined
-  ): string;
   encodeFunctionData(functionFragment: "gameCard", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "gamePlayerCounts",
@@ -208,7 +252,10 @@ export interface ZkBingoLobbyInterface extends Interface {
       BigNumberish
     ]
   ): string;
-  encodeFunctionData(functionFragment: "join", values: [BytesLike]): string;
+  encodeFunctionData(
+    functionFragment: "join",
+    values: [BigNumberish, BytesLike]
+  ): string;
   encodeFunctionData(functionFragment: "leave", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "lineupUsers",
@@ -224,20 +271,12 @@ export interface ZkBingoLobbyInterface extends Interface {
   ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "playedGames",
-    values: [AddressLike, BigNumberish]
-  ): string;
-  encodeFunctionData(
     functionFragment: "proxiableUUID",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "recentGames",
+    functionFragment: "removeLevel",
     values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "renounceOwnership",
-    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "restoreGame",
@@ -270,7 +309,6 @@ export interface ZkBingoLobbyInterface extends Interface {
     values: [BigNumberish, BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "start", values?: undefined): string;
-  encodeFunctionData(functionFragment: "summary", values?: undefined): string;
   encodeFunctionData(functionFragment: "timer", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "transferOwnership",
@@ -286,18 +324,14 @@ export interface ZkBingoLobbyInterface extends Interface {
   ): string;
   encodeFunctionData(functionFragment: "version", values?: undefined): string;
 
-  decodeFunctionResult(functionFragment: "NAME", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "RECENT_GAME_COUNTS",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "abandon", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "addLevel", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "bingo", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "bingoFee", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "expectedLines",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "gameCard", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "gamePlayerCounts",
@@ -330,19 +364,11 @@ export interface ZkBingoLobbyInterface extends Interface {
   decodeFunctionResult(functionFragment: "minPlayers", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "playedGames",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "proxiableUUID",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "recentGames",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "renounceOwnership",
+    functionFragment: "removeLevel",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -367,7 +393,6 @@ export interface ZkBingoLobbyInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "start", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "summary", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "timer", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "transferOwnership",
@@ -484,18 +509,6 @@ export namespace GameStartedEvent {
     gameId: bigint;
     cardContract: string;
     players: string[];
-  }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
-}
-
-export namespace InitializedEvent {
-  export type InputTuple = [version: BigNumberish];
-  export type OutputTuple = [version: bigint];
-  export interface OutputObject {
-    version: bigint;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -633,11 +646,26 @@ export interface ZkBingoLobby extends BaseContract {
     event?: TCEvent
   ): Promise<this>;
 
-  NAME: TypedContractMethod<[], [string], "view">;
-
   RECENT_GAME_COUNTS: TypedContractMethod<[], [bigint], "view">;
 
   abandon: TypedContractMethod<[gameId: BigNumberish], [void], "nonpayable">;
+
+  addLevel: TypedContractMethod<
+    [
+      betSize: BigNumberish,
+      minWinCounts: BigNumberish,
+      minWinRate: BigNumberish,
+      maxWinCounts: BigNumberish,
+      maxWinRate: BigNumberish,
+      startedAt: BigNumberish,
+      endedAt: BigNumberish,
+      expectedLines: BigNumberish,
+      minCardNumber: BigNumberish,
+      maxCardNumber: BigNumberish
+    ],
+    [void],
+    "nonpayable"
+  >;
 
   bingo: TypedContractMethod<
     [
@@ -650,8 +678,6 @@ export interface ZkBingoLobby extends BaseContract {
   >;
 
   bingoFee: TypedContractMethod<[], [string], "view">;
-
-  expectedLines: TypedContractMethod<[], [bigint], "view">;
 
   gameCard: TypedContractMethod<[], [string], "view">;
 
@@ -680,20 +706,20 @@ export interface ZkBingoLobby extends BaseContract {
       [
         bigint,
         bigint,
-        bigint,
         string,
         bigint,
         IBingoRoom.ParticipantStructOutput[],
         IBingoRoom.GameRoundStructOutput[],
+        IBingoRoom.GameSettingsStructOutput,
         string
       ] & {
         startedAt: bigint;
         endedAt: bigint;
-        gameInputPer: bigint;
         winner: string;
         winAmount: bigint;
         players: IBingoRoom.ParticipantStructOutput[];
         rounds: IBingoRoom.GameRoundStructOutput[];
+        settings: IBingoRoom.GameSettingsStructOutput;
         status: string;
       }
     ],
@@ -721,11 +747,24 @@ export interface ZkBingoLobby extends BaseContract {
     "nonpayable"
   >;
 
-  join: TypedContractMethod<[zkCard: BytesLike], [void], "nonpayable">;
+  join: TypedContractMethod<
+    [level: BigNumberish, zkCard: BytesLike],
+    [void],
+    "nonpayable"
+  >;
 
   leave: TypedContractMethod<[], [void], "nonpayable">;
 
-  lineupUsers: TypedContractMethod<[], [string[]], "view">;
+  lineupUsers: TypedContractMethod<
+    [],
+    [
+      [bigint, IGameLineup.WaitingInfoStructOutput[]] & {
+        wRate: bigint;
+        list: IGameLineup.WaitingInfoStructOutput[];
+      }
+    ],
+    "view"
+  >;
 
   maxPlayers: TypedContractMethod<[], [bigint], "view">;
 
@@ -733,21 +772,9 @@ export interface ZkBingoLobby extends BaseContract {
 
   owner: TypedContractMethod<[], [string], "view">;
 
-  playedGames: TypedContractMethod<
-    [user: AddressLike, skip: BigNumberish],
-    [IBingoRoom.RecentGameStructOutput[]],
-    "view"
-  >;
-
   proxiableUUID: TypedContractMethod<[], [string], "view">;
 
-  recentGames: TypedContractMethod<
-    [filter: BigNumberish],
-    [IBingoRoom.RecentGameStructOutput[]],
-    "view"
-  >;
-
-  renounceOwnership: TypedContractMethod<[], [void], "nonpayable">;
+  removeLevel: TypedContractMethod<[lv: BigNumberish], [void], "nonpayable">;
 
   restoreGame: TypedContractMethod<
     [
@@ -812,18 +839,6 @@ export interface ZkBingoLobby extends BaseContract {
 
   start: TypedContractMethod<[], [void], "nonpayable">;
 
-  summary: TypedContractMethod<
-    [],
-    [
-      [bigint, bigint, bigint] & {
-        totalGameStarted: bigint;
-        totalPlayersJoined: bigint;
-        totalRewardDistributed: bigint;
-      }
-    ],
-    "view"
-  >;
-
   timer: TypedContractMethod<
     [],
     [BingoGameRoom.GameTimeoutStructOutput],
@@ -855,14 +870,29 @@ export interface ZkBingoLobby extends BaseContract {
   ): T;
 
   getFunction(
-    nameOrSignature: "NAME"
-  ): TypedContractMethod<[], [string], "view">;
-  getFunction(
     nameOrSignature: "RECENT_GAME_COUNTS"
   ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "abandon"
   ): TypedContractMethod<[gameId: BigNumberish], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "addLevel"
+  ): TypedContractMethod<
+    [
+      betSize: BigNumberish,
+      minWinCounts: BigNumberish,
+      minWinRate: BigNumberish,
+      maxWinCounts: BigNumberish,
+      maxWinRate: BigNumberish,
+      startedAt: BigNumberish,
+      endedAt: BigNumberish,
+      expectedLines: BigNumberish,
+      minCardNumber: BigNumberish,
+      maxCardNumber: BigNumberish
+    ],
+    [void],
+    "nonpayable"
+  >;
   getFunction(
     nameOrSignature: "bingo"
   ): TypedContractMethod<
@@ -877,9 +907,6 @@ export interface ZkBingoLobby extends BaseContract {
   getFunction(
     nameOrSignature: "bingoFee"
   ): TypedContractMethod<[], [string], "view">;
-  getFunction(
-    nameOrSignature: "expectedLines"
-  ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "gameCard"
   ): TypedContractMethod<[], [string], "view">;
@@ -908,20 +935,20 @@ export interface ZkBingoLobby extends BaseContract {
       [
         bigint,
         bigint,
-        bigint,
         string,
         bigint,
         IBingoRoom.ParticipantStructOutput[],
         IBingoRoom.GameRoundStructOutput[],
+        IBingoRoom.GameSettingsStructOutput,
         string
       ] & {
         startedAt: bigint;
         endedAt: bigint;
-        gameInputPer: bigint;
         winner: string;
         winAmount: bigint;
         players: IBingoRoom.ParticipantStructOutput[];
         rounds: IBingoRoom.GameRoundStructOutput[];
+        settings: IBingoRoom.GameSettingsStructOutput;
         status: string;
       }
     ],
@@ -949,13 +976,26 @@ export interface ZkBingoLobby extends BaseContract {
   >;
   getFunction(
     nameOrSignature: "join"
-  ): TypedContractMethod<[zkCard: BytesLike], [void], "nonpayable">;
+  ): TypedContractMethod<
+    [level: BigNumberish, zkCard: BytesLike],
+    [void],
+    "nonpayable"
+  >;
   getFunction(
     nameOrSignature: "leave"
   ): TypedContractMethod<[], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "lineupUsers"
-  ): TypedContractMethod<[], [string[]], "view">;
+  ): TypedContractMethod<
+    [],
+    [
+      [bigint, IGameLineup.WaitingInfoStructOutput[]] & {
+        wRate: bigint;
+        list: IGameLineup.WaitingInfoStructOutput[];
+      }
+    ],
+    "view"
+  >;
   getFunction(
     nameOrSignature: "maxPlayers"
   ): TypedContractMethod<[], [bigint], "view">;
@@ -966,25 +1006,11 @@ export interface ZkBingoLobby extends BaseContract {
     nameOrSignature: "owner"
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
-    nameOrSignature: "playedGames"
-  ): TypedContractMethod<
-    [user: AddressLike, skip: BigNumberish],
-    [IBingoRoom.RecentGameStructOutput[]],
-    "view"
-  >;
-  getFunction(
     nameOrSignature: "proxiableUUID"
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
-    nameOrSignature: "recentGames"
-  ): TypedContractMethod<
-    [filter: BigNumberish],
-    [IBingoRoom.RecentGameStructOutput[]],
-    "view"
-  >;
-  getFunction(
-    nameOrSignature: "renounceOwnership"
-  ): TypedContractMethod<[], [void], "nonpayable">;
+    nameOrSignature: "removeLevel"
+  ): TypedContractMethod<[lv: BigNumberish], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "restoreGame"
   ): TypedContractMethod<
@@ -1052,19 +1078,6 @@ export interface ZkBingoLobby extends BaseContract {
     nameOrSignature: "start"
   ): TypedContractMethod<[], [void], "nonpayable">;
   getFunction(
-    nameOrSignature: "summary"
-  ): TypedContractMethod<
-    [],
-    [
-      [bigint, bigint, bigint] & {
-        totalGameStarted: bigint;
-        totalPlayersJoined: bigint;
-        totalRewardDistributed: bigint;
-      }
-    ],
-    "view"
-  >;
-  getFunction(
     nameOrSignature: "timer"
   ): TypedContractMethod<[], [BingoGameRoom.GameTimeoutStructOutput], "view">;
   getFunction(
@@ -1129,13 +1142,6 @@ export interface ZkBingoLobby extends BaseContract {
     GameStartedEvent.InputTuple,
     GameStartedEvent.OutputTuple,
     GameStartedEvent.OutputObject
-  >;
-  getEvent(
-    key: "Initialized"
-  ): TypedContractEvent<
-    InitializedEvent.InputTuple,
-    InitializedEvent.OutputTuple,
-    InitializedEvent.OutputObject
   >;
   getEvent(
     key: "LineupJoined"
@@ -1245,17 +1251,6 @@ export interface ZkBingoLobby extends BaseContract {
       GameStartedEvent.InputTuple,
       GameStartedEvent.OutputTuple,
       GameStartedEvent.OutputObject
-    >;
-
-    "Initialized(uint8)": TypedContractEvent<
-      InitializedEvent.InputTuple,
-      InitializedEvent.OutputTuple,
-      InitializedEvent.OutputObject
-    >;
-    Initialized: TypedContractEvent<
-      InitializedEvent.InputTuple,
-      InitializedEvent.OutputTuple,
-      InitializedEvent.OutputObject
     >;
 
     "LineupJoined(address)": TypedContractEvent<

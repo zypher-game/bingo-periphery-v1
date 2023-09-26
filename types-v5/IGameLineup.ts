@@ -4,6 +4,7 @@
 import type {
   BaseContract,
   BigNumber,
+  BigNumberish,
   BytesLike,
   CallOverrides,
   ContractTransaction,
@@ -26,9 +27,54 @@ import type {
   PromiseOrValue,
 } from "./common";
 
+export declare namespace IGameLineup {
+  export type WaitingInfoStruct = {
+    level: PromiseOrValue<BigNumberish>;
+    users: PromiseOrValue<string>[];
+    minWinCounts: PromiseOrValue<BigNumberish>;
+    minWinRate: PromiseOrValue<BigNumberish>;
+    maxWinCounts: PromiseOrValue<BigNumberish>;
+    maxWinRate: PromiseOrValue<BigNumberish>;
+    startedAt: PromiseOrValue<BigNumberish>;
+    endedAt: PromiseOrValue<BigNumberish>;
+    betSize: PromiseOrValue<BigNumberish>;
+    expectedLines: PromiseOrValue<BigNumberish>;
+    minNumber: PromiseOrValue<BigNumberish>;
+    maxNumber: PromiseOrValue<BigNumberish>;
+  };
+
+  export type WaitingInfoStructOutput = [
+    number,
+    string[],
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    BigNumber,
+    number,
+    number,
+    number
+  ] & {
+    level: number;
+    users: string[];
+    minWinCounts: number;
+    minWinRate: number;
+    maxWinCounts: number;
+    maxWinRate: number;
+    startedAt: number;
+    endedAt: number;
+    betSize: BigNumber;
+    expectedLines: number;
+    minNumber: number;
+    maxNumber: number;
+  };
+}
+
 export interface IGameLineupInterface extends utils.Interface {
   functions: {
-    "join(bytes)": FunctionFragment;
+    "join(uint8,bytes)": FunctionFragment;
     "leave()": FunctionFragment;
     "lineupUsers()": FunctionFragment;
     "start()": FunctionFragment;
@@ -40,7 +86,7 @@ export interface IGameLineupInterface extends utils.Interface {
 
   encodeFunctionData(
     functionFragment: "join",
-    values: [PromiseOrValue<BytesLike>]
+    values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(functionFragment: "leave", values?: undefined): string;
   encodeFunctionData(
@@ -108,6 +154,7 @@ export interface IGameLineup extends BaseContract {
 
   functions: {
     join(
+      level: PromiseOrValue<BigNumberish>,
       zkCard: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
@@ -116,7 +163,9 @@ export interface IGameLineup extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    lineupUsers(overrides?: CallOverrides): Promise<[string[]]>;
+    lineupUsers(
+      overrides?: CallOverrides
+    ): Promise<[BigNumber, IGameLineup.WaitingInfoStructOutput[]]>;
 
     start(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -124,6 +173,7 @@ export interface IGameLineup extends BaseContract {
   };
 
   join(
+    level: PromiseOrValue<BigNumberish>,
     zkCard: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
@@ -132,7 +182,9 @@ export interface IGameLineup extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  lineupUsers(overrides?: CallOverrides): Promise<string[]>;
+  lineupUsers(
+    overrides?: CallOverrides
+  ): Promise<[BigNumber, IGameLineup.WaitingInfoStructOutput[]]>;
 
   start(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -140,13 +192,16 @@ export interface IGameLineup extends BaseContract {
 
   callStatic: {
     join(
+      level: PromiseOrValue<BigNumberish>,
       zkCard: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<void>;
 
     leave(overrides?: CallOverrides): Promise<void>;
 
-    lineupUsers(overrides?: CallOverrides): Promise<string[]>;
+    lineupUsers(
+      overrides?: CallOverrides
+    ): Promise<[BigNumber, IGameLineup.WaitingInfoStructOutput[]]>;
 
     start(overrides?: CallOverrides): Promise<void>;
   };
@@ -167,6 +222,7 @@ export interface IGameLineup extends BaseContract {
 
   estimateGas: {
     join(
+      level: PromiseOrValue<BigNumberish>,
       zkCard: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
@@ -184,6 +240,7 @@ export interface IGameLineup extends BaseContract {
 
   populateTransaction: {
     join(
+      level: PromiseOrValue<BigNumberish>,
       zkCard: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;

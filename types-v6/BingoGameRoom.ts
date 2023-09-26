@@ -50,29 +50,23 @@ export declare namespace IBingoRoom {
     player: string
   ] & { round: bigint; number: bigint; timestamp: bigint; player: string };
 
-  export type RecentGameStruct = {
-    gameId: BigNumberish;
-    status: string;
-    winner: AddressLike;
-    cardNumbers: BigNumberish[][];
-    selectedNumbers: BigNumberish[];
-    players: IBingoRoom.ParticipantStruct[];
+  export type GameSettingsStruct = {
+    betSize: BigNumberish;
+    expectedLines: BigNumberish;
+    minNumber: BigNumberish;
+    maxNumber: BigNumberish;
   };
 
-  export type RecentGameStructOutput = [
-    gameId: bigint,
-    status: string,
-    winner: string,
-    cardNumbers: bigint[][],
-    selectedNumbers: bigint[],
-    players: IBingoRoom.ParticipantStructOutput[]
+  export type GameSettingsStructOutput = [
+    betSize: bigint,
+    expectedLines: bigint,
+    minNumber: bigint,
+    maxNumber: bigint
   ] & {
-    gameId: bigint;
-    status: string;
-    winner: string;
-    cardNumbers: bigint[][];
-    selectedNumbers: bigint[];
-    players: IBingoRoom.ParticipantStructOutput[];
+    betSize: bigint;
+    expectedLines: bigint;
+    minNumber: bigint;
+    maxNumber: bigint;
   };
 }
 
@@ -107,18 +101,14 @@ export interface BingoGameRoomInterface extends Interface {
       | "abandon"
       | "bingo"
       | "bingoFee"
-      | "expectedLines"
       | "gameCard"
       | "gamePlayerCounts"
       | "getCurrentRound"
       | "getGameInfo"
       | "getSelectedNumbers"
-      | "playedGames"
-      | "recentGames"
       | "restoreGame"
       | "selectAndBingo"
       | "selectNumber"
-      | "summary"
       | "timer"
   ): FunctionFragment;
 
@@ -145,10 +135,6 @@ export interface BingoGameRoomInterface extends Interface {
     values: [BigNumberish, BigNumberish[][], BytesLike]
   ): string;
   encodeFunctionData(functionFragment: "bingoFee", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "expectedLines",
-    values?: undefined
-  ): string;
   encodeFunctionData(functionFragment: "gameCard", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "gamePlayerCounts",
@@ -167,14 +153,6 @@ export interface BingoGameRoomInterface extends Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
-    functionFragment: "playedGames",
-    values: [AddressLike, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "recentGames",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
     functionFragment: "restoreGame",
     values: [AddressLike, BigNumberish[][], BytesLike]
   ): string;
@@ -186,7 +164,6 @@ export interface BingoGameRoomInterface extends Interface {
     functionFragment: "selectNumber",
     values: [BigNumberish, BigNumberish]
   ): string;
-  encodeFunctionData(functionFragment: "summary", values?: undefined): string;
   encodeFunctionData(functionFragment: "timer", values?: undefined): string;
 
   decodeFunctionResult(
@@ -196,10 +173,6 @@ export interface BingoGameRoomInterface extends Interface {
   decodeFunctionResult(functionFragment: "abandon", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "bingo", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "bingoFee", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "expectedLines",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "gameCard", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "gamePlayerCounts",
@@ -218,14 +191,6 @@ export interface BingoGameRoomInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "playedGames",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "recentGames",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
     functionFragment: "restoreGame",
     data: BytesLike
   ): Result;
@@ -237,7 +202,6 @@ export interface BingoGameRoomInterface extends Interface {
     functionFragment: "selectNumber",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "summary", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "timer", data: BytesLike): Result;
 }
 
@@ -423,8 +387,6 @@ export interface BingoGameRoom extends BaseContract {
 
   bingoFee: TypedContractMethod<[], [string], "view">;
 
-  expectedLines: TypedContractMethod<[], [bigint], "view">;
-
   gameCard: TypedContractMethod<[], [string], "view">;
 
   gamePlayerCounts: TypedContractMethod<
@@ -452,20 +414,20 @@ export interface BingoGameRoom extends BaseContract {
       [
         bigint,
         bigint,
-        bigint,
         string,
         bigint,
         IBingoRoom.ParticipantStructOutput[],
         IBingoRoom.GameRoundStructOutput[],
+        IBingoRoom.GameSettingsStructOutput,
         string
       ] & {
         startedAt: bigint;
         endedAt: bigint;
-        gameInputPer: bigint;
         winner: string;
         winAmount: bigint;
         players: IBingoRoom.ParticipantStructOutput[];
         rounds: IBingoRoom.GameRoundStructOutput[];
+        settings: IBingoRoom.GameSettingsStructOutput;
         status: string;
       }
     ],
@@ -475,18 +437,6 @@ export interface BingoGameRoom extends BaseContract {
   getSelectedNumbers: TypedContractMethod<
     [gameId: BigNumberish],
     [bigint[]],
-    "view"
-  >;
-
-  playedGames: TypedContractMethod<
-    [user: AddressLike, skip: BigNumberish],
-    [IBingoRoom.RecentGameStructOutput[]],
-    "view"
-  >;
-
-  recentGames: TypedContractMethod<
-    [filter: BigNumberish],
-    [IBingoRoom.RecentGameStructOutput[]],
     "view"
   >;
 
@@ -523,18 +473,6 @@ export interface BingoGameRoom extends BaseContract {
     "nonpayable"
   >;
 
-  summary: TypedContractMethod<
-    [],
-    [
-      [bigint, bigint, bigint] & {
-        totalGameStarted: bigint;
-        totalPlayersJoined: bigint;
-        totalRewardDistributed: bigint;
-      }
-    ],
-    "view"
-  >;
-
   timer: TypedContractMethod<
     [],
     [BingoGameRoom.GameTimeoutStructOutput],
@@ -566,9 +504,6 @@ export interface BingoGameRoom extends BaseContract {
     nameOrSignature: "bingoFee"
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
-    nameOrSignature: "expectedLines"
-  ): TypedContractMethod<[], [bigint], "view">;
-  getFunction(
     nameOrSignature: "gameCard"
   ): TypedContractMethod<[], [string], "view">;
   getFunction(
@@ -596,20 +531,20 @@ export interface BingoGameRoom extends BaseContract {
       [
         bigint,
         bigint,
-        bigint,
         string,
         bigint,
         IBingoRoom.ParticipantStructOutput[],
         IBingoRoom.GameRoundStructOutput[],
+        IBingoRoom.GameSettingsStructOutput,
         string
       ] & {
         startedAt: bigint;
         endedAt: bigint;
-        gameInputPer: bigint;
         winner: string;
         winAmount: bigint;
         players: IBingoRoom.ParticipantStructOutput[];
         rounds: IBingoRoom.GameRoundStructOutput[];
+        settings: IBingoRoom.GameSettingsStructOutput;
         status: string;
       }
     ],
@@ -618,20 +553,6 @@ export interface BingoGameRoom extends BaseContract {
   getFunction(
     nameOrSignature: "getSelectedNumbers"
   ): TypedContractMethod<[gameId: BigNumberish], [bigint[]], "view">;
-  getFunction(
-    nameOrSignature: "playedGames"
-  ): TypedContractMethod<
-    [user: AddressLike, skip: BigNumberish],
-    [IBingoRoom.RecentGameStructOutput[]],
-    "view"
-  >;
-  getFunction(
-    nameOrSignature: "recentGames"
-  ): TypedContractMethod<
-    [filter: BigNumberish],
-    [IBingoRoom.RecentGameStructOutput[]],
-    "view"
-  >;
   getFunction(
     nameOrSignature: "restoreGame"
   ): TypedContractMethod<
@@ -667,19 +588,6 @@ export interface BingoGameRoom extends BaseContract {
     [gameId: BigNumberish, number: BigNumberish],
     [void],
     "nonpayable"
-  >;
-  getFunction(
-    nameOrSignature: "summary"
-  ): TypedContractMethod<
-    [],
-    [
-      [bigint, bigint, bigint] & {
-        totalGameStarted: bigint;
-        totalPlayersJoined: bigint;
-        totalRewardDistributed: bigint;
-      }
-    ],
-    "view"
   >;
   getFunction(
     nameOrSignature: "timer"
