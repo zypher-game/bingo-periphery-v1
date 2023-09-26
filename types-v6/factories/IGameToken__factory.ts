@@ -2,9 +2,8 @@
 /* tslint:disable */
 /* eslint-disable */
 
-import { Contract, Signer, utils } from "ethers";
-import type { Provider } from "@ethersproject/providers";
-import type { IBingoToken, IBingoTokenInterface } from "../IBingoToken";
+import { Contract, Interface, type ContractRunner } from "ethers";
+import type { IGameToken, IGameTokenInterface } from "../IGameToken";
 
 const _abi = [
   {
@@ -141,17 +140,14 @@ const _abi = [
     stateMutability: "nonpayable",
     type: "function",
   },
-];
+] as const;
 
-export class IBingoToken__factory {
+export class IGameToken__factory {
   static readonly abi = _abi;
-  static createInterface(): IBingoTokenInterface {
-    return new utils.Interface(_abi) as IBingoTokenInterface;
+  static createInterface(): IGameTokenInterface {
+    return new Interface(_abi) as IGameTokenInterface;
   }
-  static connect(
-    address: string,
-    signerOrProvider: Signer | Provider
-  ): IBingoToken {
-    return new Contract(address, _abi, signerOrProvider) as IBingoToken;
+  static connect(address: string, runner?: ContractRunner | null): IGameToken {
+    return new Contract(address, _abi, runner) as unknown as IGameToken;
   }
 }

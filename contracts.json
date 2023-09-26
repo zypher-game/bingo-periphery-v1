@@ -11,8 +11,8 @@
       "ZkBingoCard": "0x8F4F21308a7c16d0E1d3d851B0E2547ff652287F",
       "ZkBingoLobby": "0xEEcaAE0E7C68bCc0e232c8229310991A0106f1C4",
       "Reward": "0x0269c2a29dbD73C6F13f45850A12B14D98DCe613",
-      "ZkBingoToken": "0x003049fdf574B3fD5aE70dDb398Db0E86d4D0703",
-      "ZkBingoPoints": "0x8fF15F19E6BB2bC69A3dd4b97Cbc2792059d8F2d"
+      "ZypherGameToken": "",
+      "ZkBingoPoints": ""
     }
   },
   "420": {
@@ -98,8 +98,8 @@
       "ZkBingoLobby": "0xb29cAa2cB1fEb7f4cCaa9Dd9B8Ad2022EaCa6EC3",
       "ZkBingoCard": "0xC9108a21e461C71331C1317B38C57DDB8B7B0264",
       "Reward": "0x0a882D83A3d3160A6eF5192f03A79AFC40208BDe",
-      "ZkBingoToken": "0xc3815fC58F1DBf6AD45ADaFDa351f431A6202123",
-      "ZkBingoPoints": "0xEB7b7129c662433458C0fb8bFA6Cb44D9FB9B661"
+      "ZypherGameToken": "0x6ba3593101E32cEdBDE5AC9439e9187736B26A15",
+      "ZkBingoPoints": "0x244aF35FDeC6A9A10BD6eA1357bC267bC4Ef6f55"
     }
   },
   "80001": {

@@ -23,7 +23,7 @@ import type {
   TypedContractMethod,
 } from "./common";
 
-export interface ZkBingoTokenInterface extends Interface {
+export interface ZypherGameTokenInterface extends Interface {
   getFunction(
     nameOrSignature:
       | "DEFAULT_ADMIN_ROLE"
@@ -385,11 +385,11 @@ export namespace UpgradedEvent {
   export type LogDescription = TypedLogDescription<Event>;
 }
 
-export interface ZkBingoToken extends BaseContract {
-  connect(runner?: ContractRunner | null): ZkBingoToken;
+export interface ZypherGameToken extends BaseContract {
+  connect(runner?: ContractRunner | null): ZypherGameToken;
   waitForDeployment(): Promise<this>;
 
-  interface: ZkBingoTokenInterface;
+  interface: ZypherGameTokenInterface;
 
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,

@@ -4,7 +4,10 @@
 
 import { Contract, Signer, utils } from "ethers";
 import type { Provider } from "@ethersproject/providers";
-import type { ZkBingoToken, ZkBingoTokenInterface } from "../ZkBingoToken";
+import type {
+  ZypherGameToken,
+  ZypherGameTokenInterface,
+} from "../ZypherGameToken";
 
 const _abi = [
   {
@@ -724,15 +727,15 @@ const _abi = [
   },
 ];
 
-export class ZkBingoToken__factory {
+export class ZypherGameToken__factory {
   static readonly abi = _abi;
-  static createInterface(): ZkBingoTokenInterface {
-    return new utils.Interface(_abi) as ZkBingoTokenInterface;
+  static createInterface(): ZypherGameTokenInterface {
+    return new utils.Interface(_abi) as ZypherGameTokenInterface;
   }
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
-  ): ZkBingoToken {
-    return new Contract(address, _abi, signerOrProvider) as ZkBingoToken;
+  ): ZypherGameToken {
+    return new Contract(address, _abi, signerOrProvider) as ZypherGameToken;
   }
 }

@@ -3,7 +3,10 @@
 /* eslint-disable */
 
 import { Contract, Interface, type ContractRunner } from "ethers";
-import type { ZkBingoToken, ZkBingoTokenInterface } from "../ZkBingoToken";
+import type {
+  ZypherGameToken,
+  ZypherGameTokenInterface,
+} from "../ZypherGameToken";
 
 const _abi = [
   {
@@ -723,15 +726,15 @@ const _abi = [
   },
 ] as const;
 
-export class ZkBingoToken__factory {
+export class ZypherGameToken__factory {
   static readonly abi = _abi;
-  static createInterface(): ZkBingoTokenInterface {
-    return new Interface(_abi) as ZkBingoTokenInterface;
+  static createInterface(): ZypherGameTokenInterface {
+    return new Interface(_abi) as ZypherGameTokenInterface;
   }
   static connect(
     address: string,
     runner?: ContractRunner | null
-  ): ZkBingoToken {
-    return new Contract(address, _abi, runner) as unknown as ZkBingoToken;
+  ): ZypherGameToken {
+    return new Contract(address, _abi, runner) as unknown as ZypherGameToken;
   }
 }

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-interface IBingoToken {
+interface IGameToken {
     function mintTo(address to_, uint256 amount_, uint256 debt_) external;
 
     function repayment(uint256 amount_) external;

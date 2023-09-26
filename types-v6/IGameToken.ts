@@ -21,7 +21,7 @@ import type {
   TypedContractMethod,
 } from "./common";
 
-export interface IBingoTokenInterface extends Interface {
+export interface IGameTokenInterface extends Interface {
   getFunction(
     nameOrSignature:
       | "balanceOf"
@@ -77,11 +77,11 @@ export interface IBingoTokenInterface extends Interface {
   ): Result;
 }
 
-export interface IBingoToken extends BaseContract {
-  connect(runner?: ContractRunner | null): IBingoToken;
+export interface IGameToken extends BaseContract {
+  connect(runner?: ContractRunner | null): IGameToken;
   waitForDeployment(): Promise<this>;
 
-  interface: IBingoTokenInterface;
+  interface: IGameTokenInterface;
 
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,

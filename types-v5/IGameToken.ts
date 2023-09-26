@@ -23,7 +23,7 @@ import type {
   PromiseOrValue,
 } from "./common";
 
-export interface IBingoTokenInterface extends utils.Interface {
+export interface IGameTokenInterface extends utils.Interface {
   functions: {
     "balanceOf(address)": FunctionFragment;
     "getResidue()": FunctionFragment;
@@ -99,12 +99,12 @@ export interface IBingoTokenInterface extends utils.Interface {
   events: {};
 }
 
-export interface IBingoToken extends BaseContract {
+export interface IGameToken extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: IBingoTokenInterface;
+  interface: IGameTokenInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
