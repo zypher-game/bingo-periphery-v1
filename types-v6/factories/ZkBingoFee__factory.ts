@@ -231,19 +231,6 @@ const _abi = [
   },
   {
     inputs: [],
-    name: "bingoToken",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
     name: "feeInfo",
     outputs: [
       {
@@ -315,6 +302,19 @@ const _abi = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "gameToken",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "uint256",
@@ -365,7 +365,7 @@ const _abi = [
       },
       {
         internalType: "address",
-        name: "bingoToken_",
+        name: "gameToken_",
         type: "address",
       },
     ],
@@ -442,11 +442,11 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "bingoToken_",
+        name: "gameToken_",
         type: "address",
       },
     ],
-    name: "setBingoToken",
+    name: "setGameToken",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",

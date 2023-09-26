@@ -248,19 +248,6 @@ const _abi = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "bingoToken",
-    outputs: [
-      {
-        internalType: "address",
-        name: "",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [
       {
         internalType: "string",
@@ -299,6 +286,19 @@ const _abi = [
         internalType: "bool",
         name: "",
         type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "gameToken",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
       },
     ],
     stateMutability: "view",
@@ -369,7 +369,7 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
-        name: "bingoToken_",
+        name: "gameToken_",
         type: "address",
       },
     ],
@@ -466,19 +466,6 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "address",
-        name: "bingoToken_",
-        type: "address",
-      },
-    ],
-    name: "setBingoToken",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
         internalType: "enum IBingoPoints.ClaimType",
         name: "claimType",
         type: "uint8",
@@ -503,6 +490,19 @@ const _abi = [
       },
     ],
     name: "setFreeClaimEnable",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "gameToken_",
+        type: "address",
+      },
+    ],
+    name: "setGameToken",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
