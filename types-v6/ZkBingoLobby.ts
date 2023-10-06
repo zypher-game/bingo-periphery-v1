@@ -168,6 +168,7 @@ export interface ZkBingoLobbyInterface extends Interface {
       | "setBingFee"
       | "setGameTimers"
       | "setInitData"
+      | "setVipToken"
       | "start"
       | "timer"
       | "transferOwnership"
@@ -308,6 +309,10 @@ export interface ZkBingoLobbyInterface extends Interface {
     functionFragment: "setInitData",
     values: [BigNumberish, BigNumberish, BigNumberish]
   ): string;
+  encodeFunctionData(
+    functionFragment: "setVipToken",
+    values: [AddressLike]
+  ): string;
   encodeFunctionData(functionFragment: "start", values?: undefined): string;
   encodeFunctionData(functionFragment: "timer", values?: undefined): string;
   encodeFunctionData(
@@ -390,6 +395,10 @@ export interface ZkBingoLobbyInterface extends Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "setInitData",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setVipToken",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "start", data: BytesLike): Result;
@@ -837,6 +846,8 @@ export interface ZkBingoLobby extends BaseContract {
     "nonpayable"
   >;
 
+  setVipToken: TypedContractMethod<[token: AddressLike], [void], "nonpayable">;
+
   start: TypedContractMethod<[], [void], "nonpayable">;
 
   timer: TypedContractMethod<
@@ -1074,6 +1085,9 @@ export interface ZkBingoLobby extends BaseContract {
     [void],
     "nonpayable"
   >;
+  getFunction(
+    nameOrSignature: "setVipToken"
+  ): TypedContractMethod<[token: AddressLike], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "start"
   ): TypedContractMethod<[], [void], "nonpayable">;
