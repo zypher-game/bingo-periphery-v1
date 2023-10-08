@@ -23,6 +23,48 @@ import type {
   TypedContractMethod,
 } from "./common";
 
+export declare namespace IGameLineup {
+  export type WaitingInfoStruct = {
+    level: BigNumberish;
+    minWinCounts: BigNumberish;
+    minWinRate: BigNumberish;
+    maxWinCounts: BigNumberish;
+    maxWinRate: BigNumberish;
+    startedAt: BigNumberish;
+    endedAt: BigNumberish;
+    betSize: BigNumberish;
+    expectedLines: BigNumberish;
+    minNumber: BigNumberish;
+    maxNumber: BigNumberish;
+  };
+
+  export type WaitingInfoStructOutput = [
+    level: bigint,
+    minWinCounts: bigint,
+    minWinRate: bigint,
+    maxWinCounts: bigint,
+    maxWinRate: bigint,
+    startedAt: bigint,
+    endedAt: bigint,
+    betSize: bigint,
+    expectedLines: bigint,
+    minNumber: bigint,
+    maxNumber: bigint
+  ] & {
+    level: bigint;
+    minWinCounts: bigint;
+    minWinRate: bigint;
+    maxWinCounts: bigint;
+    maxWinRate: bigint;
+    startedAt: bigint;
+    endedAt: bigint;
+    betSize: bigint;
+    expectedLines: bigint;
+    minNumber: bigint;
+    maxNumber: bigint;
+  };
+}
+
 export declare namespace IBingoRoom {
   export type ParticipantStruct = {
     user: AddressLike;
@@ -70,51 +112,6 @@ export declare namespace IBingoRoom {
   };
 }
 
-export declare namespace IGameLineup {
-  export type WaitingInfoStruct = {
-    level: BigNumberish;
-    users: AddressLike[];
-    minWinCounts: BigNumberish;
-    minWinRate: BigNumberish;
-    maxWinCounts: BigNumberish;
-    maxWinRate: BigNumberish;
-    startedAt: BigNumberish;
-    endedAt: BigNumberish;
-    betSize: BigNumberish;
-    expectedLines: BigNumberish;
-    minNumber: BigNumberish;
-    maxNumber: BigNumberish;
-  };
-
-  export type WaitingInfoStructOutput = [
-    level: bigint,
-    users: string[],
-    minWinCounts: bigint,
-    minWinRate: bigint,
-    maxWinCounts: bigint,
-    maxWinRate: bigint,
-    startedAt: bigint,
-    endedAt: bigint,
-    betSize: bigint,
-    expectedLines: bigint,
-    minNumber: bigint,
-    maxNumber: bigint
-  ] & {
-    level: bigint;
-    users: string[];
-    minWinCounts: bigint;
-    minWinRate: bigint;
-    maxWinCounts: bigint;
-    maxWinRate: bigint;
-    startedAt: bigint;
-    endedAt: bigint;
-    betSize: bigint;
-    expectedLines: bigint;
-    minNumber: bigint;
-    maxNumber: bigint;
-  };
-}
-
 export declare namespace BingoGameRoom {
   export type GameTimeoutStruct = {
     startTimeout: BigNumberish;
@@ -144,6 +141,7 @@ export interface ZkBingoLobbyInterface extends Interface {
     nameOrSignature:
       | "RECENT_GAME_COUNTS"
       | "abandon"
+      | "activeLevels"
       | "addLevel"
       | "bingo"
       | "bingoFee"
@@ -200,6 +198,10 @@ export interface ZkBingoLobbyInterface extends Interface {
   encodeFunctionData(
     functionFragment: "abandon",
     values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "activeLevels",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "addLevel",
@@ -334,6 +336,10 @@ export interface ZkBingoLobbyInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "abandon", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "activeLevels",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "addLevel", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "bingo", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "bingoFee", data: BytesLike): Result;
@@ -659,6 +665,17 @@ export interface ZkBingoLobby extends BaseContract {
 
   abandon: TypedContractMethod<[gameId: BigNumberish], [void], "nonpayable">;
 
+  activeLevels: TypedContractMethod<
+    [],
+    [
+      [bigint, IGameLineup.WaitingInfoStructOutput[]] & {
+        wins: bigint;
+        list: IGameLineup.WaitingInfoStructOutput[];
+      }
+    ],
+    "view"
+  >;
+
   addLevel: TypedContractMethod<
     [
       betSize: BigNumberish,
@@ -766,12 +783,7 @@ export interface ZkBingoLobby extends BaseContract {
 
   lineupUsers: TypedContractMethod<
     [],
-    [
-      [bigint, IGameLineup.WaitingInfoStructOutput[]] & {
-        wRate: bigint;
-        list: IGameLineup.WaitingInfoStructOutput[];
-      }
-    ],
+    [[bigint, string[]] & { lvId: bigint; list: string[] }],
     "view"
   >;
 
@@ -887,6 +899,18 @@ export interface ZkBingoLobby extends BaseContract {
     nameOrSignature: "abandon"
   ): TypedContractMethod<[gameId: BigNumberish], [void], "nonpayable">;
   getFunction(
+    nameOrSignature: "activeLevels"
+  ): TypedContractMethod<
+    [],
+    [
+      [bigint, IGameLineup.WaitingInfoStructOutput[]] & {
+        wins: bigint;
+        list: IGameLineup.WaitingInfoStructOutput[];
+      }
+    ],
+    "view"
+  >;
+  getFunction(
     nameOrSignature: "addLevel"
   ): TypedContractMethod<
     [
@@ -999,12 +1023,7 @@ export interface ZkBingoLobby extends BaseContract {
     nameOrSignature: "lineupUsers"
   ): TypedContractMethod<
     [],
-    [
-      [bigint, IGameLineup.WaitingInfoStructOutput[]] & {
-        wRate: bigint;
-        list: IGameLineup.WaitingInfoStructOutput[];
-      }
-    ],
+    [[bigint, string[]] & { lvId: bigint; list: string[] }],
     "view"
   >;
   getFunction(

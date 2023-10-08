@@ -26,7 +26,6 @@ import type {
 export declare namespace IGameLineup {
   export type WaitingInfoStruct = {
     level: BigNumberish;
-    users: AddressLike[];
     minWinCounts: BigNumberish;
     minWinRate: BigNumberish;
     maxWinCounts: BigNumberish;
@@ -41,7 +40,6 @@ export declare namespace IGameLineup {
 
   export type WaitingInfoStructOutput = [
     level: bigint,
-    users: string[],
     minWinCounts: bigint,
     minWinRate: bigint,
     maxWinCounts: bigint,
@@ -54,7 +52,6 @@ export declare namespace IGameLineup {
     maxNumber: bigint
   ] & {
     level: bigint;
-    users: string[];
     minWinCounts: bigint;
     minWinRate: bigint;
     maxWinCounts: bigint;
@@ -70,13 +67,17 @@ export declare namespace IGameLineup {
 
 export interface IGameLineupInterface extends Interface {
   getFunction(
-    nameOrSignature: "join" | "leave" | "lineupUsers" | "start"
+    nameOrSignature: "activeLevels" | "join" | "leave" | "lineupUsers" | "start"
   ): FunctionFragment;
 
   getEvent(
     nameOrSignatureOrTopic: "LineupJoined" | "LineupLeft"
   ): EventFragment;
 
+  encodeFunctionData(
+    functionFragment: "activeLevels",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "join",
     values: [BigNumberish, BytesLike]
@@ -88,6 +89,10 @@ export interface IGameLineupInterface extends Interface {
   ): string;
   encodeFunctionData(functionFragment: "start", values?: undefined): string;
 
+  decodeFunctionResult(
+    functionFragment: "activeLevels",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "join", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "leave", data: BytesLike): Result;
   decodeFunctionResult(
@@ -164,6 +169,17 @@ export interface IGameLineup extends BaseContract {
     event?: TCEvent
   ): Promise<this>;
 
+  activeLevels: TypedContractMethod<
+    [],
+    [
+      [bigint, IGameLineup.WaitingInfoStructOutput[]] & {
+        wins: bigint;
+        list: IGameLineup.WaitingInfoStructOutput[];
+      }
+    ],
+    "view"
+  >;
+
   join: TypedContractMethod<
     [level: BigNumberish, zkCard: BytesLike],
     [void],
@@ -172,11 +188,7 @@ export interface IGameLineup extends BaseContract {
 
   leave: TypedContractMethod<[], [void], "nonpayable">;
 
-  lineupUsers: TypedContractMethod<
-    [],
-    [[bigint, IGameLineup.WaitingInfoStructOutput[]]],
-    "view"
-  >;
+  lineupUsers: TypedContractMethod<[], [[bigint, string[]]], "view">;
 
   start: TypedContractMethod<[], [void], "nonpayable">;
 
@@ -184,6 +196,18 @@ export interface IGameLineup extends BaseContract {
     key: string | FunctionFragment
   ): T;
 
+  getFunction(
+    nameOrSignature: "activeLevels"
+  ): TypedContractMethod<
+    [],
+    [
+      [bigint, IGameLineup.WaitingInfoStructOutput[]] & {
+        wins: bigint;
+        list: IGameLineup.WaitingInfoStructOutput[];
+      }
+    ],
+    "view"
+  >;
   getFunction(
     nameOrSignature: "join"
   ): TypedContractMethod<
@@ -196,11 +220,7 @@ export interface IGameLineup extends BaseContract {
   ): TypedContractMethod<[], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "lineupUsers"
-  ): TypedContractMethod<
-    [],
-    [[bigint, IGameLineup.WaitingInfoStructOutput[]]],
-    "view"
-  >;
+  ): TypedContractMethod<[], [[bigint, string[]]], "view">;
   getFunction(
     nameOrSignature: "start"
   ): TypedContractMethod<[], [void], "nonpayable">;

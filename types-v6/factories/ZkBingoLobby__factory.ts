@@ -401,6 +401,81 @@ const _abi = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "activeLevels",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "wins",
+        type: "uint256",
+      },
+      {
+        components: [
+          {
+            internalType: "uint8",
+            name: "level",
+            type: "uint8",
+          },
+          {
+            internalType: "uint32",
+            name: "minWinCounts",
+            type: "uint32",
+          },
+          {
+            internalType: "uint32",
+            name: "minWinRate",
+            type: "uint32",
+          },
+          {
+            internalType: "uint32",
+            name: "maxWinCounts",
+            type: "uint32",
+          },
+          {
+            internalType: "uint32",
+            name: "maxWinRate",
+            type: "uint32",
+          },
+          {
+            internalType: "uint32",
+            name: "startedAt",
+            type: "uint32",
+          },
+          {
+            internalType: "uint32",
+            name: "endedAt",
+            type: "uint32",
+          },
+          {
+            internalType: "uint256",
+            name: "betSize",
+            type: "uint256",
+          },
+          {
+            internalType: "uint8",
+            name: "expectedLines",
+            type: "uint8",
+          },
+          {
+            internalType: "uint8",
+            name: "minNumber",
+            type: "uint8",
+          },
+          {
+            internalType: "uint8",
+            name: "maxNumber",
+            type: "uint8",
+          },
+        ],
+        internalType: "struct IGameLineup.WaitingInfo[]",
+        name: "list",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "uint256",
@@ -781,76 +856,14 @@ const _abi = [
     name: "lineupUsers",
     outputs: [
       {
-        internalType: "uint256",
-        name: "wRate",
-        type: "uint256",
+        internalType: "uint8",
+        name: "lvId",
+        type: "uint8",
       },
       {
-        components: [
-          {
-            internalType: "uint8",
-            name: "level",
-            type: "uint8",
-          },
-          {
-            internalType: "address[]",
-            name: "users",
-            type: "address[]",
-          },
-          {
-            internalType: "uint32",
-            name: "minWinCounts",
-            type: "uint32",
-          },
-          {
-            internalType: "uint32",
-            name: "minWinRate",
-            type: "uint32",
-          },
-          {
-            internalType: "uint32",
-            name: "maxWinCounts",
-            type: "uint32",
-          },
-          {
-            internalType: "uint32",
-            name: "maxWinRate",
-            type: "uint32",
-          },
-          {
-            internalType: "uint32",
-            name: "startedAt",
-            type: "uint32",
-          },
-          {
-            internalType: "uint32",
-            name: "endedAt",
-            type: "uint32",
-          },
-          {
-            internalType: "uint256",
-            name: "betSize",
-            type: "uint256",
-          },
-          {
-            internalType: "uint8",
-            name: "expectedLines",
-            type: "uint8",
-          },
-          {
-            internalType: "uint8",
-            name: "minNumber",
-            type: "uint8",
-          },
-          {
-            internalType: "uint8",
-            name: "maxNumber",
-            type: "uint8",
-          },
-        ],
-        internalType: "struct IGameLineup.WaitingInfo[]",
+        internalType: "address[]",
         name: "list",
-        type: "tuple[]",
+        type: "address[]",
       },
     ],
     stateMutability: "view",

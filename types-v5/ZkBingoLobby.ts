@@ -28,6 +28,48 @@ import type {
   PromiseOrValue,
 } from "./common";
 
+export declare namespace IGameLineup {
+  export type WaitingInfoStruct = {
+    level: PromiseOrValue<BigNumberish>;
+    minWinCounts: PromiseOrValue<BigNumberish>;
+    minWinRate: PromiseOrValue<BigNumberish>;
+    maxWinCounts: PromiseOrValue<BigNumberish>;
+    maxWinRate: PromiseOrValue<BigNumberish>;
+    startedAt: PromiseOrValue<BigNumberish>;
+    endedAt: PromiseOrValue<BigNumberish>;
+    betSize: PromiseOrValue<BigNumberish>;
+    expectedLines: PromiseOrValue<BigNumberish>;
+    minNumber: PromiseOrValue<BigNumberish>;
+    maxNumber: PromiseOrValue<BigNumberish>;
+  };
+
+  export type WaitingInfoStructOutput = [
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    number,
+    BigNumber,
+    number,
+    number,
+    number
+  ] & {
+    level: number;
+    minWinCounts: number;
+    minWinRate: number;
+    maxWinCounts: number;
+    maxWinRate: number;
+    startedAt: number;
+    endedAt: number;
+    betSize: BigNumber;
+    expectedLines: number;
+    minNumber: number;
+    maxNumber: number;
+  };
+}
+
 export declare namespace IBingoRoom {
   export type ParticipantStruct = {
     user: PromiseOrValue<string>;
@@ -70,51 +112,6 @@ export declare namespace IBingoRoom {
   };
 }
 
-export declare namespace IGameLineup {
-  export type WaitingInfoStruct = {
-    level: PromiseOrValue<BigNumberish>;
-    users: PromiseOrValue<string>[];
-    minWinCounts: PromiseOrValue<BigNumberish>;
-    minWinRate: PromiseOrValue<BigNumberish>;
-    maxWinCounts: PromiseOrValue<BigNumberish>;
-    maxWinRate: PromiseOrValue<BigNumberish>;
-    startedAt: PromiseOrValue<BigNumberish>;
-    endedAt: PromiseOrValue<BigNumberish>;
-    betSize: PromiseOrValue<BigNumberish>;
-    expectedLines: PromiseOrValue<BigNumberish>;
-    minNumber: PromiseOrValue<BigNumberish>;
-    maxNumber: PromiseOrValue<BigNumberish>;
-  };
-
-  export type WaitingInfoStructOutput = [
-    number,
-    string[],
-    number,
-    number,
-    number,
-    number,
-    number,
-    number,
-    BigNumber,
-    number,
-    number,
-    number
-  ] & {
-    level: number;
-    users: string[];
-    minWinCounts: number;
-    minWinRate: number;
-    maxWinCounts: number;
-    maxWinRate: number;
-    startedAt: number;
-    endedAt: number;
-    betSize: BigNumber;
-    expectedLines: number;
-    minNumber: number;
-    maxNumber: number;
-  };
-}
-
 export declare namespace BingoGameRoom {
   export type GameTimeoutStruct = {
     startTimeout: PromiseOrValue<BigNumberish>;
@@ -143,6 +140,7 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
   functions: {
     "RECENT_GAME_COUNTS()": FunctionFragment;
     "abandon(uint256)": FunctionFragment;
+    "activeLevels()": FunctionFragment;
     "addLevel(uint256,uint32,uint32,uint32,uint32,uint32,uint32,uint8,uint8,uint8)": FunctionFragment;
     "bingo(uint256,uint8[][],bytes)": FunctionFragment;
     "bingoFee()": FunctionFragment;
@@ -180,6 +178,7 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
     nameOrSignatureOrTopic:
       | "RECENT_GAME_COUNTS"
       | "abandon"
+      | "activeLevels"
       | "addLevel"
       | "bingo"
       | "bingoFee"
@@ -220,6 +219,10 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "abandon",
     values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "activeLevels",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "addLevel",
@@ -371,6 +374,10 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "abandon", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "activeLevels",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "addLevel", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "bingo", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "bingoFee", data: BytesLike): Result;
@@ -639,6 +646,15 @@ export interface ZkBingoLobby extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    activeLevels(
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, IGameLineup.WaitingInfoStructOutput[]] & {
+        wins: BigNumber;
+        list: IGameLineup.WaitingInfoStructOutput[];
+      }
+    >;
+
     addLevel(
       betSize: PromiseOrValue<BigNumberish>,
       minWinCounts: PromiseOrValue<BigNumberish>,
@@ -738,12 +754,7 @@ export interface ZkBingoLobby extends BaseContract {
 
     lineupUsers(
       overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, IGameLineup.WaitingInfoStructOutput[]] & {
-        wRate: BigNumber;
-        list: IGameLineup.WaitingInfoStructOutput[];
-      }
-    >;
+    ): Promise<[number, string[]] & { lvId: number; list: string[] }>;
 
     maxPlayers(overrides?: CallOverrides): Promise<[number]>;
 
@@ -838,6 +849,15 @@ export interface ZkBingoLobby extends BaseContract {
     gameId: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
+
+  activeLevels(
+    overrides?: CallOverrides
+  ): Promise<
+    [BigNumber, IGameLineup.WaitingInfoStructOutput[]] & {
+      wins: BigNumber;
+      list: IGameLineup.WaitingInfoStructOutput[];
+    }
+  >;
 
   addLevel(
     betSize: PromiseOrValue<BigNumberish>,
@@ -938,12 +958,7 @@ export interface ZkBingoLobby extends BaseContract {
 
   lineupUsers(
     overrides?: CallOverrides
-  ): Promise<
-    [BigNumber, IGameLineup.WaitingInfoStructOutput[]] & {
-      wRate: BigNumber;
-      list: IGameLineup.WaitingInfoStructOutput[];
-    }
-  >;
+  ): Promise<[number, string[]] & { lvId: number; list: string[] }>;
 
   maxPlayers(overrides?: CallOverrides): Promise<number>;
 
@@ -1038,6 +1053,15 @@ export interface ZkBingoLobby extends BaseContract {
       gameId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    activeLevels(
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, IGameLineup.WaitingInfoStructOutput[]] & {
+        wins: BigNumber;
+        list: IGameLineup.WaitingInfoStructOutput[];
+      }
+    >;
 
     addLevel(
       betSize: PromiseOrValue<BigNumberish>,
@@ -1136,12 +1160,7 @@ export interface ZkBingoLobby extends BaseContract {
 
     lineupUsers(
       overrides?: CallOverrides
-    ): Promise<
-      [BigNumber, IGameLineup.WaitingInfoStructOutput[]] & {
-        wRate: BigNumber;
-        list: IGameLineup.WaitingInfoStructOutput[];
-      }
-    >;
+    ): Promise<[number, string[]] & { lvId: number; list: string[] }>;
 
     maxPlayers(overrides?: CallOverrides): Promise<number>;
 
@@ -1356,6 +1375,8 @@ export interface ZkBingoLobby extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    activeLevels(overrides?: CallOverrides): Promise<BigNumber>;
+
     addLevel(
       betSize: PromiseOrValue<BigNumberish>,
       minWinCounts: PromiseOrValue<BigNumberish>,
@@ -1522,6 +1543,8 @@ export interface ZkBingoLobby extends BaseContract {
       gameId: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
+
+    activeLevels(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     addLevel(
       betSize: PromiseOrValue<BigNumberish>,

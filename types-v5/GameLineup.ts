@@ -30,7 +30,6 @@ import type {
 export declare namespace IGameLineup {
   export type WaitingInfoStruct = {
     level: PromiseOrValue<BigNumberish>;
-    users: PromiseOrValue<string>[];
     minWinCounts: PromiseOrValue<BigNumberish>;
     minWinRate: PromiseOrValue<BigNumberish>;
     maxWinCounts: PromiseOrValue<BigNumberish>;
@@ -45,7 +44,6 @@ export declare namespace IGameLineup {
 
   export type WaitingInfoStructOutput = [
     number,
-    string[],
     number,
     number,
     number,
@@ -58,7 +56,6 @@ export declare namespace IGameLineup {
     number
   ] & {
     level: number;
-    users: string[];
     minWinCounts: number;
     minWinRate: number;
     maxWinCounts: number;
@@ -74,6 +71,7 @@ export declare namespace IGameLineup {
 
 export interface GameLineupInterface extends utils.Interface {
   functions: {
+    "activeLevels()": FunctionFragment;
     "join(uint8,bytes)": FunctionFragment;
     "leave()": FunctionFragment;
     "lineupUsers()": FunctionFragment;
@@ -81,9 +79,18 @@ export interface GameLineupInterface extends utils.Interface {
   };
 
   getFunction(
-    nameOrSignatureOrTopic: "join" | "leave" | "lineupUsers" | "start"
+    nameOrSignatureOrTopic:
+      | "activeLevels"
+      | "join"
+      | "leave"
+      | "lineupUsers"
+      | "start"
   ): FunctionFragment;
 
+  encodeFunctionData(
+    functionFragment: "activeLevels",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "join",
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BytesLike>]
@@ -95,6 +102,10 @@ export interface GameLineupInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "start", values?: undefined): string;
 
+  decodeFunctionResult(
+    functionFragment: "activeLevels",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "join", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "leave", data: BytesLike): Result;
   decodeFunctionResult(
@@ -153,6 +164,15 @@ export interface GameLineup extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    activeLevels(
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, IGameLineup.WaitingInfoStructOutput[]] & {
+        wins: BigNumber;
+        list: IGameLineup.WaitingInfoStructOutput[];
+      }
+    >;
+
     join(
       level: PromiseOrValue<BigNumberish>,
       zkCard: PromiseOrValue<BytesLike>,
@@ -163,14 +183,21 @@ export interface GameLineup extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    lineupUsers(
-      overrides?: CallOverrides
-    ): Promise<[BigNumber, IGameLineup.WaitingInfoStructOutput[]]>;
+    lineupUsers(overrides?: CallOverrides): Promise<[number, string[]]>;
 
     start(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
   };
+
+  activeLevels(
+    overrides?: CallOverrides
+  ): Promise<
+    [BigNumber, IGameLineup.WaitingInfoStructOutput[]] & {
+      wins: BigNumber;
+      list: IGameLineup.WaitingInfoStructOutput[];
+    }
+  >;
 
   join(
     level: PromiseOrValue<BigNumberish>,
@@ -182,15 +209,22 @@ export interface GameLineup extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  lineupUsers(
-    overrides?: CallOverrides
-  ): Promise<[BigNumber, IGameLineup.WaitingInfoStructOutput[]]>;
+  lineupUsers(overrides?: CallOverrides): Promise<[number, string[]]>;
 
   start(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   callStatic: {
+    activeLevels(
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, IGameLineup.WaitingInfoStructOutput[]] & {
+        wins: BigNumber;
+        list: IGameLineup.WaitingInfoStructOutput[];
+      }
+    >;
+
     join(
       level: PromiseOrValue<BigNumberish>,
       zkCard: PromiseOrValue<BytesLike>,
@@ -199,9 +233,7 @@ export interface GameLineup extends BaseContract {
 
     leave(overrides?: CallOverrides): Promise<void>;
 
-    lineupUsers(
-      overrides?: CallOverrides
-    ): Promise<[BigNumber, IGameLineup.WaitingInfoStructOutput[]]>;
+    lineupUsers(overrides?: CallOverrides): Promise<[number, string[]]>;
 
     start(overrides?: CallOverrides): Promise<void>;
   };
@@ -221,6 +253,8 @@ export interface GameLineup extends BaseContract {
   };
 
   estimateGas: {
+    activeLevels(overrides?: CallOverrides): Promise<BigNumber>;
+
     join(
       level: PromiseOrValue<BigNumberish>,
       zkCard: PromiseOrValue<BytesLike>,
@@ -239,6 +273,8 @@ export interface GameLineup extends BaseContract {
   };
 
   populateTransaction: {
+    activeLevels(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     join(
       level: PromiseOrValue<BigNumberish>,
       zkCard: PromiseOrValue<BytesLike>,

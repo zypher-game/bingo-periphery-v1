@@ -19,8 +19,7 @@ interface IGameLineup {
 
     struct WaitingInfo {
         uint8 level;
-        address[] users;
-
+        
         uint32 minWinCounts;
         uint32 minWinRate; // scaled by 1e6 (10000 = 1%)
         uint32 maxWinCounts;
@@ -33,5 +32,7 @@ interface IGameLineup {
         uint8 minNumber;
         uint8 maxNumber;
     }
-    function lineupUsers() external view returns (uint256, WaitingInfo[] memory);
+    function lineupUsers() external view returns (uint8, address[] memory);
+
+    function activeLevels() external view returns (uint256 wins, WaitingInfo[] memory list);
 }

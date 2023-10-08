@@ -60,37 +60,12 @@ const _abi = [
     type: "event",
   },
   {
-    inputs: [
-      {
-        internalType: "uint8",
-        name: "level",
-        type: "uint8",
-      },
-      {
-        internalType: "bytes",
-        name: "zkCard",
-        type: "bytes",
-      },
-    ],
-    name: "join",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
     inputs: [],
-    name: "leave",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "lineupUsers",
+    name: "activeLevels",
     outputs: [
       {
         internalType: "uint256",
-        name: "",
+        name: "wins",
         type: "uint256",
       },
       {
@@ -99,11 +74,6 @@ const _abi = [
             internalType: "uint8",
             name: "level",
             type: "uint8",
-          },
-          {
-            internalType: "address[]",
-            name: "users",
-            type: "address[]",
           },
           {
             internalType: "uint32",
@@ -157,8 +127,51 @@ const _abi = [
           },
         ],
         internalType: "struct IGameLineup.WaitingInfo[]",
-        name: "",
+        name: "list",
         type: "tuple[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint8",
+        name: "level",
+        type: "uint8",
+      },
+      {
+        internalType: "bytes",
+        name: "zkCard",
+        type: "bytes",
+      },
+    ],
+    name: "join",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "leave",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "lineupUsers",
+    outputs: [
+      {
+        internalType: "uint8",
+        name: "",
+        type: "uint8",
+      },
+      {
+        internalType: "address[]",
+        name: "",
+        type: "address[]",
       },
     ],
     stateMutability: "view",
