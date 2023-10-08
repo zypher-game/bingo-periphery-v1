@@ -3,7 +3,7 @@
 /* eslint-disable */
 
 import { Contract, Interface, type ContractRunner } from "ethers";
-import type { VipToken, VipTokenInterface } from "../VipToken";
+import type { IVipToken, IVipTokenInterface } from "../IVipToken";
 
 const _abi = [
   {
@@ -27,12 +27,12 @@ const _abi = [
   },
 ] as const;
 
-export class VipToken__factory {
+export class IVipToken__factory {
   static readonly abi = _abi;
-  static createInterface(): VipTokenInterface {
-    return new Interface(_abi) as VipTokenInterface;
+  static createInterface(): IVipTokenInterface {
+    return new Interface(_abi) as IVipTokenInterface;
   }
-  static connect(address: string, runner?: ContractRunner | null): VipToken {
-    return new Contract(address, _abi, runner) as unknown as VipToken;
+  static connect(address: string, runner?: ContractRunner | null): IVipToken {
+    return new Contract(address, _abi, runner) as unknown as IVipToken;
   }
 }

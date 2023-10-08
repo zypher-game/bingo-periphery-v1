@@ -101,6 +101,8 @@ export interface BingoGameRoomInterface extends Interface {
       | "abandon"
       | "bingo"
       | "bingoFee"
+      | "donationAddr"
+      | "donationFee"
       | "gameCard"
       | "gamePlayerCounts"
       | "getCurrentRound"
@@ -110,6 +112,7 @@ export interface BingoGameRoomInterface extends Interface {
       | "selectAndBingo"
       | "selectNumber"
       | "timer"
+      | "tokenVIP"
   ): FunctionFragment;
 
   getEvent(
@@ -135,6 +138,14 @@ export interface BingoGameRoomInterface extends Interface {
     values: [BigNumberish, BigNumberish[][], BytesLike]
   ): string;
   encodeFunctionData(functionFragment: "bingoFee", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "donationAddr",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "donationFee",
+    values?: undefined
+  ): string;
   encodeFunctionData(functionFragment: "gameCard", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "gamePlayerCounts",
@@ -165,6 +176,7 @@ export interface BingoGameRoomInterface extends Interface {
     values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "timer", values?: undefined): string;
+  encodeFunctionData(functionFragment: "tokenVIP", values?: undefined): string;
 
   decodeFunctionResult(
     functionFragment: "RECENT_GAME_COUNTS",
@@ -173,6 +185,14 @@ export interface BingoGameRoomInterface extends Interface {
   decodeFunctionResult(functionFragment: "abandon", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "bingo", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "bingoFee", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "donationAddr",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "donationFee",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "gameCard", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "gamePlayerCounts",
@@ -203,6 +223,7 @@ export interface BingoGameRoomInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "timer", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "tokenVIP", data: BytesLike): Result;
 }
 
 export namespace BingoEvent {
@@ -382,10 +403,14 @@ export interface BingoGameRoom extends BaseContract {
       signedLabel: BytesLike
     ],
     [void],
-    "nonpayable"
+    "payable"
   >;
 
   bingoFee: TypedContractMethod<[], [string], "view">;
+
+  donationAddr: TypedContractMethod<[], [string], "view">;
+
+  donationFee: TypedContractMethod<[], [bigint], "view">;
 
   gameCard: TypedContractMethod<[], [string], "view">;
 
@@ -464,7 +489,7 @@ export interface BingoGameRoom extends BaseContract {
       signedLabel: BytesLike
     ],
     [void],
-    "nonpayable"
+    "payable"
   >;
 
   selectNumber: TypedContractMethod<
@@ -478,6 +503,8 @@ export interface BingoGameRoom extends BaseContract {
     [BingoGameRoom.GameTimeoutStructOutput],
     "view"
   >;
+
+  tokenVIP: TypedContractMethod<[], [string], "view">;
 
   getFunction<T extends ContractMethod = ContractMethod>(
     key: string | FunctionFragment
@@ -498,11 +525,17 @@ export interface BingoGameRoom extends BaseContract {
       signedLabel: BytesLike
     ],
     [void],
-    "nonpayable"
+    "payable"
   >;
   getFunction(
     nameOrSignature: "bingoFee"
   ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "donationAddr"
+  ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "donationFee"
+  ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "gameCard"
   ): TypedContractMethod<[], [string], "view">;
@@ -580,7 +613,7 @@ export interface BingoGameRoom extends BaseContract {
       signedLabel: BytesLike
     ],
     [void],
-    "nonpayable"
+    "payable"
   >;
   getFunction(
     nameOrSignature: "selectNumber"
@@ -592,6 +625,9 @@ export interface BingoGameRoom extends BaseContract {
   getFunction(
     nameOrSignature: "timer"
   ): TypedContractMethod<[], [BingoGameRoom.GameTimeoutStructOutput], "view">;
+  getFunction(
+    nameOrSignature: "tokenVIP"
+  ): TypedContractMethod<[], [string], "view">;
 
   getEvent(
     key: "Bingo"

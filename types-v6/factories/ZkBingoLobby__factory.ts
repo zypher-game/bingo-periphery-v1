@@ -13,6 +13,11 @@ const _abi = [
   },
   {
     inputs: [],
+    name: "AddressInsuffcientBalance",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "BadSettings",
     type: "error",
   },
@@ -553,7 +558,7 @@ const _abi = [
     ],
     name: "bingo",
     outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "payable",
     type: "function",
   },
   {
@@ -564,6 +569,32 @@ const _abi = [
         internalType: "contract IBingoFee",
         name: "",
         type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "donationAddr",
+    outputs: [
+      {
+        internalType: "address payable",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "donationFee",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
     ],
     stateMutability: "view",
@@ -998,7 +1029,7 @@ const _abi = [
     ],
     name: "selectAndBingo",
     outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "payable",
     type: "function",
   },
   {
@@ -1028,6 +1059,32 @@ const _abi = [
       },
     ],
     name: "setBingFee",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address payable",
+        name: "donationAddr_",
+        type: "address",
+      },
+    ],
+    name: "setDonationAddr",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "donationFee_",
+        type: "uint256",
+      },
+    ],
+    name: "setDonationFee",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -1143,6 +1200,19 @@ const _abi = [
         internalType: "struct BingoGameRoom.GameTimeout",
         name: "",
         type: "tuple",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "tokenVIP",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
       },
     ],
     stateMutability: "view",

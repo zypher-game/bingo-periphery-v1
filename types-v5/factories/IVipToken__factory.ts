@@ -4,7 +4,7 @@
 
 import { Contract, Signer, utils } from "ethers";
 import type { Provider } from "@ethersproject/providers";
-import type { VipToken, VipTokenInterface } from "../VipToken";
+import type { IVipToken, IVipTokenInterface } from "../IVipToken";
 
 const _abi = [
   {
@@ -28,15 +28,15 @@ const _abi = [
   },
 ];
 
-export class VipToken__factory {
+export class IVipToken__factory {
   static readonly abi = _abi;
-  static createInterface(): VipTokenInterface {
-    return new utils.Interface(_abi) as VipTokenInterface;
+  static createInterface(): IVipTokenInterface {
+    return new utils.Interface(_abi) as IVipTokenInterface;
   }
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
-  ): VipToken {
-    return new Contract(address, _abi, signerOrProvider) as VipToken;
+  ): IVipToken {
+    return new Contract(address, _abi, signerOrProvider) as IVipToken;
   }
 }

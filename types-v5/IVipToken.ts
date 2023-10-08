@@ -20,7 +20,7 @@ import type {
   PromiseOrValue,
 } from "./common";
 
-export interface VipTokenInterface extends utils.Interface {
+export interface IVipTokenInterface extends utils.Interface {
   functions: {
     "balanceOf(address)": FunctionFragment;
   };
@@ -37,12 +37,12 @@ export interface VipTokenInterface extends utils.Interface {
   events: {};
 }
 
-export interface VipToken extends BaseContract {
+export interface IVipToken extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: VipTokenInterface;
+  interface: IVipTokenInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,

@@ -341,7 +341,7 @@ export interface IBingoRoom extends BaseContract {
       signedLabel: BytesLike
     ],
     [void],
-    "nonpayable"
+    "payable"
   >;
 
   gameCard: TypedContractMethod<[], [string], "view">;
@@ -421,7 +421,7 @@ export interface IBingoRoom extends BaseContract {
       signedLabel: BytesLike
     ],
     [void],
-    "nonpayable"
+    "payable"
   >;
 
   selectNumber: TypedContractMethod<
@@ -446,7 +446,7 @@ export interface IBingoRoom extends BaseContract {
       signedLabel: BytesLike
     ],
     [void],
-    "nonpayable"
+    "payable"
   >;
   getFunction(
     nameOrSignature: "gameCard"
@@ -525,7 +525,7 @@ export interface IBingoRoom extends BaseContract {
       signedLabel: BytesLike
     ],
     [void],
-    "nonpayable"
+    "payable"
   >;
   getFunction(
     nameOrSignature: "selectNumber"

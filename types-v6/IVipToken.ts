@@ -20,7 +20,7 @@ import type {
   TypedContractMethod,
 } from "./common";
 
-export interface VipTokenInterface extends Interface {
+export interface IVipTokenInterface extends Interface {
   getFunction(nameOrSignature: "balanceOf"): FunctionFragment;
 
   encodeFunctionData(
@@ -31,11 +31,11 @@ export interface VipTokenInterface extends Interface {
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
 }
 
-export interface VipToken extends BaseContract {
-  connect(runner?: ContractRunner | null): VipToken;
+export interface IVipToken extends BaseContract {
+  connect(runner?: ContractRunner | null): IVipToken;
   waitForDeployment(): Promise<this>;
 
-  interface: VipTokenInterface;
+  interface: IVipTokenInterface;
 
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,

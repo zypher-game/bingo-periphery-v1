@@ -9,6 +9,7 @@ import type {
   CallOverrides,
   ContractTransaction,
   Overrides,
+  PayableOverrides,
   PopulatedTransaction,
   Signer,
   utils,
@@ -99,6 +100,8 @@ export interface BingoGameRoomInterface extends utils.Interface {
     "abandon(uint256)": FunctionFragment;
     "bingo(uint256,uint8[][],bytes)": FunctionFragment;
     "bingoFee()": FunctionFragment;
+    "donationAddr()": FunctionFragment;
+    "donationFee()": FunctionFragment;
     "gameCard()": FunctionFragment;
     "gamePlayerCounts(uint256)": FunctionFragment;
     "getCurrentRound(uint256)": FunctionFragment;
@@ -108,6 +111,7 @@ export interface BingoGameRoomInterface extends utils.Interface {
     "selectAndBingo(uint256,uint8,uint8[][],bytes)": FunctionFragment;
     "selectNumber(uint256,uint8)": FunctionFragment;
     "timer()": FunctionFragment;
+    "tokenVIP()": FunctionFragment;
   };
 
   getFunction(
@@ -116,6 +120,8 @@ export interface BingoGameRoomInterface extends utils.Interface {
       | "abandon"
       | "bingo"
       | "bingoFee"
+      | "donationAddr"
+      | "donationFee"
       | "gameCard"
       | "gamePlayerCounts"
       | "getCurrentRound"
@@ -125,6 +131,7 @@ export interface BingoGameRoomInterface extends utils.Interface {
       | "selectAndBingo"
       | "selectNumber"
       | "timer"
+      | "tokenVIP"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -144,6 +151,14 @@ export interface BingoGameRoomInterface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(functionFragment: "bingoFee", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "donationAddr",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "donationFee",
+    values?: undefined
+  ): string;
   encodeFunctionData(functionFragment: "gameCard", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "gamePlayerCounts",
@@ -183,6 +198,7 @@ export interface BingoGameRoomInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(functionFragment: "timer", values?: undefined): string;
+  encodeFunctionData(functionFragment: "tokenVIP", values?: undefined): string;
 
   decodeFunctionResult(
     functionFragment: "RECENT_GAME_COUNTS",
@@ -191,6 +207,14 @@ export interface BingoGameRoomInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "abandon", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "bingo", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "bingoFee", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "donationAddr",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "donationFee",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "gameCard", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "gamePlayerCounts",
@@ -221,6 +245,7 @@ export interface BingoGameRoomInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "timer", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "tokenVIP", data: BytesLike): Result;
 
   events: {
     "Bingo(uint256,address)": EventFragment;
@@ -348,10 +373,14 @@ export interface BingoGameRoom extends BaseContract {
       gameId: PromiseOrValue<BigNumberish>,
       cardNumbers: PromiseOrValue<BigNumberish>[][],
       signedLabel: PromiseOrValue<BytesLike>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     bingoFee(overrides?: CallOverrides): Promise<[string]>;
+
+    donationAddr(overrides?: CallOverrides): Promise<[string]>;
+
+    donationFee(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     gameCard(overrides?: CallOverrides): Promise<[string]>;
 
@@ -414,7 +443,7 @@ export interface BingoGameRoom extends BaseContract {
       number: PromiseOrValue<BigNumberish>,
       cardNumbers: PromiseOrValue<BigNumberish>[][],
       signedLabel: PromiseOrValue<BytesLike>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     selectNumber(
@@ -426,6 +455,8 @@ export interface BingoGameRoom extends BaseContract {
     timer(
       overrides?: CallOverrides
     ): Promise<[BingoGameRoom.GameTimeoutStructOutput]>;
+
+    tokenVIP(overrides?: CallOverrides): Promise<[string]>;
   };
 
   RECENT_GAME_COUNTS(overrides?: CallOverrides): Promise<number>;
@@ -439,10 +470,14 @@ export interface BingoGameRoom extends BaseContract {
     gameId: PromiseOrValue<BigNumberish>,
     cardNumbers: PromiseOrValue<BigNumberish>[][],
     signedLabel: PromiseOrValue<BytesLike>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
+    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   bingoFee(overrides?: CallOverrides): Promise<string>;
+
+  donationAddr(overrides?: CallOverrides): Promise<string>;
+
+  donationFee(overrides?: CallOverrides): Promise<BigNumber>;
 
   gameCard(overrides?: CallOverrides): Promise<string>;
 
@@ -505,7 +540,7 @@ export interface BingoGameRoom extends BaseContract {
     number: PromiseOrValue<BigNumberish>,
     cardNumbers: PromiseOrValue<BigNumberish>[][],
     signedLabel: PromiseOrValue<BytesLike>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
+    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   selectNumber(
@@ -517,6 +552,8 @@ export interface BingoGameRoom extends BaseContract {
   timer(
     overrides?: CallOverrides
   ): Promise<BingoGameRoom.GameTimeoutStructOutput>;
+
+  tokenVIP(overrides?: CallOverrides): Promise<string>;
 
   callStatic: {
     RECENT_GAME_COUNTS(overrides?: CallOverrides): Promise<number>;
@@ -534,6 +571,10 @@ export interface BingoGameRoom extends BaseContract {
     ): Promise<void>;
 
     bingoFee(overrides?: CallOverrides): Promise<string>;
+
+    donationAddr(overrides?: CallOverrides): Promise<string>;
+
+    donationFee(overrides?: CallOverrides): Promise<BigNumber>;
 
     gameCard(overrides?: CallOverrides): Promise<string>;
 
@@ -614,6 +655,8 @@ export interface BingoGameRoom extends BaseContract {
     timer(
       overrides?: CallOverrides
     ): Promise<BingoGameRoom.GameTimeoutStructOutput>;
+
+    tokenVIP(overrides?: CallOverrides): Promise<string>;
   };
 
   filters: {
@@ -698,10 +741,14 @@ export interface BingoGameRoom extends BaseContract {
       gameId: PromiseOrValue<BigNumberish>,
       cardNumbers: PromiseOrValue<BigNumberish>[][],
       signedLabel: PromiseOrValue<BytesLike>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     bingoFee(overrides?: CallOverrides): Promise<BigNumber>;
+
+    donationAddr(overrides?: CallOverrides): Promise<BigNumber>;
+
+    donationFee(overrides?: CallOverrides): Promise<BigNumber>;
 
     gameCard(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -737,7 +784,7 @@ export interface BingoGameRoom extends BaseContract {
       number: PromiseOrValue<BigNumberish>,
       cardNumbers: PromiseOrValue<BigNumberish>[][],
       signedLabel: PromiseOrValue<BytesLike>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     selectNumber(
@@ -747,6 +794,8 @@ export interface BingoGameRoom extends BaseContract {
     ): Promise<BigNumber>;
 
     timer(overrides?: CallOverrides): Promise<BigNumber>;
+
+    tokenVIP(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -763,10 +812,14 @@ export interface BingoGameRoom extends BaseContract {
       gameId: PromiseOrValue<BigNumberish>,
       cardNumbers: PromiseOrValue<BigNumberish>[][],
       signedLabel: PromiseOrValue<BytesLike>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     bingoFee(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    donationAddr(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    donationFee(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     gameCard(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -802,7 +855,7 @@ export interface BingoGameRoom extends BaseContract {
       number: PromiseOrValue<BigNumberish>,
       cardNumbers: PromiseOrValue<BigNumberish>[][],
       signedLabel: PromiseOrValue<BytesLike>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     selectNumber(
@@ -812,5 +865,7 @@ export interface BingoGameRoom extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     timer(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    tokenVIP(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }
