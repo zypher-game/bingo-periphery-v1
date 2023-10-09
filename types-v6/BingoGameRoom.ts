@@ -403,7 +403,7 @@ export interface BingoGameRoom extends BaseContract {
       signedLabel: BytesLike
     ],
     [void],
-    "payable"
+    "nonpayable"
   >;
 
   bingoFee: TypedContractMethod<[], [string], "view">;
@@ -489,7 +489,7 @@ export interface BingoGameRoom extends BaseContract {
       signedLabel: BytesLike
     ],
     [void],
-    "payable"
+    "nonpayable"
   >;
 
   selectNumber: TypedContractMethod<
@@ -525,7 +525,7 @@ export interface BingoGameRoom extends BaseContract {
       signedLabel: BytesLike
     ],
     [void],
-    "payable"
+    "nonpayable"
   >;
   getFunction(
     nameOrSignature: "bingoFee"
@@ -613,7 +613,7 @@ export interface BingoGameRoom extends BaseContract {
       signedLabel: BytesLike
     ],
     [void],
-    "payable"
+    "nonpayable"
   >;
   getFunction(
     nameOrSignature: "selectNumber"

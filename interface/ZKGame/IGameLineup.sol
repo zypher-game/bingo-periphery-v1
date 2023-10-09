@@ -11,7 +11,7 @@ interface IGameLineup {
 
     event LineupLeft(address indexed player);
 
-    function join(uint8 level, bytes calldata zkCard) external;
+    function join(uint8 level, bytes calldata zkCard) external payable;
 
     function leave() external;
 

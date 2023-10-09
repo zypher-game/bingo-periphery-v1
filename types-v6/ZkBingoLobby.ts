@@ -739,7 +739,7 @@ export interface ZkBingoLobby extends BaseContract {
       signedGameLabel: BytesLike
     ],
     [void],
-    "payable"
+    "nonpayable"
   >;
 
   bingoFee: TypedContractMethod<[], [string], "view">;
@@ -819,7 +819,7 @@ export interface ZkBingoLobby extends BaseContract {
   join: TypedContractMethod<
     [level: BigNumberish, zkCard: BytesLike],
     [void],
-    "nonpayable"
+    "payable"
   >;
 
   leave: TypedContractMethod<[], [void], "nonpayable">;
@@ -864,7 +864,7 @@ export interface ZkBingoLobby extends BaseContract {
       signedGameLabel: BytesLike
     ],
     [void],
-    "payable"
+    "nonpayable"
   >;
 
   selectNumber: TypedContractMethod<
@@ -994,7 +994,7 @@ export interface ZkBingoLobby extends BaseContract {
       signedGameLabel: BytesLike
     ],
     [void],
-    "payable"
+    "nonpayable"
   >;
   getFunction(
     nameOrSignature: "bingoFee"
@@ -1077,7 +1077,7 @@ export interface ZkBingoLobby extends BaseContract {
   ): TypedContractMethod<
     [level: BigNumberish, zkCard: BytesLike],
     [void],
-    "nonpayable"
+    "payable"
   >;
   getFunction(
     nameOrSignature: "leave"
@@ -1131,7 +1131,7 @@ export interface ZkBingoLobby extends BaseContract {
       signedGameLabel: BytesLike
     ],
     [void],
-    "payable"
+    "nonpayable"
   >;
   getFunction(
     nameOrSignature: "selectNumber"

@@ -9,6 +9,7 @@ import type {
   CallOverrides,
   ContractTransaction,
   Overrides,
+  PayableOverrides,
   PopulatedTransaction,
   Signer,
   utils,
@@ -176,7 +177,7 @@ export interface IGameLineup extends BaseContract {
     join(
       level: PromiseOrValue<BigNumberish>,
       zkCard: PromiseOrValue<BytesLike>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     leave(
@@ -202,7 +203,7 @@ export interface IGameLineup extends BaseContract {
   join(
     level: PromiseOrValue<BigNumberish>,
     zkCard: PromiseOrValue<BytesLike>,
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
+    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   leave(
@@ -258,7 +259,7 @@ export interface IGameLineup extends BaseContract {
     join(
       level: PromiseOrValue<BigNumberish>,
       zkCard: PromiseOrValue<BytesLike>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     leave(
@@ -278,7 +279,7 @@ export interface IGameLineup extends BaseContract {
     join(
       level: PromiseOrValue<BigNumberish>,
       zkCard: PromiseOrValue<BytesLike>,
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     leave(

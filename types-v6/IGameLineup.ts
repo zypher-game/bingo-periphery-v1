@@ -183,7 +183,7 @@ export interface IGameLineup extends BaseContract {
   join: TypedContractMethod<
     [level: BigNumberish, zkCard: BytesLike],
     [void],
-    "nonpayable"
+    "payable"
   >;
 
   leave: TypedContractMethod<[], [void], "nonpayable">;
@@ -213,7 +213,7 @@ export interface IGameLineup extends BaseContract {
   ): TypedContractMethod<
     [level: BigNumberish, zkCard: BytesLike],
     [void],
-    "nonpayable"
+    "payable"
   >;
   getFunction(
     nameOrSignature: "leave"
