@@ -183,7 +183,7 @@ export interface IBingoRoomInterface extends utils.Interface {
   events: {
     "Bingo(uint256,address)": EventFragment;
     "GameHalted(uint256,address,bool,uint256)": EventFragment;
-    "GameParticipated(uint256,address,uint256,uint8)": EventFragment;
+    "GameParticipated(uint256,address,uint256,uint256,uint8)": EventFragment;
     "GameStarted(uint256,address,address[])": EventFragment;
     "NumberSelected(uint256,uint32,address,uint8)": EventFragment;
     "RewardChanged(address,address)": EventFragment;
@@ -222,10 +222,11 @@ export interface GameParticipatedEventObject {
   gameId: BigNumber;
   player: string;
   cardId: BigNumber;
+  betSize: BigNumber;
   position: number;
 }
 export type GameParticipatedEvent = TypedEvent<
-  [BigNumber, string, BigNumber, number],
+  [BigNumber, string, BigNumber, BigNumber, number],
   GameParticipatedEventObject
 >;
 
@@ -573,16 +574,18 @@ export interface IBingoRoom extends BaseContract {
       confiscate?: null
     ): GameHaltedEventFilter;
 
-    "GameParticipated(uint256,address,uint256,uint8)"(
+    "GameParticipated(uint256,address,uint256,uint256,uint8)"(
       gameId?: PromiseOrValue<BigNumberish> | null,
       player?: PromiseOrValue<string> | null,
       cardId?: PromiseOrValue<BigNumberish> | null,
+      betSize?: null,
       position?: null
     ): GameParticipatedEventFilter;
     GameParticipated(
       gameId?: PromiseOrValue<BigNumberish> | null,
       player?: PromiseOrValue<string> | null,
       cardId?: PromiseOrValue<BigNumberish> | null,
+      betSize?: null,
       position?: null
     ): GameParticipatedEventFilter;
 

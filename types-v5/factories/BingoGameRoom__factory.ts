@@ -110,6 +110,12 @@ const _abi = [
       },
       {
         indexed: false,
+        internalType: "uint256",
+        name: "betSize",
+        type: "uint256",
+      },
+      {
+        indexed: false,
         internalType: "uint8",
         name: "position",
         type: "uint8",

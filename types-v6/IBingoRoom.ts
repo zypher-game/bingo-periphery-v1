@@ -209,18 +209,21 @@ export namespace GameParticipatedEvent {
     gameId: BigNumberish,
     player: AddressLike,
     cardId: BigNumberish,
+    betSize: BigNumberish,
     position: BigNumberish
   ];
   export type OutputTuple = [
     gameId: bigint,
     player: string,
     cardId: bigint,
+    betSize: bigint,
     position: bigint
   ];
   export interface OutputObject {
     gameId: bigint;
     player: string;
     cardId: bigint;
+    betSize: bigint;
     position: bigint;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
@@ -601,7 +604,7 @@ export interface IBingoRoom extends BaseContract {
       GameHaltedEvent.OutputObject
     >;
 
-    "GameParticipated(uint256,address,uint256,uint8)": TypedContractEvent<
+    "GameParticipated(uint256,address,uint256,uint256,uint8)": TypedContractEvent<
       GameParticipatedEvent.InputTuple,
       GameParticipatedEvent.OutputTuple,
       GameParticipatedEvent.OutputObject

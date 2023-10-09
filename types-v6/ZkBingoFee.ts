@@ -55,7 +55,6 @@ export interface ZkBingoFeeInterface extends Interface {
       | "BeaconUpgraded"
       | "Initialized"
       | "OwnershipTransferred"
-      | "UpdateInputPer"
       | "Upgraded"
   ): EventFragment;
 
@@ -251,22 +250,6 @@ export namespace OwnershipTransferredEvent {
   export interface OutputObject {
     previousOwner: string;
     newOwner: string;
-  }
-  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
-  export type Filter = TypedDeferredTopicFilter<Event>;
-  export type Log = TypedEventLog<Event>;
-  export type LogDescription = TypedLogDescription<Event>;
-}
-
-export namespace UpdateInputPerEvent {
-  export type InputTuple = [
-    oldInputPer: BigNumberish,
-    newInputPer: BigNumberish
-  ];
-  export type OutputTuple = [oldInputPer: bigint, newInputPer: bigint];
-  export interface OutputObject {
-    oldInputPer: bigint;
-    newInputPer: bigint;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -598,13 +581,6 @@ export interface ZkBingoFee extends BaseContract {
     OwnershipTransferredEvent.OutputObject
   >;
   getEvent(
-    key: "UpdateInputPer"
-  ): TypedContractEvent<
-    UpdateInputPerEvent.InputTuple,
-    UpdateInputPerEvent.OutputTuple,
-    UpdateInputPerEvent.OutputObject
-  >;
-  getEvent(
     key: "Upgraded"
   ): TypedContractEvent<
     UpgradedEvent.InputTuple,
@@ -666,17 +642,6 @@ export interface ZkBingoFee extends BaseContract {
       OwnershipTransferredEvent.InputTuple,
       OwnershipTransferredEvent.OutputTuple,
       OwnershipTransferredEvent.OutputObject
-    >;
-
-    "UpdateInputPer(uint256,uint256)": TypedContractEvent<
-      UpdateInputPerEvent.InputTuple,
-      UpdateInputPerEvent.OutputTuple,
-      UpdateInputPerEvent.OutputObject
-    >;
-    UpdateInputPer: TypedContractEvent<
-      UpdateInputPerEvent.InputTuple,
-      UpdateInputPerEvent.OutputTuple,
-      UpdateInputPerEvent.OutputObject
     >;
 
     "Upgraded(address)": TypedContractEvent<

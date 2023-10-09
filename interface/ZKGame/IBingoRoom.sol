@@ -50,6 +50,7 @@ interface IBingoRoom {
         uint256 indexed gameId,
         address indexed player,
         uint256 indexed cardId,
+        uint256 betSize,
         uint8 position
     );
 

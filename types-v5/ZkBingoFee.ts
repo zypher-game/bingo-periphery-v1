@@ -200,7 +200,6 @@ export interface ZkBingoFeeInterface extends utils.Interface {
     "BeaconUpgraded(address)": EventFragment;
     "Initialized(uint8)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
-    "UpdateInputPer(uint256,uint256)": EventFragment;
     "Upgraded(address)": EventFragment;
   };
 
@@ -209,7 +208,6 @@ export interface ZkBingoFeeInterface extends utils.Interface {
   getEvent(nameOrSignatureOrTopic: "BeaconUpgraded"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "UpdateInputPer"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Upgraded"): EventFragment;
 }
 
@@ -268,17 +266,6 @@ export type OwnershipTransferredEvent = TypedEvent<
 
 export type OwnershipTransferredEventFilter =
   TypedEventFilter<OwnershipTransferredEvent>;
-
-export interface UpdateInputPerEventObject {
-  oldInputPer: BigNumber;
-  newInputPer: BigNumber;
-}
-export type UpdateInputPerEvent = TypedEvent<
-  [BigNumber, BigNumber],
-  UpdateInputPerEventObject
->;
-
-export type UpdateInputPerEventFilter = TypedEventFilter<UpdateInputPerEvent>;
 
 export interface UpgradedEventObject {
   implementation: string;
@@ -674,15 +661,6 @@ export interface ZkBingoFee extends BaseContract {
       previousOwner?: PromiseOrValue<string> | null,
       newOwner?: PromiseOrValue<string> | null
     ): OwnershipTransferredEventFilter;
-
-    "UpdateInputPer(uint256,uint256)"(
-      oldInputPer?: null,
-      newInputPer?: null
-    ): UpdateInputPerEventFilter;
-    UpdateInputPer(
-      oldInputPer?: null,
-      newInputPer?: null
-    ): UpdateInputPerEventFilter;
 
     "Upgraded(address)"(
       implementation?: PromiseOrValue<string> | null
