@@ -171,6 +171,7 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
     "setInitData(uint256,uint256,uint256)": FunctionFragment;
     "setVipToken(address)": FunctionFragment;
     "start()": FunctionFragment;
+    "summary()": FunctionFragment;
     "timer()": FunctionFragment;
     "tokenVIP()": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
@@ -214,6 +215,7 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
       | "setInitData"
       | "setVipToken"
       | "start"
+      | "summary"
       | "timer"
       | "tokenVIP"
       | "transferOwnership"
@@ -380,6 +382,7 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(functionFragment: "start", values?: undefined): string;
+  encodeFunctionData(functionFragment: "summary", values?: undefined): string;
   encodeFunctionData(functionFragment: "timer", values?: undefined): string;
   encodeFunctionData(functionFragment: "tokenVIP", values?: undefined): string;
   encodeFunctionData(
@@ -489,6 +492,7 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "start", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "summary", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "timer", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "tokenVIP", data: BytesLike): Result;
   decodeFunctionResult(
@@ -879,6 +883,16 @@ export interface ZkBingoLobby extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    summary(
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber, BigNumber] & {
+        totalGameStarted: BigNumber;
+        totalPlayersJoined: BigNumber;
+        totalRewardDistributed: BigNumber;
+      }
+    >;
+
     timer(
       overrides?: CallOverrides
     ): Promise<[BingoGameRoom.GameTimeoutStructOutput]>;
@@ -1098,6 +1112,16 @@ export interface ZkBingoLobby extends BaseContract {
   start(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
+
+  summary(
+    overrides?: CallOverrides
+  ): Promise<
+    [BigNumber, BigNumber, BigNumber] & {
+      totalGameStarted: BigNumber;
+      totalPlayersJoined: BigNumber;
+      totalRewardDistributed: BigNumber;
+    }
+  >;
 
   timer(
     overrides?: CallOverrides
@@ -1320,6 +1344,16 @@ export interface ZkBingoLobby extends BaseContract {
     ): Promise<void>;
 
     start(overrides?: CallOverrides): Promise<void>;
+
+    summary(
+      overrides?: CallOverrides
+    ): Promise<
+      [BigNumber, BigNumber, BigNumber] & {
+        totalGameStarted: BigNumber;
+        totalPlayersJoined: BigNumber;
+        totalRewardDistributed: BigNumber;
+      }
+    >;
 
     timer(
       overrides?: CallOverrides
@@ -1622,6 +1656,8 @@ export interface ZkBingoLobby extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    summary(overrides?: CallOverrides): Promise<BigNumber>;
+
     timer(overrides?: CallOverrides): Promise<BigNumber>;
 
     tokenVIP(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1806,6 +1842,8 @@ export interface ZkBingoLobby extends BaseContract {
     start(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
+
+    summary(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     timer(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 

@@ -1173,6 +1173,29 @@ const _abi = [
   },
   {
     inputs: [],
+    name: "summary",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "totalGameStarted",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "totalPlayersJoined",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "totalRewardDistributed",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "timer",
     outputs: [
       {

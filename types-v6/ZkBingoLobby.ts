@@ -172,6 +172,7 @@ export interface ZkBingoLobbyInterface extends Interface {
       | "setInitData"
       | "setVipToken"
       | "start"
+      | "summary"
       | "timer"
       | "tokenVIP"
       | "transferOwnership"
@@ -337,6 +338,7 @@ export interface ZkBingoLobbyInterface extends Interface {
     values: [AddressLike]
   ): string;
   encodeFunctionData(functionFragment: "start", values?: undefined): string;
+  encodeFunctionData(functionFragment: "summary", values?: undefined): string;
   encodeFunctionData(functionFragment: "timer", values?: undefined): string;
   encodeFunctionData(functionFragment: "tokenVIP", values?: undefined): string;
   encodeFunctionData(
@@ -446,6 +448,7 @@ export interface ZkBingoLobbyInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "start", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "summary", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "timer", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "tokenVIP", data: BytesLike): Result;
   decodeFunctionResult(
@@ -920,6 +923,18 @@ export interface ZkBingoLobby extends BaseContract {
 
   start: TypedContractMethod<[], [void], "nonpayable">;
 
+  summary: TypedContractMethod<
+    [],
+    [
+      [bigint, bigint, bigint] & {
+        totalGameStarted: bigint;
+        totalPlayersJoined: bigint;
+        totalRewardDistributed: bigint;
+      }
+    ],
+    "view"
+  >;
+
   timer: TypedContractMethod<
     [],
     [BingoGameRoom.GameTimeoutStructOutput],
@@ -1182,6 +1197,19 @@ export interface ZkBingoLobby extends BaseContract {
   getFunction(
     nameOrSignature: "start"
   ): TypedContractMethod<[], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "summary"
+  ): TypedContractMethod<
+    [],
+    [
+      [bigint, bigint, bigint] & {
+        totalGameStarted: bigint;
+        totalPlayersJoined: bigint;
+        totalRewardDistributed: bigint;
+      }
+    ],
+    "view"
+  >;
   getFunction(
     nameOrSignature: "timer"
   ): TypedContractMethod<[], [BingoGameRoom.GameTimeoutStructOutput], "view">;

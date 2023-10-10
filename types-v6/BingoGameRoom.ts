@@ -111,6 +111,7 @@ export interface BingoGameRoomInterface extends Interface {
       | "restoreGame"
       | "selectAndBingo"
       | "selectNumber"
+      | "summary"
       | "timer"
       | "tokenVIP"
   ): FunctionFragment;
@@ -175,6 +176,7 @@ export interface BingoGameRoomInterface extends Interface {
     functionFragment: "selectNumber",
     values: [BigNumberish, BigNumberish]
   ): string;
+  encodeFunctionData(functionFragment: "summary", values?: undefined): string;
   encodeFunctionData(functionFragment: "timer", values?: undefined): string;
   encodeFunctionData(functionFragment: "tokenVIP", values?: undefined): string;
 
@@ -222,6 +224,7 @@ export interface BingoGameRoomInterface extends Interface {
     functionFragment: "selectNumber",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "summary", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "timer", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "tokenVIP", data: BytesLike): Result;
 }
@@ -501,6 +504,18 @@ export interface BingoGameRoom extends BaseContract {
     "nonpayable"
   >;
 
+  summary: TypedContractMethod<
+    [],
+    [
+      [bigint, bigint, bigint] & {
+        totalGameStarted: bigint;
+        totalPlayersJoined: bigint;
+        totalRewardDistributed: bigint;
+      }
+    ],
+    "view"
+  >;
+
   timer: TypedContractMethod<
     [],
     [BingoGameRoom.GameTimeoutStructOutput],
@@ -624,6 +639,19 @@ export interface BingoGameRoom extends BaseContract {
     [gameId: BigNumberish, number: BigNumberish],
     [void],
     "nonpayable"
+  >;
+  getFunction(
+    nameOrSignature: "summary"
+  ): TypedContractMethod<
+    [],
+    [
+      [bigint, bigint, bigint] & {
+        totalGameStarted: bigint;
+        totalPlayersJoined: bigint;
+        totalRewardDistributed: bigint;
+      }
+    ],
+    "view"
   >;
   getFunction(
     nameOrSignature: "timer"
