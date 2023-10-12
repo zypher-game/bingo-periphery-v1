@@ -170,9 +170,11 @@ export interface ZkBingoLobbyInterface extends Interface {
       | "setDonationFee"
       | "setGameTimers"
       | "setInitData"
+      | "setThirdParty"
       | "setVipToken"
       | "start"
       | "summary"
+      | "thirdParty"
       | "timer"
       | "tokenVIP"
       | "transferOwnership"
@@ -334,11 +336,19 @@ export interface ZkBingoLobbyInterface extends Interface {
     values: [BigNumberish, BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
+    functionFragment: "setThirdParty",
+    values: [AddressLike]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setVipToken",
     values: [AddressLike]
   ): string;
   encodeFunctionData(functionFragment: "start", values?: undefined): string;
   encodeFunctionData(functionFragment: "summary", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "thirdParty",
+    values?: undefined
+  ): string;
   encodeFunctionData(functionFragment: "timer", values?: undefined): string;
   encodeFunctionData(functionFragment: "tokenVIP", values?: undefined): string;
   encodeFunctionData(
@@ -444,11 +454,16 @@ export interface ZkBingoLobbyInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "setThirdParty",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "setVipToken",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "start", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "summary", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "thirdParty", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "timer", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "tokenVIP", data: BytesLike): Result;
   decodeFunctionResult(
@@ -919,6 +934,12 @@ export interface ZkBingoLobby extends BaseContract {
     "nonpayable"
   >;
 
+  setThirdParty: TypedContractMethod<
+    [thirdParty_: AddressLike],
+    [void],
+    "nonpayable"
+  >;
+
   setVipToken: TypedContractMethod<[token: AddressLike], [void], "nonpayable">;
 
   start: TypedContractMethod<[], [void], "nonpayable">;
@@ -934,6 +955,8 @@ export interface ZkBingoLobby extends BaseContract {
     ],
     "view"
   >;
+
+  thirdParty: TypedContractMethod<[], [string], "view">;
 
   timer: TypedContractMethod<
     [],
@@ -1192,6 +1215,9 @@ export interface ZkBingoLobby extends BaseContract {
     "nonpayable"
   >;
   getFunction(
+    nameOrSignature: "setThirdParty"
+  ): TypedContractMethod<[thirdParty_: AddressLike], [void], "nonpayable">;
+  getFunction(
     nameOrSignature: "setVipToken"
   ): TypedContractMethod<[token: AddressLike], [void], "nonpayable">;
   getFunction(
@@ -1210,6 +1236,9 @@ export interface ZkBingoLobby extends BaseContract {
     ],
     "view"
   >;
+  getFunction(
+    nameOrSignature: "thirdParty"
+  ): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "timer"
   ): TypedContractMethod<[], [BingoGameRoom.GameTimeoutStructOutput], "view">;

@@ -112,6 +112,7 @@ export interface BingoGameRoomInterface extends Interface {
       | "selectAndBingo"
       | "selectNumber"
       | "summary"
+      | "thirdParty"
       | "timer"
       | "tokenVIP"
   ): FunctionFragment;
@@ -177,6 +178,10 @@ export interface BingoGameRoomInterface extends Interface {
     values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(functionFragment: "summary", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "thirdParty",
+    values?: undefined
+  ): string;
   encodeFunctionData(functionFragment: "timer", values?: undefined): string;
   encodeFunctionData(functionFragment: "tokenVIP", values?: undefined): string;
 
@@ -225,6 +230,7 @@ export interface BingoGameRoomInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "summary", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "thirdParty", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "timer", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "tokenVIP", data: BytesLike): Result;
 }
@@ -516,6 +522,8 @@ export interface BingoGameRoom extends BaseContract {
     "view"
   >;
 
+  thirdParty: TypedContractMethod<[], [string], "view">;
+
   timer: TypedContractMethod<
     [],
     [BingoGameRoom.GameTimeoutStructOutput],
@@ -653,6 +661,9 @@ export interface BingoGameRoom extends BaseContract {
     ],
     "view"
   >;
+  getFunction(
+    nameOrSignature: "thirdParty"
+  ): TypedContractMethod<[], [string], "view">;
   getFunction(
     nameOrSignature: "timer"
   ): TypedContractMethod<[], [BingoGameRoom.GameTimeoutStructOutput], "view">;

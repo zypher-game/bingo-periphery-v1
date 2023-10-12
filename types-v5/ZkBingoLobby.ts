@@ -169,9 +169,11 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
     "setDonationFee(uint256)": FunctionFragment;
     "setGameTimers(uint32,uint8,uint32,uint32,uint32)": FunctionFragment;
     "setInitData(uint256,uint256,uint256)": FunctionFragment;
+    "setThirdParty(address)": FunctionFragment;
     "setVipToken(address)": FunctionFragment;
     "start()": FunctionFragment;
     "summary()": FunctionFragment;
+    "thirdParty()": FunctionFragment;
     "timer()": FunctionFragment;
     "tokenVIP()": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
@@ -213,9 +215,11 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
       | "setDonationFee"
       | "setGameTimers"
       | "setInitData"
+      | "setThirdParty"
       | "setVipToken"
       | "start"
       | "summary"
+      | "thirdParty"
       | "timer"
       | "tokenVIP"
       | "transferOwnership"
@@ -378,11 +382,19 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
     ]
   ): string;
   encodeFunctionData(
+    functionFragment: "setThirdParty",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setVipToken",
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(functionFragment: "start", values?: undefined): string;
   encodeFunctionData(functionFragment: "summary", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "thirdParty",
+    values?: undefined
+  ): string;
   encodeFunctionData(functionFragment: "timer", values?: undefined): string;
   encodeFunctionData(functionFragment: "tokenVIP", values?: undefined): string;
   encodeFunctionData(
@@ -488,11 +500,16 @@ export interface ZkBingoLobbyInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "setThirdParty",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "setVipToken",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "start", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "summary", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "thirdParty", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "timer", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "tokenVIP", data: BytesLike): Result;
   decodeFunctionResult(
@@ -874,6 +891,11 @@ export interface ZkBingoLobby extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    setThirdParty(
+      thirdParty_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     setVipToken(
       token: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -892,6 +914,8 @@ export interface ZkBingoLobby extends BaseContract {
         totalRewardDistributed: BigNumber;
       }
     >;
+
+    thirdParty(overrides?: CallOverrides): Promise<[string]>;
 
     timer(
       overrides?: CallOverrides
@@ -1104,6 +1128,11 @@ export interface ZkBingoLobby extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  setThirdParty(
+    thirdParty_: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   setVipToken(
     token: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1122,6 +1151,8 @@ export interface ZkBingoLobby extends BaseContract {
       totalRewardDistributed: BigNumber;
     }
   >;
+
+  thirdParty(overrides?: CallOverrides): Promise<string>;
 
   timer(
     overrides?: CallOverrides
@@ -1338,6 +1369,11 @@ export interface ZkBingoLobby extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
+    setThirdParty(
+      thirdParty_: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
     setVipToken(
       token: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -1354,6 +1390,8 @@ export interface ZkBingoLobby extends BaseContract {
         totalRewardDistributed: BigNumber;
       }
     >;
+
+    thirdParty(overrides?: CallOverrides): Promise<string>;
 
     timer(
       overrides?: CallOverrides
@@ -1647,6 +1685,11 @@ export interface ZkBingoLobby extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    setThirdParty(
+      thirdParty_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     setVipToken(
       token: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1657,6 +1700,8 @@ export interface ZkBingoLobby extends BaseContract {
     ): Promise<BigNumber>;
 
     summary(overrides?: CallOverrides): Promise<BigNumber>;
+
+    thirdParty(overrides?: CallOverrides): Promise<BigNumber>;
 
     timer(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -1834,6 +1879,11 @@ export interface ZkBingoLobby extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
+    setThirdParty(
+      thirdParty_: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
     setVipToken(
       token: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -1844,6 +1894,8 @@ export interface ZkBingoLobby extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     summary(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    thirdParty(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     timer(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 

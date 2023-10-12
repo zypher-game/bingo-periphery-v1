@@ -7,3 +7,4 @@ import "./ZKGame/IBingoRoom.sol";
 import "./ZKGame/IGameToken.sol";
 import "./ZKGame/IBingoFee.sol";
 import "./ZKGame/IVipToken.sol";
+import "./ZKGame/IThirdParty.sol";

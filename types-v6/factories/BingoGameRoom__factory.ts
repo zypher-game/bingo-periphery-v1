@@ -596,6 +596,19 @@ const _abi = [
   },
   {
     inputs: [],
+    name: "thirdParty",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "timer",
     outputs: [
       {

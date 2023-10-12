@@ -110,6 +110,7 @@ export interface BingoGameRoomInterface extends utils.Interface {
     "selectAndBingo(uint256,uint8,uint8[][],bytes)": FunctionFragment;
     "selectNumber(uint256,uint8)": FunctionFragment;
     "summary()": FunctionFragment;
+    "thirdParty()": FunctionFragment;
     "timer()": FunctionFragment;
     "tokenVIP()": FunctionFragment;
   };
@@ -131,6 +132,7 @@ export interface BingoGameRoomInterface extends utils.Interface {
       | "selectAndBingo"
       | "selectNumber"
       | "summary"
+      | "thirdParty"
       | "timer"
       | "tokenVIP"
   ): FunctionFragment;
@@ -199,6 +201,10 @@ export interface BingoGameRoomInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>, PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(functionFragment: "summary", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "thirdParty",
+    values?: undefined
+  ): string;
   encodeFunctionData(functionFragment: "timer", values?: undefined): string;
   encodeFunctionData(functionFragment: "tokenVIP", values?: undefined): string;
 
@@ -247,6 +253,7 @@ export interface BingoGameRoomInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "summary", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "thirdParty", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "timer", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "tokenVIP", data: BytesLike): Result;
 
@@ -466,6 +473,8 @@ export interface BingoGameRoom extends BaseContract {
       }
     >;
 
+    thirdParty(overrides?: CallOverrides): Promise<[string]>;
+
     timer(
       overrides?: CallOverrides
     ): Promise<[BingoGameRoom.GameTimeoutStructOutput]>;
@@ -572,6 +581,8 @@ export interface BingoGameRoom extends BaseContract {
       totalRewardDistributed: BigNumber;
     }
   >;
+
+  thirdParty(overrides?: CallOverrides): Promise<string>;
 
   timer(
     overrides?: CallOverrides
@@ -685,6 +696,8 @@ export interface BingoGameRoom extends BaseContract {
         totalRewardDistributed: BigNumber;
       }
     >;
+
+    thirdParty(overrides?: CallOverrides): Promise<string>;
 
     timer(
       overrides?: CallOverrides
@@ -831,6 +844,8 @@ export interface BingoGameRoom extends BaseContract {
 
     summary(overrides?: CallOverrides): Promise<BigNumber>;
 
+    thirdParty(overrides?: CallOverrides): Promise<BigNumber>;
+
     timer(overrides?: CallOverrides): Promise<BigNumber>;
 
     tokenVIP(overrides?: CallOverrides): Promise<BigNumber>;
@@ -903,6 +918,8 @@ export interface BingoGameRoom extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     summary(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    thirdParty(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     timer(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 

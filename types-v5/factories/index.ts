@@ -38,6 +38,7 @@ export { IERC721Receiver__factory } from "./IERC721Receiver__factory";
 export { IERC721Upgradeable__factory } from "./IERC721Upgradeable__factory";
 export { IGameLineup__factory } from "./IGameLineup__factory";
 export { IGameToken__factory } from "./IGameToken__factory";
+export { IThirdParty__factory } from "./IThirdParty__factory";
 export { IVipToken__factory } from "./IVipToken__factory";
 export { IZyBeacon__factory } from "./IZyBeacon__factory";
 export { IZyERC1822Proxiable__factory } from "./IZyERC1822Proxiable__factory";

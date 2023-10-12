@@ -1156,6 +1156,19 @@ const _abi = [
     inputs: [
       {
         internalType: "address",
+        name: "thirdParty_",
+        type: "address",
+      },
+    ],
+    name: "setThirdParty",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
         name: "token",
         type: "address",
       },
@@ -1190,6 +1203,19 @@ const _abi = [
         internalType: "uint256",
         name: "totalRewardDistributed",
         type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "thirdParty",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
       },
     ],
     stateMutability: "view",
