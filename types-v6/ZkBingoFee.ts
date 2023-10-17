@@ -41,6 +41,7 @@ export interface ZkBingoFeeInterface extends Interface {
       | "owner"
       | "proxiableUUID"
       | "renounceOwnership"
+      | "repayment"
       | "setGameToken"
       | "transferOwnership"
       | "upgradeTo"
@@ -104,6 +105,10 @@ export interface ZkBingoFeeInterface extends Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "repayment",
+    values: [BigNumberish]
+  ): string;
+  encodeFunctionData(
     functionFragment: "setGameToken",
     values: [AddressLike]
   ): string;
@@ -154,6 +159,7 @@ export interface ZkBingoFeeInterface extends Interface {
     functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "repayment", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "setGameToken",
     data: BytesLike
@@ -390,6 +396,8 @@ export interface ZkBingoFee extends BaseContract {
 
   renounceOwnership: TypedContractMethod<[], [void], "nonpayable">;
 
+  repayment: TypedContractMethod<[amount: BigNumberish], [void], "nonpayable">;
+
   setGameToken: TypedContractMethod<
     [gameToken_: AddressLike],
     [void],
@@ -517,6 +525,9 @@ export interface ZkBingoFee extends BaseContract {
   getFunction(
     nameOrSignature: "renounceOwnership"
   ): TypedContractMethod<[], [void], "nonpayable">;
+  getFunction(
+    nameOrSignature: "repayment"
+  ): TypedContractMethod<[amount: BigNumberish], [void], "nonpayable">;
   getFunction(
     nameOrSignature: "setGameToken"
   ): TypedContractMethod<[gameToken_: AddressLike], [void], "nonpayable">;
