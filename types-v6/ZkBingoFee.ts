@@ -53,6 +53,7 @@ export interface ZkBingoFeeInterface extends Interface {
     nameOrSignatureOrTopic:
       | "AafterGameWon"
       | "AdminChanged"
+      | "AfterGameTimeOut"
       | "BeaconUpgraded"
       | "Initialized"
       | "OwnershipTransferred"
@@ -219,6 +220,24 @@ export namespace AdminChangedEvent {
   export interface OutputObject {
     previousAdmin: string;
     newAdmin: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace AfterGameTimeOutEvent {
+  export type InputTuple = [
+    gameId: BigNumberish,
+    counts: BigNumberish,
+    feeAmount: BigNumberish
+  ];
+  export type OutputTuple = [gameId: bigint, counts: bigint, feeAmount: bigint];
+  export interface OutputObject {
+    gameId: bigint;
+    counts: bigint;
+    feeAmount: bigint;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -571,6 +590,13 @@ export interface ZkBingoFee extends BaseContract {
     AdminChangedEvent.OutputObject
   >;
   getEvent(
+    key: "AfterGameTimeOut"
+  ): TypedContractEvent<
+    AfterGameTimeOutEvent.InputTuple,
+    AfterGameTimeOutEvent.OutputTuple,
+    AfterGameTimeOutEvent.OutputObject
+  >;
+  getEvent(
     key: "BeaconUpgraded"
   ): TypedContractEvent<
     BeaconUpgradedEvent.InputTuple,
@@ -620,6 +646,17 @@ export interface ZkBingoFee extends BaseContract {
       AdminChangedEvent.InputTuple,
       AdminChangedEvent.OutputTuple,
       AdminChangedEvent.OutputObject
+    >;
+
+    "AfterGameTimeOut(uint256,uint256,uint256)": TypedContractEvent<
+      AfterGameTimeOutEvent.InputTuple,
+      AfterGameTimeOutEvent.OutputTuple,
+      AfterGameTimeOutEvent.OutputObject
+    >;
+    AfterGameTimeOut: TypedContractEvent<
+      AfterGameTimeOutEvent.InputTuple,
+      AfterGameTimeOutEvent.OutputTuple,
+      AfterGameTimeOutEvent.OutputObject
     >;
 
     "BeaconUpgraded(address)": TypedContractEvent<

@@ -204,6 +204,7 @@ export interface ZkBingoFeeInterface extends utils.Interface {
   events: {
     "AafterGameWon(uint256,uint256,uint256,address,uint256,uint256,uint256)": EventFragment;
     "AdminChanged(address,address)": EventFragment;
+    "AfterGameTimeOut(uint256,uint256,uint256)": EventFragment;
     "BeaconUpgraded(address)": EventFragment;
     "Initialized(uint8)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
@@ -212,6 +213,7 @@ export interface ZkBingoFeeInterface extends utils.Interface {
 
   getEvent(nameOrSignatureOrTopic: "AafterGameWon"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "AdminChanged"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "AfterGameTimeOut"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "BeaconUpgraded"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Initialized"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
@@ -244,6 +246,19 @@ export type AdminChangedEvent = TypedEvent<
 >;
 
 export type AdminChangedEventFilter = TypedEventFilter<AdminChangedEvent>;
+
+export interface AfterGameTimeOutEventObject {
+  gameId: BigNumber;
+  counts: BigNumber;
+  feeAmount: BigNumber;
+}
+export type AfterGameTimeOutEvent = TypedEvent<
+  [BigNumber, BigNumber, BigNumber],
+  AfterGameTimeOutEventObject
+>;
+
+export type AfterGameTimeOutEventFilter =
+  TypedEventFilter<AfterGameTimeOutEvent>;
 
 export interface BeaconUpgradedEventObject {
   beacon: string;
@@ -664,6 +679,17 @@ export interface ZkBingoFee extends BaseContract {
       previousAdmin?: null,
       newAdmin?: null
     ): AdminChangedEventFilter;
+
+    "AfterGameTimeOut(uint256,uint256,uint256)"(
+      gameId?: null,
+      counts?: null,
+      feeAmount?: null
+    ): AfterGameTimeOutEventFilter;
+    AfterGameTimeOut(
+      gameId?: null,
+      counts?: null,
+      feeAmount?: null
+    ): AfterGameTimeOutEventFilter;
 
     "BeaconUpgraded(address)"(
       beacon?: PromiseOrValue<string> | null
