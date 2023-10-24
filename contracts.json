@@ -144,7 +144,9 @@
       "deployer": "0x1C0ad2c17E848Fb3ccefEc1b77477bCadDA1d103",
       "ZkBingoCard": "0x85c00a08358d5602fd7B529AaDd156BBF9710AC2",
       "ZkBingoLobby": "0x4122E927d082247b51d73D27EdF836051c905EC9",
-      "Reward": "0x2676cEF85550765fc893A9bd053587a175C32377"
+      "Reward": "0x2676cEF85550765fc893A9bd053587a175C32377",
+      "ZypherGameToken": "0x13a676B348749b30c00b72b018396cda07BB9201",
+      "ZkBingoPoints": "0xF0d88e2A087de09a1a0914B847dc336edA0851BB"
     }
   },
   "534353": {
@@ -155,6 +157,18 @@
       "ZkBingoCard": "0x6a056940521dCf81583442ABA3f9F3A0EDf5647C",
       "ZkBingoLobby": "0x3a7B56735270aB30E486573211E786475A1bF9B5",
       "Reward": "0x6Ca24199a73D79e944132B9404b72B383196E2EF"
+    }
+  },
+  "5001": {
+    "develop": {
+      "ZypherGameToken": "0x9CCC1463f90782c5Cb3F39E2Cb92c670e894c1EB",
+      "ZkBingoPoints": "0x2657154854e0D2eE700fE75e85c6251A85E4a7e6"
+    }
+  },
+  "91715": {
+    "develop": {
+      "ZypherGameToken": "0x747b7713FA26ab925396DEC3037be6Cec9063493",
+      "ZkBingoPoints": "0x0B312421e03857869b4D1a458FDa066909f25d9C"
     }
   }
 }
