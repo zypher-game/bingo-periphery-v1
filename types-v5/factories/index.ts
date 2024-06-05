@@ -4,6 +4,7 @@
 export { AccessControl__factory } from "./AccessControl__factory";
 export { AccessControlEnumerable__factory } from "./AccessControlEnumerable__factory";
 export { AccessControlUpgradeable__factory } from "./AccessControlUpgradeable__factory";
+export { AirDrop__factory } from "./AirDrop__factory";
 export { BingoCard__factory } from "./BingoCard__factory";
 export { BingoGameRoom__factory } from "./BingoGameRoom__factory";
 export { ContextUpgradeable__factory } from "./ContextUpgradeable__factory";
@@ -28,7 +29,9 @@ export { IBingoRoom__factory } from "./IBingoRoom__factory";
 export { IERC165__factory } from "./IERC165__factory";
 export { IERC165Upgradeable__factory } from "./IERC165Upgradeable__factory";
 export { IERC1822ProxiableUpgradeable__factory } from "./IERC1822ProxiableUpgradeable__factory";
+export { IERC20__factory } from "./IERC20__factory";
 export { IERC20MetadataUpgradeable__factory } from "./IERC20MetadataUpgradeable__factory";
+export { IERC20Permit__factory } from "./IERC20Permit__factory";
 export { IERC20PermitUpgradeable__factory } from "./IERC20PermitUpgradeable__factory";
 export { IERC20Upgradeable__factory } from "./IERC20Upgradeable__factory";
 export { IERC721__factory } from "./IERC721__factory";
