@@ -78,6 +78,18 @@
       "Reward": "0x0951e6B5D5C22Bedae722941a424Ce5Bdf1A6e35"
     }
   },
+  "19546": {
+    "develop": {
+      "date": "2024-07-26T11:14:05.616Z",
+      "chainId": 19546,
+      "deployer": "0xe4BbC6740C91360234826a87Eb9a9C65cB8ec0aE",
+      "ZypherGameToken": "0x8d38DF133CEfcE5d0cEaB8C6A1791AA20C02ADEF",
+      "ZkBingoCard": "0x4961661f732e995133fDAa7881481BB10e424f78",
+      "ZkBingoLobby": "0x9Cae525AdE710904FE81daF47fD26789608fe057",
+      "ZkBingoFee": "0xFAaB65AD2528c3a1B927f778191026853F850914",
+      "ZkBingoPoints": "0x372CACf8475EC97F120f5Ae6A744A97C51611847"
+    }
+  },
   "31337": {
     "develop": {
       "date": "2023-08-31T05:11:55.971Z",
