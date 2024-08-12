@@ -200,5 +200,14 @@
       "ZkBingoLobby": "0x3a7B56735270aB30E486573211E786475A1bF9B5",
       "Reward": "0x6Ca24199a73D79e944132B9404b72B383196E2EF"
     }
+  },
+  "9901": {
+    "release": {
+      "ZypherGameToken": "0x35b5DabDE1448212A754D48d1caC11DAb6Aad25a",
+      "ZkBingoPoints": "0x50BF777A039ADFe03Fb70157434C60Cf7E61a78B",
+      "ZkBingoCard": "0x118626E320f9A057d26A8c98dF5e5fFCFE75dBD6",
+      "ZkBingoLobby": "0xe5f9F91d16EB27CD4838871EcE2A19a5BD5e2a38",
+      "ZkBingoFee": "0xd0E767d0A03D49774d32f33B65FdC85f1255D7a4"
+    }
   }
 }
